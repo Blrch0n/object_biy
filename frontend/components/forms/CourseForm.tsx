@@ -80,6 +80,11 @@ export function CourseForm({ onSuccess, initialData, courseId }: CourseFormProps
           {errors.title && <p className="text-red-500 text-xs font-bold">{errors.title.message}</p>}
         </div>
         <div className="space-y-1">
+          <label className="block text-sm font-bold text-slate-300">Ангилал (Сонголт)</label>
+          <input type="text" placeholder="IT, Design..." {...register("category")} className="field" />
+          {errors.category && <p className="text-red-500 text-xs font-bold">{errors.category.message}</p>}
+        </div>
+        <div className="space-y-1">
           <label className="block text-sm font-bold text-slate-300">Түвшин</label>
           <input type="text" placeholder="BEGINNER, INTERMEDIATE..." {...register("level")} className="field" />
           {errors.level && <p className="text-red-500 text-xs font-bold">{errors.level.message}</p>}

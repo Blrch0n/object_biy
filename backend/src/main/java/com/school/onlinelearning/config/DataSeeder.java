@@ -27,10 +27,9 @@ public class DataSeeder {
             QuizAttemptRepository quizAttemptRepository,
             PasswordEncoder passwordEncoder) {
         return args -> {
-            boolean shouldSeed = true; // Set to false after first run if you don't want to clear data on every startup
+            boolean shouldSeed = true; 
 
             if (shouldSeed) {
-                // Clear existing data
                 userRepository.deleteAll();
                 studentRepository.deleteAll();
                 instructorRepository.deleteAll();
@@ -86,7 +85,6 @@ public class DataSeeder {
                     students.add(studentRepository.save(student));
                 }
 
-                // Create Courses
                 List<Course> courses = new ArrayList<>();
                 for (int i = 0; i < instructors.size(); i++) {
                     Instructor inst = instructors.get(i);

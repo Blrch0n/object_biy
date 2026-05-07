@@ -1,0 +1,70 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< com.school:onlinelearning >----------------------
+[INFO] Building  0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:3.5.13:run (default-cli) > test-compile @ onlinelearning >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ onlinelearning ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ onlinelearning ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ onlinelearning ---
+[INFO] skip non existing resourceDirectory /home/bolro/Downloads/java/biydaalt/backend/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ onlinelearning ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] <<< spring-boot:3.5.13:run (default-cli) < test-compile @ onlinelearning <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:3.5.13:run (default-cli) @ onlinelearning ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.13)
+
+2026-05-08T00:43:33.178+08:00  INFO 45346 --- [onlinelearning] [           main] c.s.o.OnlinelearningApplication          : Starting OnlinelearningApplication using Java 26.0.1 with PID 45346 (/home/bolro/Downloads/java/biydaalt/backend/target/classes started by bolro in /home/bolro/Downloads/java/biydaalt/backend)
+2026-05-08T00:43:33.183+08:00  INFO 45346 --- [onlinelearning] [           main] c.s.o.OnlinelearningApplication          : The following 1 profile is active: "dev"
+2026-05-08T00:43:33.507+08:00  INFO 45346 --- [onlinelearning] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data MongoDB repositories in DEFAULT mode.
+2026-05-08T00:43:33.554+08:00  INFO 45346 --- [onlinelearning] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 44 ms. Found 9 MongoDB repository interfaces.
+2026-05-08T00:43:33.799+08:00  INFO 45346 --- [onlinelearning] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-05-08T00:43:33.807+08:00  INFO 45346 --- [onlinelearning] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-05-08T00:43:33.807+08:00  INFO 45346 --- [onlinelearning] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.53]
+2026-05-08T00:43:33.826+08:00  INFO 45346 --- [onlinelearning] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-05-08T00:43:33.826+08:00  INFO 45346 --- [onlinelearning] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 619 ms
+2026-05-08T00:43:33.891+08:00  INFO 45346 --- [onlinelearning] [odi.mongodb.net] org.mongodb.driver.cluster               : Adding discovered server ac-gs6tzbz-shard-00-00.ywapodi.mongodb.net:27017 to client view of cluster
+2026-05-08T00:43:33.903+08:00  INFO 45346 --- [onlinelearning] [           main] org.mongodb.driver.client                : MongoClient with metadata {"application": {"name": "onlinelearning"}, "driver": {"name": "mongo-java-driver|sync|spring-boot", "version": "5.5.2"}, "os": {"type": "Linux", "name": "Linux", "architecture": "amd64", "version": "7.0.3-arch1-2"}, "platform": "Java/Arch Linux/26.0.1"} created with settings MongoClientSettings{readPreference=primary, writeConcern=WriteConcern{w=majority, wTimeout=null ms, journal=null}, retryWrites=true, retryReads=true, readConcern=ReadConcern{level=null}, credential=MongoCredential{mechanism=null, userName='bolro', source='admin', password=<hidden>, mechanismProperties=<hidden>}, transportSettings=null, commandListeners=[], codecRegistry=ProvidersCodecRegistry{codecProviders=[ValueCodecProvider{}, BsonValueCodecProvider{}, DBRefCodecProvider{}, DBObjectCodecProvider{}, DocumentCodecProvider{}, CollectionCodecProvider{}, IterableCodecProvider{}, MapCodecProvider{}, GeoJsonCodecProvider{}, GridFSFileCodecProvider{}, Jsr310CodecProvider{}, JsonObjectCodecProvider{}, BsonCodecProvider{}, EnumCodecProvider{}, com.mongodb.client.model.mql.ExpressionCodecProvider@50ab56e2, com.mongodb.Jep395RecordCodecProvider@7b5b5bfe, com.mongodb.KotlinCodecProvider@74834afd]}, loggerSettings=LoggerSettings{maxDocumentLength=1000}, clusterSettings={hosts=[127.0.0.1:27017], srvHost=onlinelearning.ywapodi.mongodb.net, srvServiceName=mongodb, mode=MULTIPLE, requiredClusterType=REPLICA_SET, requiredReplicaSetName='atlas-ltf4c9-shard-0', serverSelector='null', clusterListeners='[]', serverSelectionTimeout='30000 ms', localThreshold='15 ms'}, socketSettings=SocketSettings{connectTimeoutMS=10000, readTimeoutMS=0, receiveBufferSize=0, proxySettings=ProxySettings{host=null, port=null, username=null, password=null}}, heartbeatSocketSettings=SocketSettings{connectTimeoutMS=10000, readTimeoutMS=10000, receiveBufferSize=0, proxySettings=ProxySettings{host=null, port=null, username=null, password=null}}, connectionPoolSettings=ConnectionPoolSettings{maxSize=100, minSize=0, maxWaitTimeMS=120000, maxConnectionLifeTimeMS=0, maxConnectionIdleTimeMS=0, maintenanceInitialDelayMS=0, maintenanceFrequencyMS=60000, connectionPoolListeners=[], maxConnecting=2}, serverSettings=ServerSettings{heartbeatFrequencyMS=10000, minHeartbeatFrequencyMS=500, serverMonitoringMode=AUTO, serverListeners='[]', serverMonitorListeners='[]'}, sslSettings=SslSettings{enabled=true, invalidHostNameAllowed=false, context=null}, applicationName='onlinelearning', compressorList=[], uuidRepresentation=JAVA_LEGACY, serverApi=null, autoEncryptionSettings=null, dnsClient=null, inetAddressResolver=null, contextProvider=null, timeoutMS=null}
+2026-05-08T00:43:33.911+08:00  INFO 45346 --- [onlinelearning] [odi.mongodb.net] org.mongodb.driver.cluster               : Adding discovered server ac-gs6tzbz-shard-00-02.ywapodi.mongodb.net:27017 to client view of cluster
+2026-05-08T00:43:33.913+08:00  INFO 45346 --- [onlinelearning] [odi.mongodb.net] org.mongodb.driver.cluster               : Adding discovered server ac-gs6tzbz-shard-00-01.ywapodi.mongodb.net:27017 to client view of cluster
+2026-05-08T00:43:34.386+08:00  INFO 45346 --- [onlinelearning] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-05-08T00:43:34.441+08:00  INFO 45346 --- [onlinelearning] [ngodb.net:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=ac-gs6tzbz-shard-00-01.ywapodi.mongodb.net:27017, type=REPLICA_SET_PRIMARY, cryptd=false, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=25, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=268306166, minRoundTripTimeNanos=0, setName='atlas-ltf4c9-shard-0', canonicalAddress=ac-gs6tzbz-shard-00-01.ywapodi.mongodb.net:27017, hosts=[ac-gs6tzbz-shard-00-00.ywapodi.mongodb.net:27017, ac-gs6tzbz-shard-00-02.ywapodi.mongodb.net:27017, ac-gs6tzbz-shard-00-01.ywapodi.mongodb.net:27017], passives=[], arbiters=[], primary='ac-gs6tzbz-shard-00-01.ywapodi.mongodb.net:27017', tagSet=TagSet{[Tag{name='availabilityZone', value='ape1-az2'}, Tag{name='cacheState', value='READY'}, Tag{name='diskState', value='READY'}, Tag{name='nodeType', value='ELECTABLE'}, Tag{name='provider', value='AWS'}, Tag{name='region', value='AP_EAST_1'}, Tag{name='workloadType', value='OPERATIONAL'}]}, electionId=7fffffff000000000000010e, setVersion=95, topologyVersion=TopologyVersion{processId=69fc8cef94c830b40dd63939, counter=6}, lastWriteDate=Fri May 08 00:43:34 GMT+08:00 2026, lastUpdateTimeNanos=5459445570387}
+2026-05-08T00:43:34.443+08:00  INFO 45346 --- [onlinelearning] [ngodb.net:27017] org.mongodb.driver.cluster               : Discovered replica set primary ac-gs6tzbz-shard-00-01.ywapodi.mongodb.net:27017 with max election id 7fffffff000000000000010e and max set version 95
+2026-05-08T00:43:34.491+08:00  INFO 45346 --- [onlinelearning] [ngodb.net:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=ac-gs6tzbz-shard-00-00.ywapodi.mongodb.net:27017, type=REPLICA_SET_SECONDARY, cryptd=false, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=25, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=285876124, minRoundTripTimeNanos=0, setName='atlas-ltf4c9-shard-0', canonicalAddress=ac-gs6tzbz-shard-00-00.ywapodi.mongodb.net:27017, hosts=[ac-gs6tzbz-shard-00-00.ywapodi.mongodb.net:27017, ac-gs6tzbz-shard-00-02.ywapodi.mongodb.net:27017, ac-gs6tzbz-shard-00-01.ywapodi.mongodb.net:27017], passives=[], arbiters=[], primary='ac-gs6tzbz-shard-00-01.ywapodi.mongodb.net:27017', tagSet=TagSet{[Tag{name='availabilityZone', value='ape1-az1'}, Tag{name='cacheState', value='READY'}, Tag{name='diskState', value='READY'}, Tag{name='nodeType', value='ELECTABLE'}, Tag{name='provider', value='AWS'}, Tag{name='region', value='AP_EAST_1'}, Tag{name='workloadType', value='OPERATIONAL'}]}, electionId=null, setVersion=95, topologyVersion=TopologyVersion{processId=69fc8e040f2fbb595f10f4d3, counter=4}, lastWriteDate=Fri May 08 00:43:34 GMT+08:00 2026, lastUpdateTimeNanos=5459498620624}
+2026-05-08T00:43:34.512+08:00  INFO 45346 --- [onlinelearning] [ngodb.net:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=ac-gs6tzbz-shard-00-02.ywapodi.mongodb.net:27017, type=REPLICA_SET_SECONDARY, cryptd=false, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=25, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=246710188, minRoundTripTimeNanos=0, setName='atlas-ltf4c9-shard-0', canonicalAddress=ac-gs6tzbz-shard-00-02.ywapodi.mongodb.net:27017, hosts=[ac-gs6tzbz-shard-00-00.ywapodi.mongodb.net:27017, ac-gs6tzbz-shard-00-02.ywapodi.mongodb.net:27017, ac-gs6tzbz-shard-00-01.ywapodi.mongodb.net:27017], passives=[], arbiters=[], primary='ac-gs6tzbz-shard-00-01.ywapodi.mongodb.net:27017', tagSet=TagSet{[Tag{name='availabilityZone', value='ape1-az3'}, Tag{name='cacheState', value='READY'}, Tag{name='diskState', value='READY'}, Tag{name='nodeType', value='ELECTABLE'}, Tag{name='provider', value='AWS'}, Tag{name='region', value='AP_EAST_1'}, Tag{name='workloadType', value='OPERATIONAL'}]}, electionId=null, setVersion=95, topologyVersion=TopologyVersion{processId=69fc8f3b15a9c0597d979cb6, counter=3}, lastWriteDate=Fri May 08 00:43:34 GMT+08:00 2026, lastUpdateTimeNanos=5459519355867}
+2026-05-08T00:43:34.536+08:00  INFO 45346 --- [onlinelearning] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-05-08T00:43:34.541+08:00  INFO 45346 --- [onlinelearning] [           main] c.s.o.OnlinelearningApplication          : Started OnlinelearningApplication in 1.589 seconds (process running for 1.744)
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  02:03 min
+[INFO] Finished at: 2026-05-08T00:45:35+08:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:3.5.13:run (default-cli) on project onlinelearning: Process terminated with exit code: 137 -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException

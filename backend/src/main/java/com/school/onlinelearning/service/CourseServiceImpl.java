@@ -26,9 +26,11 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public PageResponseDTO<CourseResponseDTO> getAllCourses(String level, Pageable pageable) {
+    public PageResponseDTO<CourseResponseDTO> getAllCourses(String level, String search, Pageable pageable) {
         Page<Course> page;
-        if (level != null && !level.isBlank()) {
+        if (search != null && !search.isBlank()) {
+            page = courseRepository.findByTitleContainingIgnoreCaseOrCategoryContainingIgnoreCase(search, search, pageable);
+        } else if (level != null && !level.isBlank()) {
             page = courseRepository.findByLevelIgnoreCase(level, pageable);
         } else {
             page = courseRepository.findAll(pageable);
@@ -46,6 +48,7 @@ public class CourseServiceImpl implements CourseService {
         Course course = new Course();
         course.setTitle(payload.title());
         course.setDescription(payload.description());
+        course.setCategory(payload.category());
         course.setLevel(payload.level());
         course.setPrice(payload.price());
         course.setInstructorId(payload.instructorId());
@@ -58,6 +61,7 @@ public class CourseServiceImpl implements CourseService {
         Course existing = getCourseEntityById(id);
         existing.setTitle(payload.title());
         existing.setDescription(payload.description());
+        existing.setCategory(payload.category());
         existing.setLevel(payload.level());
         existing.setPrice(payload.price());
         existing.setInstructorId(payload.instructorId());

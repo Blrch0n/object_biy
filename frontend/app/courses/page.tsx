@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import useSWR from "swr";
 import { LoadingBlock } from "@/components/LoadingBlock";
 import { PageHeader } from "@/components/PageHeader";
@@ -14,14 +14,16 @@ export default function CoursesPage() {
   const { user } = useAuth();
   const [page, setPage] = useState(0);
   const [filterLevel, setFilterLevel] = useState("ALL");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [editingCourse, setEditingCourse] = useState<any | null>(null);
   const [lessonForms, setLessonForms] = useState<Record<string, { title: string; durationMinutes: string }>>({});
   const [submittingLessonFor, setSubmittingLessonFor] = useState<string | null>(null);
 
   // Fetch courses with pagination
   const { data: coursesData, error: coursesError, mutate: mutateCourses, isLoading: loadingCourses } = useSWR(
-    `/api/courses?page=${page}&level=${filterLevel === "ALL" ? "" : filterLevel}`,
-    () => api.getCourses(page, 10, filterLevel === "ALL" ? undefined : filterLevel)
+    `/api/courses?page=${page}&level=${filterLevel === "ALL" ? "" : filterLevel}&search=${debouncedSearch}`,
+    () => api.getCourses(page, 10, filterLevel === "ALL" ? undefined : filterLevel, debouncedSearch || undefined)
   );
 
   // Fetch instructors for displaying names instead of IDs
@@ -34,6 +36,13 @@ export default function CoursesPage() {
   const courses = coursesData?.content || [];
 
   const levels = ["ALL", "BEGINNER", "INTERMEDIATE", "ADVANCED"]; // Predefined for simplicity since we paginate
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+    }, 500);
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
 
   async function onDeleteCourse(courseId: string) {
     if (!window.confirm("Энэ хичээлийг устгахдаа итгэлтэй байна уу?")) return;
@@ -73,18 +82,31 @@ export default function CoursesPage() {
       <PageHeader title="Хичээлүүд 📚" description="Хичээлүүдийг харах, багш эрхтэй хэрэглэгч нэмэлт удирдлага хийнэ." />
 
       <div className="paper p-5">
-        <div className="sm:max-w-xs space-y-1">
-          <label htmlFor="filter-level" className="block text-sm font-bold text-slate-300">Түвшнээр шүүх 🔍</label>
-          <select
-            id="filter-level"
-            value={filterLevel}
-            onChange={(event) => { setFilterLevel(event.target.value); setPage(0); }}
-            className="field"
-          >
-            {levels.map((level) => (
-              <option key={level} value={level}>{level === "ALL" ? "Бүгд" : level}</option>
-            ))}
-          </select>
+        <div className="flex flex-col sm:flex-row gap-4 sm:items-end">
+          <div className="flex-1 space-y-1">
+            <label htmlFor="search-course" className="block text-sm font-bold text-slate-300">Хайх 🔍</label>
+            <input 
+              id="search-course"
+              type="text"
+              placeholder="Хичээлийн нэр эсвэл ангилал..."
+              value={searchQuery}
+              onChange={(e) => { setSearchQuery(e.target.value); setPage(0); }}
+              className="field"
+            />
+          </div>
+          <div className="sm:max-w-xs space-y-1">
+            <label htmlFor="filter-level" className="block text-sm font-bold text-slate-300">Түвшнээр шүүх 🎯</label>
+            <select
+              id="filter-level"
+              value={filterLevel}
+              onChange={(event) => { setFilterLevel(event.target.value); setPage(0); }}
+              className="field"
+            >
+              {levels.map((level) => (
+                <option key={level} value={level}>{level === "ALL" ? "Бүгд" : level}</option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
 

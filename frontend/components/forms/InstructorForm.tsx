@@ -65,7 +65,7 @@ export function InstructorForm({ onSuccess, initialData, instructorId }: Instruc
   return (
     <div className="paper p-5 sm:p-6">
       <h2 className="section-title text-xl font-bold text-white">{isEdit ? "Багш Засах ✏️" : "Багш Нэмэх ✨"}</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="mt-4 grid gap-4 sm:grid-cols-3">
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div className="space-y-1">
           <label htmlFor="fullName" className="block text-sm font-bold text-slate-300">
             Овог нэр
@@ -93,6 +93,19 @@ export function InstructorForm({ onSuccess, initialData, instructorId }: Instruc
           {errors.email && <p className="text-red-500 text-xs font-bold">{errors.email.message}</p>}
         </div>
         <div className="space-y-1">
+          <label htmlFor="password" className="block text-sm font-bold text-slate-300">
+            Нууц үг
+          </label>
+          <input
+            id="password"
+            type="password"
+            placeholder="Нууц үг (заавал биш)"
+            {...register("password")}
+            className="field"
+          />
+          {errors.password && <p className="text-red-500 text-xs font-bold">{errors.password.message}</p>}
+        </div>
+        <div className="space-y-1">
           <label htmlFor="specialization" className="block text-sm font-bold text-slate-300">
             Мэргэжил
           </label>
@@ -105,8 +118,8 @@ export function InstructorForm({ onSuccess, initialData, instructorId }: Instruc
           />
           {errors.specialization && <p className="text-red-500 text-xs font-bold">{errors.specialization.message}</p>}
         </div>
-        <div className="flex items-end">
-          <button type="submit" disabled={isSubmitting} className="btn-primary">
+        <div className="flex items-end lg:col-span-4 mt-2">
+          <button type="submit" disabled={isSubmitting} className="btn-primary w-full sm:w-auto">
             {isSubmitting ? "Хадгалж байна..." : isEdit ? "Хадгалах" : "Багш Нэмэх"}
           </button>
         </div>

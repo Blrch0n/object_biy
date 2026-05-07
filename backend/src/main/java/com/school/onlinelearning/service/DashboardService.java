@@ -38,14 +38,17 @@ public class DashboardService {
 
 		List<Course> courses = courseRepository.findAll();
 		Course courseWithMostLessons = null;
+		int maxLessons = -1;
 		for (Course course : courses) {
-			if (courseWithMostLessons == null || course.getLessons().size() > courseWithMostLessons.getLessons().size()) {
+			int lessonCount = (course.getLessons() != null) ? course.getLessons().size() : 0;
+			if (courseWithMostLessons == null || lessonCount > maxLessons) {
 				courseWithMostLessons = course;
+				maxLessons = lessonCount;
 			}
 		}
 
 		String topTitle = courseWithMostLessons != null ? courseWithMostLessons.getTitle() : "N/A";
-		int topCount = courseWithMostLessons != null ? courseWithMostLessons.getLessons().size() : 0;
+		int topCount = maxLessons >= 0 ? maxLessons : 0;
 
 		return new DashboardStatsResponse(
 				totalStudents,

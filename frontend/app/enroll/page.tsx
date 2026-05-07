@@ -51,7 +51,7 @@ export default function EnrollPage() {
   }
 
   useEffect(() => {
-    if (user?.role === "TEACHER") {
+    if (user?.role === "TEACHER" || user?.role === "ADMIN") {
       void loadData();
       return;
     }

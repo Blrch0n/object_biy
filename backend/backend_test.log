@@ -1,0 +1,59 @@
+nohup: ignoring input
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< com.school:onlinelearning >----------------------
+[INFO] Building  0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:3.5.13:run (default-cli) > test-compile @ onlinelearning >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ onlinelearning ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ onlinelearning ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ onlinelearning ---
+[INFO] skip non existing resourceDirectory /home/bolro/Downloads/java/biydaalt/backend/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ onlinelearning ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 6 source files with javac [debug parameters release 21] to target/test-classes
+[INFO] -------------------------------------------------------------
+[WARNING] COMPILATION WARNING : 
+[INFO] -------------------------------------------------------------
+[WARNING] /home/bolro/Downloads/java/biydaalt/backend/src/test/java/com/school/onlinelearning/controller/AuthControllerIntegrationTest.java:[34,10] org.springframework.boot.test.mock.mockito.MockBean in org.springframework.boot.test.mock.mockito has been deprecated and marked for removal
+[WARNING] /home/bolro/Downloads/java/biydaalt/backend/src/test/java/com/school/onlinelearning/controller/AuthControllerIntegrationTest.java:[37,10] org.springframework.boot.test.mock.mockito.MockBean in org.springframework.boot.test.mock.mockito has been deprecated and marked for removal
+[WARNING] /home/bolro/Downloads/java/biydaalt/backend/src/test/java/com/school/onlinelearning/controller/AuthControllerIntegrationTest.java:[40,10] org.springframework.boot.test.mock.mockito.MockBean in org.springframework.boot.test.mock.mockito has been deprecated and marked for removal
+[INFO] 3 warnings 
+[INFO] -------------------------------------------------------------
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /home/bolro/Downloads/java/biydaalt/backend/src/test/java/com/school/onlinelearning/service/StudentServiceTest.java:[26,45] constructor StudentRequestDTO in record com.school.onlinelearning.dto.request.StudentRequestDTO cannot be applied to given types;
+  required: java.lang.String,java.lang.String,java.lang.String,java.lang.String
+  found:    java.lang.String,java.lang.String,java.lang.String
+  reason: actual and formal argument lists differ in length
+[INFO] 1 error
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.376 s
+[INFO] Finished at: 2026-05-08T00:59:03+08:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.14.1:testCompile (default-testCompile) on project onlinelearning: Compilation failure
+[ERROR] /home/bolro/Downloads/java/biydaalt/backend/src/test/java/com/school/onlinelearning/service/StudentServiceTest.java:[26,45] constructor StudentRequestDTO in record com.school.onlinelearning.dto.request.StudentRequestDTO cannot be applied to given types;
+[ERROR]   required: java.lang.String,java.lang.String,java.lang.String,java.lang.String
+[ERROR]   found:    java.lang.String,java.lang.String,java.lang.String
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] 
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

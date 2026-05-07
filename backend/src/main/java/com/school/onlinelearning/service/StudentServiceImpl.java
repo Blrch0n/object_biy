@@ -12,15 +12,25 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.school.onlinelearning.model.User;
+import com.school.onlinelearning.model.UserRole;
+import com.school.onlinelearning.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import java.time.LocalDateTime;
+
 @Service
 public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
     private final EnrollmentRepository enrollmentRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public StudentServiceImpl(StudentRepository studentRepository, EnrollmentRepository enrollmentRepository) {
+    public StudentServiceImpl(StudentRepository studentRepository, EnrollmentRepository enrollmentRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.studentRepository = studentRepository;
         this.enrollmentRepository = enrollmentRepository;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -45,7 +55,18 @@ public class StudentServiceImpl implements StudentService {
         if (studentRepository.existsByEmail(dto.email())) {
             throw new DuplicateResourceException("Student email already exists: " + dto.email());
         }
+        
+        User user = new User();
+        user.setFullName(dto.fullName());
+        user.setEmail(dto.email());
+        String pwd = dto.password() != null && !dto.password().isBlank() ? dto.password() : "default123";
+        user.setPasswordHash(passwordEncoder.encode(pwd));
+        user.setRole(UserRole.STUDENT);
+        user.setCreatedAt(LocalDateTime.now());
+        user = userRepository.save(user);
+
         Student student = new Student();
+        student.setUserId(user.getId());
         student.setFullName(dto.fullName());
         student.setEmail(dto.email());
         student.setBatch(dto.batch());
@@ -62,6 +83,15 @@ public class StudentServiceImpl implements StudentService {
             throw new DuplicateResourceException("Student email already exists: " + payload.email());
         }
 
+        userRepository.findByEmail(existing.getEmail()).ifPresent(user -> {
+            user.setFullName(payload.fullName());
+            user.setEmail(payload.email());
+            if (payload.password() != null && !payload.password().isBlank()) {
+                user.setPasswordHash(passwordEncoder.encode(payload.password()));
+            }
+            userRepository.save(user);
+        });
+
         existing.setFullName(payload.fullName());
         existing.setEmail(payload.email());
         existing.setBatch(payload.batch());
@@ -73,6 +103,7 @@ public class StudentServiceImpl implements StudentService {
     public void deleteStudent(String id) {
         Student existing = getStudentEntityById(id);
         enrollmentRepository.deleteAll(enrollmentRepository.findByStudentId(id));
+        userRepository.findByEmail(existing.getEmail()).ifPresent(userRepository::delete);
         studentRepository.delete(existing);
     }
 

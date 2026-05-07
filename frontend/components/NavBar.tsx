@@ -20,11 +20,15 @@ export function NavBar() {
         { href: "/", label: "🏠 Нүүр" },
         { href: "/courses", label: "📚 Хичээлүүд" },
         { href: "/enrollments", label: "📈 Элсэлт" },
-        ...(user?.role === "TEACHER"
+        ...(["ADMIN", "TEACHER"].includes(user?.role || "")
+          ? [
+              { href: "/enroll", label: "📝 Бүртгэх" },
+            ]
+          : []),
+        ...(user?.role === "ADMIN"
           ? [
               { href: "/students", label: "👨‍🎓 Оюутнууд" },
               { href: "/instructors", label: "👩‍🏫 Багш нар" },
-              { href: "/enroll", label: "📝 Бүртгэх" },
             ]
           : []),
       ]
@@ -93,7 +97,7 @@ export function NavBar() {
               <span className="badge badge--accent text-xs">
                 {user?.fullName}
                 <span className="ml-1 opacity-70">
-                  ({user?.role === "TEACHER" ? "Багш 👑" : "Сурагч 🎒"})
+                  ({user?.role === "ADMIN" ? "Админ 👑" : user?.role === "TEACHER" ? "Багш 📘" : "Сурагч 🎒"})
                 </span>
               </span>
               <button
@@ -135,7 +139,7 @@ export function NavBar() {
             {isAuthenticated ? (
               <li className="mt-4 flex flex-col gap-3 border-t border-black pt-4">
                 <span className="badge badge--accent text-xs self-start">
-                  {user?.fullName} ({user?.role === "TEACHER" ? "Багш 👑" : "Сурагч 🎒"})
+                  {user?.fullName} ({user?.role === "ADMIN" ? "Админ 👑" : user?.role === "TEACHER" ? "Багш 📘" : "Сурагч 🎒"})
                 </span>
                 <button
                   type="button"

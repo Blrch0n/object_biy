@@ -11,13 +11,23 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.school.onlinelearning.model.User;
+import com.school.onlinelearning.model.UserRole;
+import com.school.onlinelearning.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import java.time.LocalDateTime;
+
 @Service
 public class InstructorServiceImpl implements InstructorService {
 
     private final InstructorRepository instructorRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public InstructorServiceImpl(InstructorRepository instructorRepository) {
+    public InstructorServiceImpl(InstructorRepository instructorRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.instructorRepository = instructorRepository;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -36,7 +46,18 @@ public class InstructorServiceImpl implements InstructorService {
         if (instructorRepository.existsByEmail(payload.email())) {
             throw new DuplicateResourceException("Instructor email already exists: " + payload.email());
         }
+
+        User user = new User();
+        user.setFullName(payload.fullName());
+        user.setEmail(payload.email());
+        String pwd = payload.password() != null && !payload.password().isBlank() ? payload.password() : "default123";
+        user.setPasswordHash(passwordEncoder.encode(pwd));
+        user.setRole(UserRole.TEACHER);
+        user.setCreatedAt(LocalDateTime.now());
+        user = userRepository.save(user);
+
         Instructor instructor = new Instructor();
+        instructor.setUserId(user.getId());
         instructor.setFullName(payload.fullName());
         instructor.setEmail(payload.email());
         instructor.setSpecialization(payload.specialization());
@@ -52,6 +73,15 @@ public class InstructorServiceImpl implements InstructorService {
             throw new DuplicateResourceException("Instructor email already exists: " + payload.email());
         }
 
+        userRepository.findByEmail(existing.getEmail()).ifPresent(user -> {
+            user.setFullName(payload.fullName());
+            user.setEmail(payload.email());
+            if (payload.password() != null && !payload.password().isBlank()) {
+                user.setPasswordHash(passwordEncoder.encode(payload.password()));
+            }
+            userRepository.save(user);
+        });
+
         existing.setFullName(payload.fullName());
         existing.setEmail(payload.email());
         existing.setSpecialization(payload.specialization());
@@ -61,6 +91,7 @@ public class InstructorServiceImpl implements InstructorService {
     @Override
     public void deleteInstructor(String id) {
         Instructor existing = getInstructorEntityById(id);
+        userRepository.findByEmail(existing.getEmail()).ifPresent(userRepository::delete);
         instructorRepository.delete(existing);
     }
     

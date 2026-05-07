@@ -21,12 +21,10 @@ public class Course {
 	@NotBlank(message = "Description is required")
 	private String description;
 
-	@NotBlank(message = "Level is required")
-	private String level;
+        private String category; // Added for category management
+        private String level;
 
-	@Min(value = 0, message = "Price must be greater than or equal to 0")
-	private double price;
-
+        private double price;
 	@NotBlank(message = "Instructor ID is required")
 	private String instructorId;
 
@@ -71,7 +69,15 @@ public class Course {
 		this.description = description;
 	}
 
-	public String getLevel() {
+        public String getCategory() {
+                return category;
+        }
+
+        public void setCategory(String category) {
+                this.category = category;
+        }
+
+        public String getLevel() {
 		return level;
 	}
 

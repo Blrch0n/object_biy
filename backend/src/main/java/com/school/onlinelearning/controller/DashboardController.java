@@ -18,7 +18,7 @@ public class DashboardController {
 		this.dashboardService = dashboardService;
 	}
 
-	@PreAuthorize("hasAnyRole('STUDENT','TEACHER')")
+	@PreAuthorize("hasAnyRole('STUDENT','TEACHER', 'ADMIN')")
 	@GetMapping("/stats")
 	public ResponseEntity<DashboardStatsResponse> getStats() {
 		return ResponseEntity.ok(dashboardService.getStats());

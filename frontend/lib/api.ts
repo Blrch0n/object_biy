@@ -263,9 +263,10 @@ class ApiClient {
     return this.request<Course>(`/api/courses/${id}`, { cache: "no-store" });
   }
 
-  getCourses(page = 0, size = 10, level?: string) {
+  getCourses(page = 0, size = 10, level?: string, search?: string) {
     const params = new URLSearchParams({ page: page.toString(), size: size.toString() });
     if (level) params.append("level", level);
+    if (search) params.append("search", search);
     return this.request<PageResponse<Course>>(`/api/courses?${params.toString()}`, { cache: "no-store" });
   }
 
@@ -292,16 +293,6 @@ class ApiClient {
     return this.request<Assignment[]>(`/api/assignments/course/${courseId}`);
   }
 
-  getSubmissions(assignmentId: string) {
-    return this.request<Submission[]>(`/api/assignments/${assignmentId}/submissions`);
-  }
-
-  gradeSubmission(submissionId: string, score: number, feedback: string) {
-    return this.request<Submission>(
-      `/api/assignments/submissions/${submissionId}/grade?score=${score}&feedback=${encodeURIComponent(feedback)}`,
-      { method: "PATCH" }
-    );
-  }
 
   async downloadSubmission(submissionId: string) {
     const response = await fetch(this.buildUrl(`/api/assignments/submissions/${submissionId}/download`), {
@@ -349,6 +340,10 @@ class ApiClient {
   // ------------------------------------------------------------------ //
   //  Assignments
   // ------------------------------------------------------------------ //
+  async getAssignmentById(assignmentId: string) {
+    return this.request<Assignment>(`/api/assignments/${assignmentId}`);
+  }
+
   async getAssignmentsByCourse(courseId: string) {
     return this.request<Assignment[]>(`/api/assignments/course/${courseId}`);
   }
@@ -465,6 +460,7 @@ export const updateEnrollmentProgress = api.updateEnrollmentProgress.bind(api);
 export const deleteEnrollment        = api.deleteEnrollment.bind(api);
 
 export const getAssignmentsByCourse  = api.getAssignmentsByCourse.bind(api);
+export const getAssignmentById       = api.getAssignmentById.bind(api);
 export const createAssignment        = api.createAssignment.bind(api);
 export const submitAssignment        = api.submitAssignment.bind(api);
 export const getMySubmission         = api.getMySubmission.bind(api);

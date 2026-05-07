@@ -1,4 +1,4 @@
-export type UserRole = "STUDENT" | "TEACHER";
+export type UserRole = "STUDENT" | "TEACHER" | "ADMIN";
 
 export type PageResponse<T> = {
   content: T[];

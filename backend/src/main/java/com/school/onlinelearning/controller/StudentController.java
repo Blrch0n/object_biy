@@ -21,7 +21,7 @@ public class StudentController {
 		this.studentService = studentService;
 	}
 
-	@PreAuthorize("hasRole('TEACHER')")
+	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
 	@GetMapping
 	public ResponseEntity<PageResponseDTO<StudentResponseDTO>> getAllStudents(
 			@RequestParam(required = false) String search,
@@ -29,25 +29,25 @@ public class StudentController {
 		return ResponseEntity.ok(studentService.getAllStudents(search, pageable));
 	}
 
-	@PreAuthorize("hasRole('TEACHER')")
+	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
 	@GetMapping("/{id}")
 	public ResponseEntity<StudentResponseDTO> getStudentById(@PathVariable String id) {
 		return ResponseEntity.ok(studentService.getStudentById(id));
 	}
 
-	@PreAuthorize("hasRole('TEACHER')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping
 	public ResponseEntity<StudentResponseDTO> createStudent(@Valid @RequestBody StudentRequestDTO student) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(studentService.createStudent(student));
 	}
 
-	@PreAuthorize("hasRole('TEACHER')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/{id}")
 	public ResponseEntity<StudentResponseDTO> updateStudent(@PathVariable String id, @Valid @RequestBody StudentRequestDTO student) {
 		return ResponseEntity.ok(studentService.updateStudent(id, student));
 	}
 
-	@PreAuthorize("hasRole('TEACHER')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteStudent(@PathVariable String id) {
 		studentService.deleteStudent(id);

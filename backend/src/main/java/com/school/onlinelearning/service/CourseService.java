@@ -7,7 +7,7 @@ import com.school.onlinelearning.model.Lesson;
 import org.springframework.data.domain.Pageable;
 
 public interface CourseService {
-    PageResponseDTO<CourseResponseDTO> getAllCourses(String level, Pageable pageable);
+    PageResponseDTO<CourseResponseDTO> getAllCourses(String level, String search, Pageable pageable);
     CourseResponseDTO getCourseById(String id);
     CourseResponseDTO createCourse(CourseRequestDTO course);
     CourseResponseDTO updateCourse(String id, CourseRequestDTO payload);

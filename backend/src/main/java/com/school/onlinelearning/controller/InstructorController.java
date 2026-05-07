@@ -21,31 +21,31 @@ public class InstructorController {
 		this.instructorService = instructorService;
 	}
 
-	@PreAuthorize("hasAnyRole('STUDENT','TEACHER')")
+	@PreAuthorize("hasAnyRole('STUDENT','TEACHER', 'ADMIN')")
 	@GetMapping
 	public ResponseEntity<PageResponseDTO<InstructorResponseDTO>> getAllInstructors(Pageable pageable) {
 		return ResponseEntity.ok(instructorService.getAllInstructors(pageable));
 	}
 
-	@PreAuthorize("hasAnyRole('STUDENT','TEACHER')")
+	@PreAuthorize("hasAnyRole('STUDENT','TEACHER', 'ADMIN')")
 	@GetMapping("/{id}")
 	public ResponseEntity<InstructorResponseDTO> getInstructorById(@PathVariable String id) {
 		return ResponseEntity.ok(instructorService.getInstructorById(id));
 	}
 
-	@PreAuthorize("hasRole('TEACHER')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping
 	public ResponseEntity<InstructorResponseDTO> createInstructor(@Valid @RequestBody InstructorRequestDTO instructor) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(instructorService.createInstructor(instructor));
 	}
 
-	@PreAuthorize("hasRole('TEACHER')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/{id}")
 	public ResponseEntity<InstructorResponseDTO> updateInstructor(@PathVariable String id, @Valid @RequestBody InstructorRequestDTO instructor) {
 		return ResponseEntity.ok(instructorService.updateInstructor(id, instructor));
 	}
 
-	@PreAuthorize("hasRole('TEACHER')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteInstructor(@PathVariable String id) {
 		instructorService.deleteInstructor(id);

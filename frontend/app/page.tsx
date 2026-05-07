@@ -67,14 +67,14 @@ export default function Home() {
           СУРГУУЛИЙН УДИРДЛАГЫН ХЯНАЛТ
         </p>
         <h1 className="section-title text-3xl sm:text-4xl lg:text-5xl tracking-tight text-black">
-          What&apos;s up, {user?.fullName}
+          Сайн байна уу, {user?.fullName}
         </h1>
         <p className="mt-4 max-w-2xl text-sm leading-relaxed sm:text-base font-bold text-black">
           Таны эрх:{" "}
           <span className="inline-block border-2 border-black bg-white px-2 py-0.5 rounded-sm">
             {user?.role === "TEACHER" ? "БАГШ" : "СУРАГЧ"}
           </span>
-          . Системийн хяналт таны гарт байна. Let&apos;s go! 🚀
+          . Системийн хяналт таны гарт байна. Эхэлцгээе! 🚀
         </p>
       </div>
 

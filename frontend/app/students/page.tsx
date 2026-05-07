@@ -17,7 +17,7 @@ export default function StudentsPage() {
   const [editingStudent, setEditingStudent] = useState<any | null>(null);
 
   const { data, error, mutate, isLoading } = useSWR(
-    user?.role === "TEACHER" ? `/api/students?page=${page}` : null,
+    user?.role === "ADMIN" ? `/api/students?page=${page}` : null,
     () => api.getStudents(page, 10)
   );
 
@@ -43,13 +43,13 @@ export default function StudentsPage() {
         description="Оюутны бүртгэлийг удирдаж, шинэ оюутан нэмнэ."
       />
 
-      {user?.role !== "TEACHER" ? (
+      {user?.role !== "ADMIN" ? (
         <div className="paper p-5">
-          <StatusMessage type="error" message="Энэ хэсэг зөвхөн багш эрхтэй хэрэглэгчид нээлттэй." />
+          <StatusMessage type="error" message="Энэ хэсэг зөвхөн админ эрхтэй хэрэглэгчид нээлттэй." />
         </div>
       ) : null}
 
-      {user?.role === "TEACHER" && (
+      {user?.role === "ADMIN" && (
         <div className="relative">
            {editingStudent && (
              <button 
@@ -67,7 +67,7 @@ export default function StudentsPage() {
         </div>
       )}
 
-      {user?.role === "TEACHER" && (
+      {user?.role === "ADMIN" && (
         <div className="paper p-5 sm:p-6">
           <h2 className="section-title text-xl font-bold text-white">
             Оюутны Жагсаалт 📋

@@ -46,6 +46,21 @@ public class AssignmentController {
         return ResponseEntity.ok(assignmentService.createAssignment(assignment));
     }
 
+    @PreAuthorize("hasRole('TEACHER')")
+    @PutMapping("/{id}")
+    public ResponseEntity<Assignment> updateAssignment(
+            @PathVariable String id,
+            @Valid @RequestBody com.school.onlinelearning.dto.request.AssignmentRequestDTO dto) {
+        return ResponseEntity.ok(assignmentService.updateAssignment(id, dto));
+    }
+
+    @PreAuthorize("hasRole('TEACHER')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAssignment(@PathVariable String id) {
+        assignmentService.deleteAssignment(id);
+        return ResponseEntity.noContent().build();
+    }
+
     @PreAuthorize("hasRole('STUDENT')")
     @PostMapping("/{id}/submit")
     public ResponseEntity<Submission> submitAssignment(
@@ -91,11 +106,25 @@ public class AssignmentController {
     }
 
     @GetMapping("/submissions/{submissionId}/download")
-    public ResponseEntity<Resource> downloadSubmissionFile(@PathVariable String submissionId) {
+    @PreAuthorize("hasAnyRole('TEACHER', 'STUDENT')")
+    public ResponseEntity<Resource> downloadSubmissionFile(
+            @PathVariable String submissionId,
+            @AuthenticationPrincipal AuthenticatedUser currentUser) {
         Submission submission = assignmentService.getSubmissionById(submissionId);
         
-        if (submission.getPdfFilePath() == null) {
+        if (submission == null || submission.getPdfFilePath() == null) {
             return ResponseEntity.notFound().build();
+        }
+
+        // Authorization check: Only teachers or the student who owns the submission can download
+        boolean isTeacher = currentUser.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_TEACHER"));
+        
+        if (!isTeacher) {
+            Student student = studentRepository.findByUserId(currentUser.getId()).orElse(null);
+            if (student == null || !submission.getStudentId().equals(student.getId())) {
+                return ResponseEntity.status(403).build();
+            }
         }
 
         try {

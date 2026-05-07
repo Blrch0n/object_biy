@@ -36,6 +36,25 @@ public class AssignmentService {
         return assignmentRepository.save(assignment);
     }
 
+    public Assignment updateAssignment(String id, com.school.onlinelearning.dto.request.AssignmentRequestDTO dto) {
+        Assignment assignment = assignmentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Assignment not found"));
+        
+        assignment.setTitle(dto.getTitle());
+        assignment.setDescription(dto.getDescription());
+        assignment.setDueDate(dto.getDueDate());
+        assignment.setMaxScore((int) dto.getMaxScore());
+        
+        return assignmentRepository.save(assignment);
+    }
+
+    public void deleteAssignment(String id) {
+        if (!assignmentRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Assignment not found");
+        }
+        assignmentRepository.deleteById(id);
+    }
+
     public Submission submitAssignment(String assignmentId, String studentId, MultipartFile file) {
         if (!assignmentRepository.existsById(assignmentId)) {
             throw new ResourceNotFoundException("Assignment not found");

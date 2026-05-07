@@ -161,7 +161,7 @@ public class DataSeeder {
                     submission.setOriginalFileName("homework_" + student.getId() + ".pdf");
                     submission.setPdfFilePath("uploads/dummy.pdf");
                     submission.setSubmittedAt(LocalDateTime.now().minusDays(1));
-                    submission.setScore(80 + i);
+                    submission.setScore(80.0 + i);
                     submission.setFeedback("Good job!");
                     submissionRepository.save(submission);
 

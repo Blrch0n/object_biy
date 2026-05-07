@@ -40,7 +40,7 @@ export type Submission = {
   studentId: string;
   pdfFilePath: string;
   originalFileName: string;
-  score: number | null;
+  score: number;
   feedback: string | null;
   submittedAt: string;
 };

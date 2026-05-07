@@ -2,15 +2,23 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useSWR from "swr";
 import { StatusMessage } from "@/components/StatusMessage";
 import { api } from "@/lib/api";
 import { courseSchema, CourseFormData } from "@/lib/validations";
 
-export function CourseForm({ onSuccess }: { onSuccess: () => void }) {
+interface CourseFormProps {
+  onSuccess: () => void;
+  initialData?: any;
+  courseId?: string;
+}
+
+export function CourseForm({ onSuccess, initialData, courseId }: CourseFormProps) {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+
+  const isEdit = Boolean(courseId && initialData);
 
   const { data: instructorsData } = useSWR("/api/instructors?size=100", () => api.getInstructors(0, 100));
   const instructors = instructorsData?.content || [];
@@ -23,31 +31,48 @@ export function CourseForm({ onSuccess }: { onSuccess: () => void }) {
   } = useForm<CourseFormData>({
     resolver: zodResolver(courseSchema),
     defaultValues: {
-      title: "",
-      description: "",
-      level: "BEGINNER",
-      price: 0,
-      instructorId: "",
+      title: initialData?.title || "",
+      description: initialData?.description || "",
+      level: initialData?.level || "BEGINNER",
+      price: initialData?.price || 0,
+      instructorId: initialData?.instructor?.id || "",
     },
   });
+
+  useEffect(() => {
+    if (initialData) {
+      reset({
+        title: initialData.title || "",
+        description: initialData.description || "",
+        level: initialData.level || "BEGINNER",
+        price: initialData.price || 0,
+        instructorId: initialData.instructor?.id || "",
+      });
+    }
+  }, [initialData, reset]);
 
   const onSubmit = async (data: CourseFormData) => {
     setError(null);
     setSuccess(null);
     try {
-      await api.createCourse(data);
-      setSuccess("Хичээлийг амжилттай үүсгэлээ.");
+      if (isEdit && courseId) {
+        await api.updateCourse(courseId, data);
+        setSuccess("Хичээлийг амжилттай шинэчиллээ.");
+      } else {
+        await api.createCourse(data);
+        setSuccess("Хичээлийг амжилттай үүсгэлээ.");
+        reset();
+      }
       setTimeout(() => setSuccess(null), 3000);
-      reset();
       onSuccess();
     } catch (submitError) {
-      setError(submitError instanceof Error ? submitError.message : "Хичээл үүсгэх үед алдаа гарлаа.");
+      setError(submitError instanceof Error ? submitError.message : "Үйлдэл гүйцэтгэх үед алдаа гарлаа.");
     }
   };
 
   return (
     <div className="paper p-5 sm:p-6">
-      <h2 className="section-title text-lg font-semibold">Хичээл Үүсгэх 🛠️</h2>
+      <h2 className="section-title text-lg font-semibold">{isEdit ? "Хичээл Засах 🛠️" : "Хичээл Үүсгэх 🛠️"}</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="mt-4 grid gap-4 sm:grid-cols-2">
         <div className="space-y-1">
           <label className="block text-sm font-bold text-slate-300">Хичээлийн нэр</label>
@@ -81,7 +106,7 @@ export function CourseForm({ onSuccess }: { onSuccess: () => void }) {
         </div>
         <div className="flex items-end">
           <button type="submit" disabled={isSubmitting} className="btn-primary">
-            {isSubmitting ? "Үүсгэж байна..." : "Хичээл Үүсгэх"}
+            {isSubmitting ? "Хадгалж байна..." : isEdit ? "Хадгалах" : "Хичээл Үүсгэх"}
           </button>
         </div>
       </form>

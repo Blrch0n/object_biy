@@ -14,6 +14,7 @@ import java.util.UUID;
 public class FileStorageService {
 
     private final Path fileStorageLocation;
+    private static final long MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
 
     public FileStorageService() {
         this.fileStorageLocation = Paths.get("uploads").toAbsolutePath().normalize();
@@ -28,15 +29,36 @@ public class FileStorageService {
         if (file.isEmpty()) {
             throw new IllegalArgumentException("Failed to store empty file.");
         }
+        
+        if (file.getSize() > MAX_FILE_SIZE) {
+            throw new IllegalArgumentException("File size exceeds the 50MB limit.");
+        }
 
         String originalFilename = file.getOriginalFilename();
-        if (originalFilename == null || (!originalFilename.toLowerCase().endsWith(".pdf"))) {
+        String contentType = file.getContentType();
+        
+        if (originalFilename == null) {
+            throw new IllegalArgumentException("File name is invalid.");
+        }
+        
+        if (originalFilename.contains("..")) {
+            throw new IllegalArgumentException("Filename contains invalid path sequence " + originalFilename);
+        }
+
+        // Validate MIME type (basic check against application/pdf)
+        if (!"application/pdf".equals(contentType) || !originalFilename.toLowerCase().endsWith(".pdf")) {
             throw new IllegalArgumentException("Only PDF files are allowed.");
         }
 
         try {
             String newFilename = UUID.randomUUID() + ".pdf";
-            Path targetLocation = this.fileStorageLocation.resolve(newFilename);
+            Path targetLocation = this.fileStorageLocation.resolve(newFilename).normalize();
+            
+            // Extra safety checking if path escapes base directory
+            if (!targetLocation.startsWith(this.fileStorageLocation)) {
+                throw new SecurityException("Cannot store file outside current directory.");
+            }
+            
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             return newFilename;
         } catch (IOException ex) {

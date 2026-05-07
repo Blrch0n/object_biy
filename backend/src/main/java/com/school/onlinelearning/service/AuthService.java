@@ -72,6 +72,14 @@ public class AuthService {
 		return new AuthResponse(token, toUserResponse(user));
 	}
 
+	public AuthResponse refreshToken(AuthenticatedUser currentUser) {
+		User user = userRepository.findById(currentUser.getId())
+				.orElseThrow(() -> new ResourceNotFoundException("User not found"));
+		AuthenticatedUser authenticatedUser = toAuthenticatedUser(user);
+		String token = jwtService.generateToken(authenticatedUser);
+		return new AuthResponse(token, toUserResponse(user));
+	}
+
 	public UserResponse me(AuthenticatedUser currentUser) {
 		User user = userRepository.findById(currentUser.getId())
 				.orElseThrow(() -> new ResourceNotFoundException("User not found"));

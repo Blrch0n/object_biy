@@ -14,6 +14,7 @@ import { Pagination } from "@/components/Pagination";
 export default function InstructorsPage() {
   const { user } = useAuth();
   const [page, setPage] = useState(0);
+  const [editingInstructor, setEditingInstructor] = useState<any | null>(null);
 
   const { data, error, mutate, isLoading } = useSWR(
     user?.role === "TEACHER" ? `/api/instructors?page=${page}` : null,
@@ -30,6 +31,11 @@ export default function InstructorsPage() {
     }
   };
 
+  const onEditInstructor = (instructor: any) => {
+    setEditingInstructor(instructor);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <section className="animate-fade-in-up space-y-6 py-2">
       <PageHeader
@@ -44,7 +50,21 @@ export default function InstructorsPage() {
       ) : null}
 
       {user?.role === "TEACHER" && (
-        <InstructorForm onSuccess={() => mutate()} />
+        <div className="relative">
+           {editingInstructor && (
+             <button 
+                onClick={() => setEditingInstructor(null)}
+                className="absolute right-4 top-4 text-sm text-slate-400 hover:text-white"
+             >
+                Цуцлах ✕
+             </button>
+           )}
+           <InstructorForm 
+             onSuccess={() => { mutate(); setEditingInstructor(null); }} 
+             initialData={editingInstructor}
+             instructorId={editingInstructor?.id}
+           />
+        </div>
       )}
 
       {user?.role === "TEACHER" && (
@@ -61,7 +81,7 @@ export default function InstructorsPage() {
           
           {!isLoading && data && (
             <>
-              <InstructorTable instructors={data.content} onDelete={onDeleteInstructor} />
+              <InstructorTable instructors={data.content} onDelete={onDeleteInstructor} onEdit={onEditInstructor} />
               <Pagination
                 pageNo={data.pageNo}
                 totalPages={data.totalPages}

@@ -5,9 +5,11 @@ import { Instructor } from "@/types";
 export function InstructorTable({
   instructors,
   onDelete,
+  onEdit,
 }: {
   instructors: Instructor[];
   onDelete: (id: string) => void;
+  onEdit?: (instructor: Instructor) => void;
 }) {
   if (instructors.length === 0) {
     return <p className="muted-copy text-sm mt-4">Одоогоор багш бүртгэгдээгүй байна.</p>;
@@ -35,13 +37,24 @@ export function InstructorTable({
                 <span className="badge badge--neutral">{instructor.specialization}</span>
               </td>
               <td className="text-right">
-                <button
-                  type="button"
-                  className="btn-danger"
-                  onClick={() => onDelete(instructor.id)}
-                >
-                  Устгах
-                </button>
+                <div className="flex justify-end gap-2">
+                  {onEdit && (
+                    <button
+                      type="button"
+                      className="btn-primary py-1 px-3 text-xs"
+                      onClick={() => onEdit(instructor)}
+                    >
+                      Засах
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    className="btn-danger py-1 px-3 text-xs"
+                    onClick={() => onDelete(instructor.id)}
+                  >
+                    Устгах
+                  </button>
+                </div>
               </td>
             </tr>
           ))}

@@ -126,17 +126,24 @@ class ApiClient {
    * The type parameter T tells TypeScript what shape the caller expects.
    */
   private async request<T>(path: string, init?: RequestInit): Promise<T> {
-    const headers = new Headers(init?.headers ?? {});
-    const token = this.getToken();
+    let response = await this.executeRequest(path, init);
 
-    if (init?.body && !headers.has("Content-Type")) {
-      headers.set("Content-Type", "application/json");
+    if (response.status === 401 && path !== "/api/auth/login" && path !== "/api/auth/refresh") {
+      try {
+        const refreshResponse = await this.executeRequest("/api/auth/refresh", { method: "POST" });
+        if (refreshResponse.ok) {
+          const refreshData = await refreshResponse.json() as LoginResponse;
+          const { setStoredToken } = await import("@/lib/auth");
+          setStoredToken(refreshData.token);
+          // Retry original request
+          response = await this.executeRequest(path, init);
+        } else {
+          clearStoredToken();
+        }
+      } catch (err) {
+        clearStoredToken();
+      }
     }
-    if (token) {
-      headers.set("Authorization", `Bearer ${token}`);
-    }
-
-    const response = await fetch(this.buildUrl(path), { ...init, headers });
 
     const contentType = response.headers.get("content-type") ?? "";
     const isJson = contentType.includes("application/json");
@@ -159,6 +166,20 @@ class ApiClient {
     }
 
     return payload as T;
+  }
+
+  private async executeRequest(path: string, init?: RequestInit): Promise<Response> {
+    const headers = new Headers(init?.headers ?? {});
+    const token = this.getToken();
+
+    if (init?.body && !headers.has("Content-Type")) {
+      headers.set("Content-Type", "application/json");
+    }
+    if (token) {
+      headers.set("Authorization", `Bearer ${token}`);
+    }
+
+    return fetch(this.buildUrl(path), { ...init, headers });
   }
 
   // ── Public API methods (Abstraction) ─────────────────────────────────────
@@ -264,6 +285,32 @@ class ApiClient {
 
   deleteCourse(id: string) {
     return this.request<void>(`/api/courses/${id}`, { method: "DELETE" });
+  }
+
+  // ==== ASSIGNMENTS (PHASE 3) ====
+  getAssignments(courseId: string) {
+    return this.request<Assignment[]>(`/api/assignments/course/${courseId}`);
+  }
+
+  getSubmissions(assignmentId: string) {
+    return this.request<Submission[]>(`/api/assignments/${assignmentId}/submissions`);
+  }
+
+  gradeSubmission(submissionId: string, score: number, feedback: string) {
+    return this.request<Submission>(
+      `/api/assignments/submissions/${submissionId}/grade?score=${score}&feedback=${encodeURIComponent(feedback)}`,
+      { method: "PATCH" }
+    );
+  }
+
+  async downloadSubmission(submissionId: string) {
+    const response = await fetch(this.buildUrl(`/api/assignments/submissions/${submissionId}/download`), {
+      headers: { Authorization: `Bearer ${this.getToken()}` },
+    });
+    if (!response.ok) {
+      throw new ApiError("Failed to download file", response.status);
+    }
+    return response.blob();
   }
 
   addLesson(courseId: string, data: Lesson) {

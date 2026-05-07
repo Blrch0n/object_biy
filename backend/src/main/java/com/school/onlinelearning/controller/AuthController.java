@@ -36,6 +36,11 @@ public class AuthController {
 		return ResponseEntity.ok(authService.login(request));
 	}
 
+	@PostMapping("/refresh")
+	public ResponseEntity<AuthResponse> refresh(@AuthenticationPrincipal AuthenticatedUser currentUser) {
+		return ResponseEntity.ok(authService.refreshToken(currentUser));
+	}
+
 	@GetMapping("/me")
 	public ResponseEntity<UserResponse> me(@AuthenticationPrincipal AuthenticatedUser currentUser) {
 		return ResponseEntity.ok(authService.me(currentUser));

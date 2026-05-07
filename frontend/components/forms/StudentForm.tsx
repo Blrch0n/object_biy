@@ -2,14 +2,22 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { StatusMessage } from "@/components/StatusMessage";
 import { api } from "@/lib/api";
 import { studentSchema, StudentFormData } from "@/lib/validations";
 
-export function StudentForm({ onSuccess }: { onSuccess: () => void }) {
+interface StudentFormProps {
+  onSuccess: () => void;
+  initialData?: any;
+  studentId?: string;
+}
+
+export function StudentForm({ onSuccess, initialData, studentId }: StudentFormProps) {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+
+  const isEdit = Boolean(studentId && initialData);
 
   const {
     register,
@@ -19,29 +27,44 @@ export function StudentForm({ onSuccess }: { onSuccess: () => void }) {
   } = useForm<StudentFormData>({
     resolver: zodResolver(studentSchema),
     defaultValues: {
-      fullName: "",
-      email: "",
-      batch: "",
+      fullName: initialData?.fullName || "",
+      email: initialData?.email || "",
+      batch: initialData?.batch || "",
     },
   });
+
+  useEffect(() => {
+    if (initialData) {
+      reset({
+        fullName: initialData.fullName || "",
+        email: initialData.email || "",
+        batch: initialData.batch || "",
+      });
+    }
+  }, [initialData, reset]);
 
   const onSubmit = async (data: StudentFormData) => {
     setError(null);
     setSuccess(null);
     try {
-      await api.createStudent(data);
-      setSuccess("Оюутны мэдээллийг амжилттай нэмлээ.");
+      if (isEdit && studentId) {
+        await api.updateStudent(studentId, data);
+        setSuccess("Оюутны мэдээллийг амжилттай шинэчиллээ.");
+      } else {
+        await api.createStudent(data);
+        setSuccess("Оюутны мэдээллийг амжилттай нэмлээ.");
+        reset();
+      }
       setTimeout(() => setSuccess(null), 3000);
-      reset();
       onSuccess();
     } catch (submitError) {
-      setError(submitError instanceof Error ? submitError.message : "Оюутан нэмэх үед алдаа гарлаа.");
+      setError(submitError instanceof Error ? submitError.message : "Үйлдэл гүйцэтгэх үед алдаа гарлаа.");
     }
   };
 
   return (
     <div className="paper p-5 sm:p-6">
-      <h2 className="section-title text-xl font-bold text-white">Оюутан Нэмэх ✨</h2>
+      <h2 className="section-title text-xl font-bold text-white">{isEdit ? "Оюутан Засах ✏️" : "Оюутан Нэмэх ✨"}</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="mt-4 grid gap-4 sm:grid-cols-3">
         <div className="space-y-1">
           <label htmlFor="fullName" className="block text-sm font-bold text-slate-300">
@@ -84,7 +107,7 @@ export function StudentForm({ onSuccess }: { onSuccess: () => void }) {
         </div>
         <div className="flex items-end">
           <button type="submit" disabled={isSubmitting} className="btn-primary">
-            {isSubmitting ? "Нэмж байна..." : "Оюутан Нэмэх"}
+            {isSubmitting ? "Хадгалж байна..." : isEdit ? "Хадгалах" : "Оюутан Нэмэх"}
           </button>
         </div>
       </form>

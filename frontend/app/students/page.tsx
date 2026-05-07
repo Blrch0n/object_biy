@@ -14,6 +14,7 @@ import { Pagination } from "@/components/Pagination";
 export default function StudentsPage() {
   const { user } = useAuth();
   const [page, setPage] = useState(0);
+  const [editingStudent, setEditingStudent] = useState<any | null>(null);
 
   const { data, error, mutate, isLoading } = useSWR(
     user?.role === "TEACHER" ? `/api/students?page=${page}` : null,
@@ -30,6 +31,11 @@ export default function StudentsPage() {
     }
   };
 
+  const onEditStudent = (student: any) => {
+    setEditingStudent(student);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <section className="animate-fade-in-up space-y-6 py-2">
       <PageHeader
@@ -44,7 +50,21 @@ export default function StudentsPage() {
       ) : null}
 
       {user?.role === "TEACHER" && (
-        <StudentForm onSuccess={() => mutate()} />
+        <div className="relative">
+           {editingStudent && (
+             <button 
+                onClick={() => setEditingStudent(null)}
+                className="absolute right-4 top-4 text-sm text-slate-400 hover:text-white"
+             >
+                Цуцлах ✕
+             </button>
+           )}
+           <StudentForm 
+             onSuccess={() => { mutate(); setEditingStudent(null); }} 
+             initialData={editingStudent}
+             studentId={editingStudent?.id}
+           />
+        </div>
       )}
 
       {user?.role === "TEACHER" && (
@@ -61,7 +81,7 @@ export default function StudentsPage() {
           
           {!isLoading && data && (
             <>
-              <StudentTable students={data.content} onDelete={onDeleteStudent} />
+              <StudentTable students={data.content} onDelete={onDeleteStudent} onEdit={onEditStudent} />
               <Pagination
                 pageNo={data.pageNo}
                 totalPages={data.totalPages}

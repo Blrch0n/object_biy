@@ -14,6 +14,7 @@ export default function CoursesPage() {
   const { user } = useAuth();
   const [page, setPage] = useState(0);
   const [filterLevel, setFilterLevel] = useState("ALL");
+  const [editingCourse, setEditingCourse] = useState<any | null>(null);
   const [lessonForms, setLessonForms] = useState<Record<string, { title: string; durationMinutes: string }>>({});
   const [submittingLessonFor, setSubmittingLessonFor] = useState<string | null>(null);
 
@@ -87,7 +88,23 @@ export default function CoursesPage() {
         </div>
       </div>
 
-      {user?.role === "TEACHER" && <CourseForm onSuccess={() => mutateCourses()} />}
+      {user?.role === "TEACHER" && (
+        <div className="relative">
+           {editingCourse && (
+             <button 
+                onClick={() => setEditingCourse(null)}
+                className="absolute right-4 top-4 text-sm text-slate-400 hover:text-white"
+             >
+                Цуцлах ✕
+             </button>
+           )}
+           <CourseForm 
+             onSuccess={() => { mutateCourses(); setEditingCourse(null); }} 
+             initialData={editingCourse}
+             courseId={editingCourse?.id}
+           />
+        </div>
+      )}
 
       <div className="space-y-4">
         <h2 className="section-title text-lg font-semibold">
@@ -107,7 +124,30 @@ export default function CoursesPage() {
           const instructor = instructors.find((item) => item.id === course.instructorId);
 
           return (
-            <article key={course.id} className="paper p-5 sm:p-6">
+            <article key={course.id} className="paper p-5 sm:p-6 relative group">
+              {user?.role === "TEACHER" && (
+                <div className="absolute right-4 top-4 flex gap-2 opacity-0 transition-opacity group-hover:opacity-100">
+                  <button 
+                    onClick={() => { setEditingCourse(course); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                    className="text-xs font-semibold text-blue-400 hover:text-blue-300 hover:underline px-2 py-1 bg-slate-800 rounded border border-slate-600"
+                  >
+                    Засах
+                  </button>
+                  <button 
+                    onClick={() => onDeleteCourse(course.id)}
+                    className="text-xs font-semibold text-red-400 hover:text-red-300 hover:underline px-2 py-1 bg-slate-800 rounded border border-slate-600"
+                  >
+                    Устгах
+                  </button>
+                  <a 
+                    href={`/courses/${course.id}/assignments`}
+                    className="text-xs font-semibold text-emerald-400 hover:text-emerald-300 hover:underline px-2 py-1 bg-slate-800 rounded border border-slate-600"
+                  >
+                    Даалгавар шалгах
+                  </a>
+                </div>
+              )}
+              
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <h3 className="section-title text-xl font-bold text-white">{course.title}</h3>
                 <span className="badge badge--neutral">{course.lessons.length} сэдэв</span>

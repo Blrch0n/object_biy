@@ -9,16 +9,16 @@ import { api } from "@/lib/api";
 import { DashboardStats } from "@/types";
 
 const teacherCards = [
-  { href: "/students", title: "Оюутнууд", description: "Оюутны мэдээлэл удирдах", icon: "👨‍🎓" },
-  { href: "/courses", title: "Хичээлүүд", description: "Хөтөлбөр, сэдэв, үнийг шинэчлэх", icon: "📚" },
-  { href: "/instructors", title: "Багш нар", description: "Багшийн баг болон мэргэжил", icon: "👩‍🏫" },
-  { href: "/enroll", title: "Бүртгэл", description: "Оюутныг хичээлд шууд бүртгэх", icon: "📝" },
-  { href: "/enrollments", title: "Элсэлт", description: "Ахиц шинэчилж хянах", icon: "📊" },
+  { href: "/students", title: "Оюутнууд", description: "Оюутны мэдээлэл удирдах", icon: "" },
+  { href: "/courses", title: "Хичээлүүд", description: "Хөтөлбөр, сэдэв, үнийг шинэчлэх", icon: "" },
+  { href: "/instructors", title: "Багш нар", description: "Багшийн баг болон мэргэжил", icon: "" },
+  { href: "/enroll", title: "Бүртгэл", description: "Оюутныг хичээлд шууд бүртгэх", icon: "" },
+  { href: "/enrollments", title: "Элсэлт", description: "Ахиц шинэчилж хянах", icon: "" },
 ];
 
 const studentCards = [
-  { href: "/courses", title: "Хичээлүүд", description: "Нээлттэй бүх хичээл харах", icon: "📚" },
-  { href: "/enrollments", title: "Миний элсэлт", description: "Өөрийн элсэлт ба ахиц", icon: "📊" },
+  { href: "/courses", title: "Хичээлүүд", description: "Нээлттэй бүх хичээл харах", icon: "" },
+  { href: "/enrollments", title: "Миний элсэлт", description: "Өөрийн элсэлт ба ахиц", icon: "" },
 ];
 
 export default function Home() {
@@ -74,7 +74,7 @@ export default function Home() {
           <span className="inline-block border-2 border-black bg-white px-2 py-0.5 rounded-sm">
             {user?.role === "TEACHER" ? "БАГШ" : "СУРАГЧ"}
           </span>
-          . Системийн хяналт таны гарт байна. Эхэлцгээе! 🚀
+          . Системийн хяналт таны гарт байна. Эхэлцгээе!
         </p>
       </div>
 

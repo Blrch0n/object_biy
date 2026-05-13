@@ -114,7 +114,7 @@ export default function SignupPage() {
                     : "text-slate-400 hover:text-slate-200"
                 }`}
               >
-                🎒 Сурагч
+                Сурагч
               </button>
               <button
                 type="button"
@@ -125,7 +125,7 @@ export default function SignupPage() {
                     : "text-slate-400 hover:text-slate-200"
                 }`}
               >
-                👑 Багш
+                Багш
               </button>
             </div>
           </div>

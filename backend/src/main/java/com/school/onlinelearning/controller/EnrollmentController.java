@@ -31,7 +31,7 @@ public class EnrollmentController {
 		this.enrollmentService = enrollmentService;
 	}
 
-	@PreAuthorize("hasAnyRole('STUDENT','TEACHER','ADMIN')")
+	@PreAuthorize("hasAnyRole('STUDENT','TEACHER', 'ADMIN')")
 	@GetMapping
 	public ResponseEntity<List<EnrollmentResponse>> getAllEnrollments(
 			@AuthenticationPrincipal AuthenticatedUser currentUser,
@@ -40,7 +40,7 @@ public class EnrollmentController {
 		return ResponseEntity.ok(enrollmentService.getAllEnrollments(currentUser, sort));
 	}
 
-	@PreAuthorize("hasAnyRole('STUDENT','TEACHER','ADMIN')")
+	@PreAuthorize("hasAnyRole('STUDENT','TEACHER', 'ADMIN')")
 	@GetMapping("/{id}")
 	public ResponseEntity<EnrollmentResponse> getEnrollmentById(
 			@PathVariable String id,
@@ -49,21 +49,21 @@ public class EnrollmentController {
 		return ResponseEntity.ok(enrollmentService.getEnrollmentById(id, currentUser));
 	}
 
-	@PreAuthorize("hasAnyRole('TEACHER','ADMIN')")
+	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
 	@PostMapping
 	public ResponseEntity<EnrollmentResponse> createEnrollment(@Valid @RequestBody Enrollment enrollment) {
 		EnrollmentResponse createdEnrollment = enrollmentService.createEnrollment(enrollment);
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdEnrollment);
 	}
 
-	@PreAuthorize("hasAnyRole('TEACHER','ADMIN')")
+	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
 	@PatchMapping("/{id}/progress")
 	public ResponseEntity<EnrollmentResponse> updateProgress(@PathVariable String id, @RequestParam("value") double value) {
 		EnrollmentResponse updatedEnrollment = enrollmentService.updateProgress(id, value);
 		return ResponseEntity.ok(updatedEnrollment);
 	}
 
-	@PreAuthorize("hasAnyRole('TEACHER','ADMIN')")
+	@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteEnrollment(@PathVariable String id) {
 		enrollmentService.deleteEnrollment(id);

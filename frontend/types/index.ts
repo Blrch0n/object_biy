@@ -122,3 +122,18 @@ export type LoginResponse = {
   token: string;
   user: User;
 };
+
+export type ResourceType = "COURSE" | "ASSIGNMENT" | "QUIZ";
+
+export type Comment = {
+  id: string;
+  resourceId: string;
+  resourceType: ResourceType;
+  userId: string;
+  authorName: string;
+  authorRole: UserRole;
+  text: string;
+  parentCommentId: string | null;
+  createdAt: string;
+  updatedAt: string;
+};

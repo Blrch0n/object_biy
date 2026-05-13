@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { api } from "@/lib/api";
 import { triggerConfetti } from "@/lib/gamification";
 import { useAuth } from "@/context/AuthContext";
+import CommentSection from "@/components/comments/CommentSection";
 
 export default function CourseDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
@@ -244,6 +245,10 @@ export default function CourseDetailsPage({ params }: { params: Promise<{ id: st
             </motion.div>
           ))}
         </div>
+      </div>
+      
+      <div className="mt-12 bg-white/10 p-6 shadow-[4px_4px_0_0_#000] border-2 border-black rounded-xl">
+        <CommentSection resourceId={courseId} resourceType="COURSE" />
       </div>
     </motion.div>
   );

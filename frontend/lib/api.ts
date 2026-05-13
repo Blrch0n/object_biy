@@ -422,6 +422,24 @@ class ApiClient {
   async getQuizAttempts(quizId: string) {
     return this.request<QuizAttempt[]>(`/api/quizzes/${quizId}/attempts`);
   }
+
+  // Comments
+  async getComments(resourceId: string, resourceType: string) {
+    return this.request<import("@/types").Comment[]>(`/api/comments?resourceId=${resourceId}&resourceType=${resourceType}`);
+  }
+
+  async createComment(data: { resourceId: string; resourceType: string; text: string; parentCommentId?: string }) {
+    return this.request<import("@/types").Comment>("/api/comments", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  }
+
+  async deleteComment(commentId: string) {
+    return this.request<void>(`/api/comments/${commentId}`, {
+      method: "DELETE",
+    });
+  }
 }
 
 // ─── Singleton instance ───────────────────────────────────────────────────────
@@ -473,3 +491,8 @@ export const createQuiz              = api.createQuiz.bind(api);
 export const submitQuizAttempt       = api.submitQuizAttempt.bind(api);
 export const getMyQuizAttempt        = api.getMyQuizAttempt.bind(api);
 export const getQuizAttempts         = api.getQuizAttempts.bind(api);
+
+export const getComments             = api.getComments.bind(api);
+export const createComment           = api.createComment.bind(api);
+export const deleteComment           = api.deleteComment.bind(api);
+

@@ -21,39 +21,129 @@ nohup: ignoring input
 [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ onlinelearning ---
 [INFO] Recompiling the module because of changed source code.
 [INFO] Compiling 6 source files with javac [debug parameters release 21] to target/test-classes
-[INFO] -------------------------------------------------------------
-[WARNING] COMPILATION WARNING : 
-[INFO] -------------------------------------------------------------
 [WARNING] /home/bolro/Downloads/java/biydaalt/backend/src/test/java/com/school/onlinelearning/controller/AuthControllerIntegrationTest.java:[34,10] org.springframework.boot.test.mock.mockito.MockBean in org.springframework.boot.test.mock.mockito has been deprecated and marked for removal
 [WARNING] /home/bolro/Downloads/java/biydaalt/backend/src/test/java/com/school/onlinelearning/controller/AuthControllerIntegrationTest.java:[37,10] org.springframework.boot.test.mock.mockito.MockBean in org.springframework.boot.test.mock.mockito has been deprecated and marked for removal
 [WARNING] /home/bolro/Downloads/java/biydaalt/backend/src/test/java/com/school/onlinelearning/controller/AuthControllerIntegrationTest.java:[40,10] org.springframework.boot.test.mock.mockito.MockBean in org.springframework.boot.test.mock.mockito has been deprecated and marked for removal
-[INFO] 3 warnings 
-[INFO] -------------------------------------------------------------
-[INFO] -------------------------------------------------------------
-[ERROR] COMPILATION ERROR : 
-[INFO] -------------------------------------------------------------
-[ERROR] /home/bolro/Downloads/java/biydaalt/backend/src/test/java/com/school/onlinelearning/service/StudentServiceTest.java:[26,45] constructor StudentRequestDTO in record com.school.onlinelearning.dto.request.StudentRequestDTO cannot be applied to given types;
-  required: java.lang.String,java.lang.String,java.lang.String,java.lang.String
-  found:    java.lang.String,java.lang.String,java.lang.String
-  reason: actual and formal argument lists differ in length
-[INFO] 1 error
-[INFO] -------------------------------------------------------------
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD FAILURE
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  1.376 s
-[INFO] Finished at: 2026-05-08T00:59:03+08:00
-[INFO] ------------------------------------------------------------------------
-[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.14.1:testCompile (default-testCompile) on project onlinelearning: Compilation failure
-[ERROR] /home/bolro/Downloads/java/biydaalt/backend/src/test/java/com/school/onlinelearning/service/StudentServiceTest.java:[26,45] constructor StudentRequestDTO in record com.school.onlinelearning.dto.request.StudentRequestDTO cannot be applied to given types;
-[ERROR]   required: java.lang.String,java.lang.String,java.lang.String,java.lang.String
-[ERROR]   found:    java.lang.String,java.lang.String,java.lang.String
-[ERROR]   reason: actual and formal argument lists differ in length
-[ERROR] 
-[ERROR] -> [Help 1]
-[ERROR] 
-[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
-[ERROR] Re-run Maven using the -X switch to enable full debug logging.
-[ERROR] 
-[ERROR] For more information about the errors and possible solutions, please read the following articles:
-[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[INFO] 
+[INFO] <<< spring-boot:3.5.13:run (default-cli) < test-compile @ onlinelearning <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:3.5.13:run (default-cli) @ onlinelearning ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.13)
+
+2026-05-08T08:11:26.184+08:00  INFO 8150 --- [onlinelearning] [           main] c.s.o.OnlinelearningApplication          : Starting OnlinelearningApplication using Java 26.0.1 with PID 8150 (/home/bolro/Downloads/java/biydaalt/backend/target/classes started by bolro in /home/bolro/Downloads/java/biydaalt/backend)
+2026-05-08T08:11:26.185+08:00  INFO 8150 --- [onlinelearning] [           main] c.s.o.OnlinelearningApplication          : The following 1 profile is active: "dev"
+2026-05-08T08:11:26.562+08:00  INFO 8150 --- [onlinelearning] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data MongoDB repositories in DEFAULT mode.
+2026-05-08T08:11:26.614+08:00  INFO 8150 --- [onlinelearning] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 47 ms. Found 9 MongoDB repository interfaces.
+2026-05-08T08:11:26.875+08:00  INFO 8150 --- [onlinelearning] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-05-08T08:11:26.882+08:00  INFO 8150 --- [onlinelearning] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-05-08T08:11:26.882+08:00  INFO 8150 --- [onlinelearning] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.53]
+2026-05-08T08:11:26.902+08:00  INFO 8150 --- [onlinelearning] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-05-08T08:11:26.902+08:00  INFO 8150 --- [onlinelearning] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 693 ms
+2026-05-08T08:11:27.053+08:00  INFO 8150 --- [onlinelearning] [           main] org.mongodb.driver.client                : MongoClient with metadata {"application": {"name": "onlinelearning"}, "driver": {"name": "mongo-java-driver|sync|spring-boot", "version": "5.5.2"}, "os": {"type": "Linux", "name": "Linux", "architecture": "amd64", "version": "7.0.3-arch1-2"}, "platform": "Java/Arch Linux/26.0.1"} created with settings MongoClientSettings{readPreference=primary, writeConcern=WriteConcern{w=majority, wTimeout=null ms, journal=null}, retryWrites=true, retryReads=true, readConcern=ReadConcern{level=null}, credential=MongoCredential{mechanism=null, userName='bolro', source='admin', password=<hidden>, mechanismProperties=<hidden>}, transportSettings=null, commandListeners=[], codecRegistry=ProvidersCodecRegistry{codecProviders=[ValueCodecProvider{}, BsonValueCodecProvider{}, DBRefCodecProvider{}, DBObjectCodecProvider{}, DocumentCodecProvider{}, CollectionCodecProvider{}, IterableCodecProvider{}, MapCodecProvider{}, GeoJsonCodecProvider{}, GridFSFileCodecProvider{}, Jsr310CodecProvider{}, JsonObjectCodecProvider{}, BsonCodecProvider{}, EnumCodecProvider{}, com.mongodb.client.model.mql.ExpressionCodecProvider@50ab56e2, com.mongodb.Jep395RecordCodecProvider@7b5b5bfe, com.mongodb.KotlinCodecProvider@74834afd]}, loggerSettings=LoggerSettings{maxDocumentLength=1000}, clusterSettings={hosts=[127.0.0.1:27017], srvHost=onlinelearning.ywapodi.mongodb.net, srvServiceName=mongodb, mode=MULTIPLE, requiredClusterType=REPLICA_SET, requiredReplicaSetName='atlas-ltf4c9-shard-0', serverSelector='null', clusterListeners='[]', serverSelectionTimeout='30000 ms', localThreshold='15 ms'}, socketSettings=SocketSettings{connectTimeoutMS=10000, readTimeoutMS=0, receiveBufferSize=0, proxySettings=ProxySettings{host=null, port=null, username=null, password=null}}, heartbeatSocketSettings=SocketSettings{connectTimeoutMS=10000, readTimeoutMS=10000, receiveBufferSize=0, proxySettings=ProxySettings{host=null, port=null, username=null, password=null}}, connectionPoolSettings=ConnectionPoolSettings{maxSize=100, minSize=0, maxWaitTimeMS=120000, maxConnectionLifeTimeMS=0, maxConnectionIdleTimeMS=0, maintenanceInitialDelayMS=0, maintenanceFrequencyMS=60000, connectionPoolListeners=[], maxConnecting=2}, serverSettings=ServerSettings{heartbeatFrequencyMS=10000, minHeartbeatFrequencyMS=500, serverMonitoringMode=AUTO, serverListeners='[]', serverMonitorListeners='[]'}, sslSettings=SslSettings{enabled=true, invalidHostNameAllowed=false, context=null}, applicationName='onlinelearning', compressorList=[], uuidRepresentation=JAVA_LEGACY, serverApi=null, autoEncryptionSettings=null, dnsClient=null, inetAddressResolver=null, contextProvider=null, timeoutMS=null}
+2026-05-08T08:11:27.110+08:00  INFO 8150 --- [onlinelearning] [odi.mongodb.net] org.mongodb.driver.cluster               : Adding discovered server ac-gs6tzbz-shard-00-00.ywapodi.mongodb.net:27017 to client view of cluster
+2026-05-08T08:11:27.121+08:00  INFO 8150 --- [onlinelearning] [odi.mongodb.net] org.mongodb.driver.cluster               : Adding discovered server ac-gs6tzbz-shard-00-01.ywapodi.mongodb.net:27017 to client view of cluster
+2026-05-08T08:11:27.122+08:00  INFO 8150 --- [onlinelearning] [odi.mongodb.net] org.mongodb.driver.cluster               : Adding discovered server ac-gs6tzbz-shard-00-02.ywapodi.mongodb.net:27017 to client view of cluster
+2026-05-08T08:11:27.551+08:00  INFO 8150 --- [onlinelearning] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-05-08T08:11:27.630+08:00  INFO 8150 --- [onlinelearning] [ngodb.net:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=ac-gs6tzbz-shard-00-02.ywapodi.mongodb.net:27017, type=REPLICA_SET_SECONDARY, cryptd=false, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=25, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=258037996, minRoundTripTimeNanos=0, setName='atlas-ltf4c9-shard-0', canonicalAddress=ac-gs6tzbz-shard-00-02.ywapodi.mongodb.net:27017, hosts=[ac-gs6tzbz-shard-00-00.ywapodi.mongodb.net:27017, ac-gs6tzbz-shard-00-02.ywapodi.mongodb.net:27017, ac-gs6tzbz-shard-00-01.ywapodi.mongodb.net:27017], passives=[], arbiters=[], primary='ac-gs6tzbz-shard-00-01.ywapodi.mongodb.net:27017', tagSet=TagSet{[Tag{name='availabilityZone', value='ape1-az3'}, Tag{name='cacheState', value='READY'}, Tag{name='diskState', value='READY'}, Tag{name='nodeType', value='ELECTABLE'}, Tag{name='provider', value='AWS'}, Tag{name='region', value='AP_EAST_1'}, Tag{name='workloadType', value='OPERATIONAL'}]}, electionId=null, setVersion=95, topologyVersion=TopologyVersion{processId=69fc8f3b15a9c0597d979cb6, counter=3}, lastWriteDate=Fri May 08 08:11:26 GMT+08:00 2026, lastUpdateTimeNanos=404630591608}
+2026-05-08T08:11:27.698+08:00  INFO 8150 --- [onlinelearning] [ngodb.net:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=ac-gs6tzbz-shard-00-01.ywapodi.mongodb.net:27017, type=REPLICA_SET_PRIMARY, cryptd=false, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=25, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=275167127, minRoundTripTimeNanos=0, setName='atlas-ltf4c9-shard-0', canonicalAddress=ac-gs6tzbz-shard-00-01.ywapodi.mongodb.net:27017, hosts=[ac-gs6tzbz-shard-00-00.ywapodi.mongodb.net:27017, ac-gs6tzbz-shard-00-02.ywapodi.mongodb.net:27017, ac-gs6tzbz-shard-00-01.ywapodi.mongodb.net:27017], passives=[], arbiters=[], primary='ac-gs6tzbz-shard-00-01.ywapodi.mongodb.net:27017', tagSet=TagSet{[Tag{name='availabilityZone', value='ape1-az2'}, Tag{name='cacheState', value='READY'}, Tag{name='diskState', value='READY'}, Tag{name='nodeType', value='ELECTABLE'}, Tag{name='provider', value='AWS'}, Tag{name='region', value='AP_EAST_1'}, Tag{name='workloadType', value='OPERATIONAL'}]}, electionId=7fffffff000000000000010e, setVersion=95, topologyVersion=TopologyVersion{processId=69fc8cef94c830b40dd63939, counter=6}, lastWriteDate=Fri May 08 08:11:27 GMT+08:00 2026, lastUpdateTimeNanos=404701777119}
+2026-05-08T08:11:27.698+08:00  INFO 8150 --- [onlinelearning] [ngodb.net:27017] org.mongodb.driver.cluster               : Discovered replica set primary ac-gs6tzbz-shard-00-01.ywapodi.mongodb.net:27017 with max election id 7fffffff000000000000010e and max set version 95
+2026-05-08T08:11:27.700+08:00  INFO 8150 --- [onlinelearning] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-05-08T08:11:27.707+08:00  INFO 8150 --- [onlinelearning] [           main] c.s.o.OnlinelearningApplication          : Started OnlinelearningApplication in 1.737 seconds (process running for 1.879)
+2026-05-08T08:11:27.760+08:00  INFO 8150 --- [onlinelearning] [ngodb.net:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=ac-gs6tzbz-shard-00-00.ywapodi.mongodb.net:27017, type=REPLICA_SET_SECONDARY, cryptd=false, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=25, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=293368490, minRoundTripTimeNanos=0, setName='atlas-ltf4c9-shard-0', canonicalAddress=ac-gs6tzbz-shard-00-00.ywapodi.mongodb.net:27017, hosts=[ac-gs6tzbz-shard-00-00.ywapodi.mongodb.net:27017, ac-gs6tzbz-shard-00-02.ywapodi.mongodb.net:27017, ac-gs6tzbz-shard-00-01.ywapodi.mongodb.net:27017], passives=[], arbiters=[], primary='ac-gs6tzbz-shard-00-01.ywapodi.mongodb.net:27017', tagSet=TagSet{[Tag{name='availabilityZone', value='ape1-az1'}, Tag{name='cacheState', value='READY'}, Tag{name='diskState', value='READY'}, Tag{name='nodeType', value='ELECTABLE'}, Tag{name='provider', value='AWS'}, Tag{name='region', value='AP_EAST_1'}, Tag{name='workloadType', value='OPERATIONAL'}]}, electionId=null, setVersion=95, topologyVersion=TopologyVersion{processId=69fc8e040f2fbb595f10f4d3, counter=4}, lastWriteDate=Fri May 08 08:11:27 GMT+08:00 2026, lastUpdateTimeNanos=404764276766}
+2026-05-08T08:11:39.555+08:00  INFO 8150 --- [onlinelearning] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-05-08T08:11:39.555+08:00  INFO 8150 --- [onlinelearning] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-05-08T08:11:39.555+08:00  INFO 8150 --- [onlinelearning] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2026-05-08T11:50:45.657+08:00  INFO 8150 --- [onlinelearning] [ngodb.net:27017] org.mongodb.driver.cluster               : Exception in monitor thread while connecting to server ac-gs6tzbz-shard-00-02.ywapodi.mongodb.net:27017
+
+com.mongodb.MongoSocketReadTimeoutException: Timeout while receiving message
+	at com.mongodb.internal.connection.InternalStreamConnection.createReadTimeoutException(InternalStreamConnection.java:819) ~[mongodb-driver-core-5.5.2.jar:na]
+	at com.mongodb.internal.connection.InternalStreamConnection.translateReadException(InternalStreamConnection.java:807) ~[mongodb-driver-core-5.5.2.jar:na]
+	at com.mongodb.internal.connection.InternalStreamConnection.receiveResponseBuffers(InternalStreamConnection.java:857) ~[mongodb-driver-core-5.5.2.jar:na]
+	at com.mongodb.internal.connection.InternalStreamConnection.receiveCommandMessageResponse(InternalStreamConnection.java:517) ~[mongodb-driver-core-5.5.2.jar:na]
+	at com.mongodb.internal.connection.InternalStreamConnection.receive(InternalStreamConnection.java:469) ~[mongodb-driver-core-5.5.2.jar:na]
+	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitor.lookupServerDescription(DefaultServerMonitor.java:249) ~[mongodb-driver-core-5.5.2.jar:na]
+	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitor.run(DefaultServerMonitor.java:176) ~[mongodb-driver-core-5.5.2.jar:na]
+Caused by: java.net.SocketTimeoutException: Read timed out
+	at java.base/sun.nio.ch.NioSocketImpl.timedRead(NioSocketImpl.java:276) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:302) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:360) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:802) ~[na:na]
+	at java.base/java.net.Socket$SocketInputStream.implRead(Socket.java:984) ~[na:na]
+	at java.base/java.net.Socket$SocketInputStream.read(Socket.java:974) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketInputRecord.read(SSLSocketInputRecord.java:489) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketInputRecord.readHeader(SSLSocketInputRecord.java:483) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketInputRecord.bytesInCompletePacket(SSLSocketInputRecord.java:70) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketImpl.readApplicationRecord(SSLSocketImpl.java:1461) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketImpl$AppInputStream.read(SSLSocketImpl.java:1068) ~[na:na]
+	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:182) ~[mongodb-driver-core-5.5.2.jar:na]
+	at com.mongodb.internal.connection.InternalStreamConnection.receiveResponseBuffers(InternalStreamConnection.java:824) ~[mongodb-driver-core-5.5.2.jar:na]
+	... 4 common frames omitted
+
+2026-05-08T11:50:45.740+08:00  INFO 8150 --- [onlinelearning] [ngodb.net:27017] org.mongodb.driver.cluster               : Exception in monitor thread while connecting to server ac-gs6tzbz-shard-00-01.ywapodi.mongodb.net:27017
+
+com.mongodb.MongoSocketReadTimeoutException: Timeout while receiving message
+	at com.mongodb.internal.connection.InternalStreamConnection.createReadTimeoutException(InternalStreamConnection.java:819) ~[mongodb-driver-core-5.5.2.jar:na]
+	at com.mongodb.internal.connection.InternalStreamConnection.translateReadException(InternalStreamConnection.java:807) ~[mongodb-driver-core-5.5.2.jar:na]
+	at com.mongodb.internal.connection.InternalStreamConnection.receiveResponseBuffers(InternalStreamConnection.java:857) ~[mongodb-driver-core-5.5.2.jar:na]
+	at com.mongodb.internal.connection.InternalStreamConnection.receiveCommandMessageResponse(InternalStreamConnection.java:517) ~[mongodb-driver-core-5.5.2.jar:na]
+	at com.mongodb.internal.connection.InternalStreamConnection.receive(InternalStreamConnection.java:469) ~[mongodb-driver-core-5.5.2.jar:na]
+	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitor.lookupServerDescription(DefaultServerMonitor.java:249) ~[mongodb-driver-core-5.5.2.jar:na]
+	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitor.run(DefaultServerMonitor.java:176) ~[mongodb-driver-core-5.5.2.jar:na]
+Caused by: java.net.SocketTimeoutException: Read timed out
+	at java.base/sun.nio.ch.NioSocketImpl.timedRead(NioSocketImpl.java:276) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:302) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:360) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:802) ~[na:na]
+	at java.base/java.net.Socket$SocketInputStream.implRead(Socket.java:984) ~[na:na]
+	at java.base/java.net.Socket$SocketInputStream.read(Socket.java:974) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketInputRecord.read(SSLSocketInputRecord.java:489) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketInputRecord.readHeader(SSLSocketInputRecord.java:483) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketInputRecord.bytesInCompletePacket(SSLSocketInputRecord.java:70) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketImpl.readApplicationRecord(SSLSocketImpl.java:1461) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketImpl$AppInputStream.read(SSLSocketImpl.java:1068) ~[na:na]
+	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:182) ~[mongodb-driver-core-5.5.2.jar:na]
+	at com.mongodb.internal.connection.InternalStreamConnection.receiveResponseBuffers(InternalStreamConnection.java:824) ~[mongodb-driver-core-5.5.2.jar:na]
+	... 4 common frames omitted
+
+2026-05-08T11:50:46.151+08:00  INFO 8150 --- [onlinelearning] [ngodb.net:27017] org.mongodb.driver.cluster               : Exception in monitor thread while connecting to server ac-gs6tzbz-shard-00-00.ywapodi.mongodb.net:27017
+
+com.mongodb.MongoSocketReadTimeoutException: Timeout while receiving message
+	at com.mongodb.internal.connection.InternalStreamConnection.createReadTimeoutException(InternalStreamConnection.java:819) ~[mongodb-driver-core-5.5.2.jar:na]
+	at com.mongodb.internal.connection.InternalStreamConnection.translateReadException(InternalStreamConnection.java:807) ~[mongodb-driver-core-5.5.2.jar:na]
+	at com.mongodb.internal.connection.InternalStreamConnection.receiveResponseBuffers(InternalStreamConnection.java:857) ~[mongodb-driver-core-5.5.2.jar:na]
+	at com.mongodb.internal.connection.InternalStreamConnection.receiveCommandMessageResponse(InternalStreamConnection.java:517) ~[mongodb-driver-core-5.5.2.jar:na]
+	at com.mongodb.internal.connection.InternalStreamConnection.receive(InternalStreamConnection.java:469) ~[mongodb-driver-core-5.5.2.jar:na]
+	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitor.lookupServerDescription(DefaultServerMonitor.java:249) ~[mongodb-driver-core-5.5.2.jar:na]
+	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitor.run(DefaultServerMonitor.java:176) ~[mongodb-driver-core-5.5.2.jar:na]
+Caused by: java.net.SocketTimeoutException: Read timed out
+	at java.base/sun.nio.ch.NioSocketImpl.timedRead(NioSocketImpl.java:276) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:302) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:360) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:802) ~[na:na]
+	at java.base/java.net.Socket$SocketInputStream.implRead(Socket.java:984) ~[na:na]
+	at java.base/java.net.Socket$SocketInputStream.read(Socket.java:974) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketInputRecord.read(SSLSocketInputRecord.java:489) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketInputRecord.readHeader(SSLSocketInputRecord.java:483) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketInputRecord.bytesInCompletePacket(SSLSocketInputRecord.java:70) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketImpl.readApplicationRecord(SSLSocketImpl.java:1461) ~[na:na]
+	at java.base/sun.security.ssl.SSLSocketImpl$AppInputStream.read(SSLSocketImpl.java:1068) ~[na:na]
+	at com.mongodb.internal.connection.SocketStream.read(SocketStream.java:182) ~[mongodb-driver-core-5.5.2.jar:na]
+	at com.mongodb.internal.connection.InternalStreamConnection.receiveResponseBuffers(InternalStreamConnection.java:824) ~[mongodb-driver-core-5.5.2.jar:na]
+	... 4 common frames omitted
+
+2026-05-08T11:50:46.374+08:00  INFO 8150 --- [onlinelearning] [ngodb.net:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=ac-gs6tzbz-shard-00-01.ywapodi.mongodb.net:27017, type=REPLICA_SET_PRIMARY, cryptd=false, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=25, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=189592041, minRoundTripTimeNanos=0, setName='atlas-ltf4c9-shard-0', canonicalAddress=ac-gs6tzbz-shard-00-01.ywapodi.mongodb.net:27017, hosts=[ac-gs6tzbz-shard-00-00.ywapodi.mongodb.net:27017, ac-gs6tzbz-shard-00-02.ywapodi.mongodb.net:27017, ac-gs6tzbz-shard-00-01.ywapodi.mongodb.net:27017], passives=[], arbiters=[], primary='ac-gs6tzbz-shard-00-01.ywapodi.mongodb.net:27017', tagSet=TagSet{[Tag{name='availabilityZone', value='ape1-az2'}, Tag{name='cacheState', value='READY'}, Tag{name='diskState', value='READY'}, Tag{name='nodeType', value='ELECTABLE'}, Tag{name='provider', value='AWS'}, Tag{name='region', value='AP_EAST_1'}, Tag{name='workloadType', value='OPERATIONAL'}]}, electionId=7fffffff000000000000010e, setVersion=95, topologyVersion=TopologyVersion{processId=69fc8cef94c830b40dd63939, counter=6}, lastWriteDate=Fri May 08 11:50:45 GMT+08:00 2026, lastUpdateTimeNanos=2347953784519}
+2026-05-08T11:50:46.375+08:00  INFO 8150 --- [onlinelearning] [ngodb.net:27017] org.mongodb.driver.cluster               : Discovered replica set primary ac-gs6tzbz-shard-00-01.ywapodi.mongodb.net:27017 with max election id 7fffffff000000000000010e and max set version 95
+2026-05-08T11:50:46.570+08:00  INFO 8150 --- [onlinelearning] [ngodb.net:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=ac-gs6tzbz-shard-00-02.ywapodi.mongodb.net:27017, type=REPLICA_SET_SECONDARY, cryptd=false, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=25, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=197924739, minRoundTripTimeNanos=0, setName='atlas-ltf4c9-shard-0', canonicalAddress=ac-gs6tzbz-shard-00-02.ywapodi.mongodb.net:27017, hosts=[ac-gs6tzbz-shard-00-00.ywapodi.mongodb.net:27017, ac-gs6tzbz-shard-00-02.ywapodi.mongodb.net:27017, ac-gs6tzbz-shard-00-01.ywapodi.mongodb.net:27017], passives=[], arbiters=[], primary='ac-gs6tzbz-shard-00-01.ywapodi.mongodb.net:27017', tagSet=TagSet{[Tag{name='availabilityZone', value='ape1-az3'}, Tag{name='cacheState', value='READY'}, Tag{name='diskState', value='READY'}, Tag{name='nodeType', value='ELECTABLE'}, Tag{name='provider', value='AWS'}, Tag{name='region', value='AP_EAST_1'}, Tag{name='workloadType', value='OPERATIONAL'}]}, electionId=null, setVersion=95, topologyVersion=TopologyVersion{processId=69fc8f3b15a9c0597d979cb6, counter=3}, lastWriteDate=Fri May 08 11:50:45 GMT+08:00 2026, lastUpdateTimeNanos=2348151324484}
+2026-05-08T11:50:46.769+08:00  INFO 8150 --- [onlinelearning] [ngodb.net:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=ac-gs6tzbz-shard-00-00.ywapodi.mongodb.net:27017, type=REPLICA_SET_SECONDARY, cryptd=false, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=25, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=195025314, minRoundTripTimeNanos=0, setName='atlas-ltf4c9-shard-0', canonicalAddress=ac-gs6tzbz-shard-00-00.ywapodi.mongodb.net:27017, hosts=[ac-gs6tzbz-shard-00-00.ywapodi.mongodb.net:27017, ac-gs6tzbz-shard-00-02.ywapodi.mongodb.net:27017, ac-gs6tzbz-shard-00-01.ywapodi.mongodb.net:27017], passives=[], arbiters=[], primary='ac-gs6tzbz-shard-00-01.ywapodi.mongodb.net:27017', tagSet=TagSet{[Tag{name='availabilityZone', value='ape1-az1'}, Tag{name='cacheState', value='READY'}, Tag{name='diskState', value='READY'}, Tag{name='nodeType', value='ELECTABLE'}, Tag{name='provider', value='AWS'}, Tag{name='region', value='AP_EAST_1'}, Tag{name='workloadType', value='OPERATIONAL'}]}, electionId=null, setVersion=95, topologyVersion=TopologyVersion{processId=69fc8e040f2fbb595f10f4d3, counter=4}, lastWriteDate=Fri May 08 11:50:46 GMT+08:00 2026, lastUpdateTimeNanos=2348350695554}
+2026-05-08T15:50:27.341+08:00  INFO 8150 --- [onlinelearning] [ionShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-05-08T15:50:27.344+08:00  INFO 8150 --- [onlinelearning] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete

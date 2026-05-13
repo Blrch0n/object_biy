@@ -65,7 +65,7 @@ export default function GradingPage({ params }: { params: Promise<{ id: string; 
         <button onClick={() => window.location.href = `/courses/${courseId}`} className="text-slate-400 hover:text-white underline">
           &larr; Буцах
         </button>
-        <PageHeader title="Оюутнуудын даалгавар шалгах 📑" description="Энэхүү хэсгээс оюутнуудын илгээсэн даалгавруудыг татаж аван шалгах боломжтой" />
+        <PageHeader title="Оюутнуудын даалгавар шалгах" description="Энэхүү хэсгээс оюутнуудын илгээсэн даалгавруудыг татаж аван шалгах боломжтой" />
       </div>
 
       <div className="grid md:grid-cols-3 gap-6">
@@ -106,7 +106,7 @@ export default function GradingPage({ params }: { params: Promise<{ id: string; 
                     onClick={() => handleDownload(sub.id, sub.originalFileName || `submission-${sub.id}.pdf`)} 
                     className="text-blue-400 hover:text-white underline text-sm flex items-center gap-1"
                   >
-                    📄 {sub.originalFileName || "Файл татах"}
+                    {sub.originalFileName || "Файл татах"}
                   </button>
                 </div>
 

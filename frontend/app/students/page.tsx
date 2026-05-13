@@ -70,7 +70,7 @@ export default function StudentsPage() {
       {user?.role === "ADMIN" && (
         <div className="paper p-5 sm:p-6">
           <h2 className="section-title text-xl font-bold text-white">
-            Оюутны Жагсаалт 📋
+            Оюутны Жагсаалт
             {data ? (
               <span className="ml-2 badge badge--neutral">{data.totalElements}</span>
             ) : null}

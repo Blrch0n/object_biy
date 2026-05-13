@@ -101,7 +101,7 @@ export default function EnrollmentsPage() {
   return (
     <section className="animate-fade-in-up space-y-6 py-2">
       <PageHeader
-        title={user?.role === "TEACHER" ? "Элсэлтүүд 📈" : "Миний Элсэлт 📈"}
+        title={user?.role === "TEACHER" ? "Элсэлтүүд" : "Миний Элсэлт"}
         description={
           user?.role === "TEACHER"
             ? "Оюутан-хичээлийн элсэлтийг хянаж, сургалтын ахицыг шинэчилнэ."
@@ -112,7 +112,7 @@ export default function EnrollmentsPage() {
       <div className="paper p-5 sm:p-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 className="section-title text-xl font-bold text-white">
-            Элсэлтийн Жагсаалт 📋
+            Элсэлтийн Жагсаалт
             {!loading && enrollments.length > 0 ? (
               <span className="ml-2 badge badge--neutral">{enrollments.length}</span>
             ) : null}

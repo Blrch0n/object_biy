@@ -79,12 +79,12 @@ export default function CoursesPage() {
 
   return (
     <section className="animate-fade-in-up space-y-6 py-2">
-      <PageHeader title="Хичээлүүд 📚" description="Хичээлүүдийг харах, багш эрхтэй хэрэглэгч нэмэлт удирдлага хийнэ." />
+      <PageHeader title="Хичээлүүд" description="Хичээлүүдийг харах, багш эрхтэй хэрэглэгч нэмэлт удирдлага хийнэ." />
 
       <div className="paper p-5">
         <div className="flex flex-col sm:flex-row gap-4 sm:items-end">
           <div className="flex-1 space-y-1">
-            <label htmlFor="search-course" className="block text-sm font-bold text-slate-300">Хайх 🔍</label>
+            <label htmlFor="search-course" className="block text-sm font-bold text-slate-300">Хайх</label>
             <input 
               id="search-course"
               type="text"
@@ -95,7 +95,7 @@ export default function CoursesPage() {
             />
           </div>
           <div className="sm:max-w-xs space-y-1">
-            <label htmlFor="filter-level" className="block text-sm font-bold text-slate-300">Түвшнээр шүүх 🎯</label>
+            <label htmlFor="filter-level" className="block text-sm font-bold text-slate-300">Түвшнээр шүүх</label>
             <select
               id="filter-level"
               value={filterLevel}
@@ -182,7 +182,7 @@ export default function CoursesPage() {
               </div>
 
               <div className="mt-4">
-                <h4 className="text-sm font-bold text-white">Сэдвүүд 📖</h4>
+                <h4 className="text-sm font-bold text-white">Сэдвүүд</h4>
                 {course.lessons.length === 0 ? (
                   <p className="muted-copy mt-2 text-sm">Сэдэв нэмэгдээгүй байна.</p>
                 ) : (

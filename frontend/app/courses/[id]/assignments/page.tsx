@@ -59,7 +59,7 @@ export default function AssignmentsPage({ params }: { params: { id: string } }) 
   return (
     <section className="animate-fade-in-up space-y-6 py-2">
       <PageHeader
-        title="Даалгавар шалгах 📑"
+        title="Даалгавар шалгах"
         description="Оюутнуудын илгээсэн даалгаврыг шалгаж үнэлгээ өгөх."
       />
       
@@ -115,7 +115,7 @@ export default function AssignmentsPage({ params }: { params: { id: string } }) 
                       onClick={() => handleDownload(sub.id, sub.originalFileName)}
                       className="text-sm flex items-center gap-2 text-blue-400 hover:text-blue-300 underline mb-4"
                     >
-                      📄 {sub.originalFileName} татах
+                      {sub.originalFileName} татах
                     </button>
 
                     {gradingSub === sub.id ? (

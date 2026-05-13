@@ -15,18 +15,16 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class StudentServiceTest {
 
-	@Mock
-	private StudentRepository studentRepository;
+        @Mock
+        private StudentRepository studentRepository;
 
-	@InjectMocks
-	private StudentServiceImpl studentService;
+        @InjectMocks
+        private StudentServiceImpl studentService;
 
-	@Test
-	void createStudentThrowsWhenEmailAlreadyExists() {
-		StudentRequestDTO student = new StudentRequestDTO("Test User", "test@example.com", "CS-2024");
-
-		when(studentRepository.existsByEmail("test@example.com")).thenReturn(true);
-
-		assertThrows(DuplicateResourceException.class, () -> studentService.createStudent(student));
-	}
+        @Test
+        void createStudentThrowsWhenEmailAlreadyExists() {
+                StudentRequestDTO student = new StudentRequestDTO("Test User", "test@example.com", "password", "CS-2024");
+                when(studentRepository.existsByEmail("test@example.com")).thenReturn(true);
+                assertThrows(DuplicateResourceException.class, () -> studentService.createStudent(student));
+        }
 }

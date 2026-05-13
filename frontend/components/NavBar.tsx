@@ -6,8 +6,8 @@ import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 
 const publicLinks = [
-  { href: "/login", label: "🔑 Нэвтрэх" },
-  { href: "/signup", label: "✨ Бүртгүүлэх" },
+  { href: "/login", label: "Нэвтрэх" },
+  { href: "/signup", label: "Бүртгүүлэх" },
 ];
 
 export function NavBar() {
@@ -17,18 +17,18 @@ export function NavBar() {
 
   const links = isAuthenticated
     ? [
-        { href: "/", label: "🏠 Нүүр" },
-        { href: "/courses", label: "📚 Хичээлүүд" },
-        { href: "/enrollments", label: "📈 Элсэлт" },
-        ...(["ADMIN", "TEACHER"].includes(user?.role || "")
-          ? [
-              { href: "/enroll", label: "📝 Бүртгэх" },
-            ]
+        { href: "/", label: "Нүүр" },
+        { href: "/courses", label: "Хичээлүүд" },
+        { href: "/assignments", label: "Даалгавар (Файл)" },
+        { href: "/quizzes", label: "Шалгалт" },
+        { href: "/enrollments", label: "Элсэлт" },
+        ...(user?.role === "ADMIN" || user?.role === "TEACHER"
+          ? [{ href: "/enroll", label: "Бүртгэх" }]
           : []),
         ...(user?.role === "ADMIN"
           ? [
-              { href: "/students", label: "👨‍🎓 Оюутнууд" },
-              { href: "/instructors", label: "👩‍🏫 Багш нар" },
+              { href: "/students", label: "Оюутнууд" },
+              { href: "/instructors", label: "Багш нар" },
             ]
           : []),
       ]
@@ -97,7 +97,7 @@ export function NavBar() {
               <span className="badge badge--accent text-xs">
                 {user?.fullName}
                 <span className="ml-1 opacity-70">
-                  ({user?.role === "ADMIN" ? "Админ 👑" : user?.role === "TEACHER" ? "Багш 📘" : "Сурагч 🎒"})
+                  ({user?.role === "ADMIN" ? "Админ" : user?.role === "TEACHER" ? "Багш" : "Сурагч"})
                 </span>
               </span>
               <button
@@ -105,7 +105,7 @@ export function NavBar() {
                 className="nav-pill nav-pill--idle"
                 onClick={logout}
               >
-                Гарах ✌️
+                Гарах
               </button>
             </li>
           ) : null}
@@ -139,7 +139,7 @@ export function NavBar() {
             {isAuthenticated ? (
               <li className="mt-4 flex flex-col gap-3 border-t border-black pt-4">
                 <span className="badge badge--accent text-xs self-start">
-                  {user?.fullName} ({user?.role === "ADMIN" ? "Админ 👑" : user?.role === "TEACHER" ? "Багш 📘" : "Сурагч 🎒"})
+                  {user?.fullName} ({user?.role === "ADMIN" ? "Админ" : user?.role === "TEACHER" ? "Багш" : "Сурагч"})
                 </span>
                 <button
                   type="button"
@@ -149,7 +149,7 @@ export function NavBar() {
                     logout();
                   }}
                 >
-                  Гарах ✌️
+                  Гарах
                 </button>
               </li>
             ) : null}

@@ -39,7 +39,7 @@ export default function InstructorsPage() {
   return (
     <section className="animate-fade-in-up space-y-6 py-2">
       <PageHeader
-        title="Багш нар 👨‍🏫"
+        title="Багш нар"
         description="Багшийн бүртгэлийг удирдаж, шинэ багш нэмнэ."
       />
 
@@ -70,7 +70,7 @@ export default function InstructorsPage() {
       {user?.role === "ADMIN" && (
         <div className="paper p-5 sm:p-6">
           <h2 className="section-title text-xl font-bold text-white">
-            Багшийн Жагсаалт 📋
+            Багшийн Жагсаалт
             {data ? (
               <span className="ml-2 badge badge--neutral">{data.totalElements}</span>
             ) : null}

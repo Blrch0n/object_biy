@@ -21,6 +21,7 @@ export default function TakeQuizPage() {
 
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [attempt, setAttempt] = useState<QuizAttempt | null>(null);
+  const [formError, setFormError] = useState<string | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -66,9 +67,10 @@ export default function TakeQuizPage() {
     e.preventDefault();
     if (!quiz) return;
     
+    setFormError(null);
     // Check if all questions are answered
     if (Object.keys(answers).length < quiz.questions.length) {
-      alert("Бүх асуултанд хариулна уу.");
+      setFormError("Бүх асуултанд хариулна уу.");
       return;
     }
 
@@ -77,7 +79,7 @@ export default function TakeQuizPage() {
       const result = await api.submitQuizAttempt(quizId, answers);
       setAttempt(result);
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Шалгалт илгээхэд алдаа гарлаа.");
+      setFormError(err instanceof Error ? err.message : "Шалгалт илгээхэд алдаа гарлаа.");
     } finally {
       setSubmitting(false);
     }
@@ -91,10 +93,15 @@ export default function TakeQuizPage() {
 
   return (
     <section className="animate-fade-in-up space-y-6 py-2 max-w-4xl mx-auto">
-      <PageHeader 
-        title={quiz.title} 
-        description={isCompleted ? "Таны шалгалтын дүн" : "Шалгалтаа амжилттай өгнө үү."} 
-        backPath={`/courses/${courseId}`} 
+      <button
+        onClick={() => router.push(`/courses/${courseId}`)}
+        className="text-slate-400 hover:text-white underline text-sm"
+      >
+        &larr; Хичээл рүү буцах
+      </button>
+      <PageHeader
+        title={quiz.title}
+        description={isCompleted ? "Таны шалгалтын дүн" : "Шалгалтаа амжилттай өгнө үү."}
       />
 
       {isCompleted && (
@@ -166,10 +173,12 @@ export default function TakeQuizPage() {
           </div>
         ))}
 
+        {formError && <StatusMessage type="error" message={formError} />}
+
         {!isCompleted && user?.role === "STUDENT" && (
           <div className="flex justify-end pt-4">
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               disabled={submitting}
               className="btn btn--primary"
             >

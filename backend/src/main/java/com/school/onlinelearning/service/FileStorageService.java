@@ -1,5 +1,6 @@
 package com.school.onlinelearning.service;
 
+import com.school.onlinelearning.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -67,14 +68,10 @@ public class FileStorageService {
     }
 
     public Path loadFileAsResource(String filename) {
-        try {
-            Path filePath = this.fileStorageLocation.resolve(filename).normalize();
-            if (!Files.exists(filePath)) {
-                throw new RuntimeException("File not found " + filename);
-            }
-            return filePath;
-        } catch (Exception ex) {
-            throw new RuntimeException("File not found " + filename, ex);
+        Path filePath = this.fileStorageLocation.resolve(filename).normalize();
+        if (!Files.exists(filePath)) {
+            throw new ResourceNotFoundException("File not found: " + filename);
         }
+        return filePath;
     }
 }

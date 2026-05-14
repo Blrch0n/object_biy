@@ -34,13 +34,20 @@ export type Assignment = {
   maxScore: number;
 };
 
+export type AssignmentStatus = "NOT_SUBMITTED" | "SUBMITTED" | "GRADED" | "OVERDUE";
+
+export type AssignmentWithStatus = Assignment & {
+  submission?: Submission;
+  status: AssignmentStatus;
+};
+
 export type Submission = {
   id: string;
   assignmentId: string;
   studentId: string;
   pdfFilePath: string;
   originalFileName: string;
-  score: number;
+  score: number | null;
   feedback: string | null;
   submittedAt: string;
 };
@@ -116,6 +123,36 @@ export type DashboardStats = {
   averageProgress: number;
   courseWithMostLessonsTitle: string;
   courseWithMostLessonsCount: number;
+};
+
+export type ActivityItem = {
+  type: string;
+  title: string;
+  link: string;
+  createdAt: string;
+  actorName: string;
+};
+
+export type DashboardActivity = {
+  items: ActivityItem[];
+};
+
+export type NotificationType =
+  | "ASSIGNMENT_CREATED"
+  | "SUBMISSION"
+  | "GRADE"
+  | "COMMENT"
+  | "QUIZ_ATTEMPT";
+
+export type Notification = {
+  id: string;
+  userId: string;
+  title: string;
+  message: string;
+  type: NotificationType;
+  read: boolean;
+  link: string | null;
+  createdAt: string;
 };
 
 export type LoginResponse = {

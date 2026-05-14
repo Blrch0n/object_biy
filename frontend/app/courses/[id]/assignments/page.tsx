@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { use, useState } from "react";
 import useSWR from "swr";
 import { LoadingBlock } from "@/components/LoadingBlock";
 import { PageHeader } from "@/components/PageHeader";
@@ -8,16 +8,19 @@ import { StatusMessage } from "@/components/StatusMessage";
 import { useAuth } from "@/context/AuthContext";
 import { api } from "@/lib/api";
 
-export default function AssignmentsPage({ params }: { params: { id: string } }) {
+export default function AssignmentsPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
   const { user } = useAuth();
   const [selectedAssignment, setSelectedAssignment] = useState<string | null>(null);
   const [gradingSub, setGradingSub] = useState<string | null>(null);
   const [score, setScore] = useState<number>(0);
   const [feedback, setFeedback] = useState<string>("");
+  const [downloadErr, setDownloadErr] = useState<string | null>(null);
+  const [gradeErr, setGradeErr] = useState<string | null>(null);
 
   const { data: assignments, error, isLoading } = useSWR(
-    `/api/assignments/course/${params.id}`,
-    () => api.getAssignments(params.id)
+    `/api/assignments/course/${id}`,
+    () => api.getAssignmentsByCourse(id)
   );
 
   const { data: submissions, mutate: mutateSubmissions, isLoading: loadingSubs } = useSWR(
@@ -26,6 +29,7 @@ export default function AssignmentsPage({ params }: { params: { id: string } }) 
   );
 
   const handleDownload = async (submissionId: string, fileName: string) => {
+    setDownloadErr(null);
     try {
       const blob = await api.downloadSubmission(submissionId);
       const url = window.URL.createObjectURL(blob);
@@ -36,19 +40,20 @@ export default function AssignmentsPage({ params }: { params: { id: string } }) 
       a.click();
       window.URL.revokeObjectURL(url);
     } catch (e) {
-      alert("Файл татахад алдаа гарлаа.");
+      setDownloadErr("Файл татахад алдаа гарлаа.");
     }
   };
 
   const submitGrade = async (submissionId: string) => {
+    setGradeErr(null);
     try {
       await api.gradeSubmission(submissionId, score, feedback);
       setGradingSub(null);
       setScore(0);
       setFeedback("");
       mutateSubmissions();
-    } catch (e) {
-      alert("Үнэлгээ өгөхөд алдаа гарлаа.");
+    } catch (e: unknown) {
+      setGradeErr(e instanceof Error ? e.message : "Үнэлгээ өгөхөд алдаа гарлаа.");
     }
   };
 
@@ -62,9 +67,10 @@ export default function AssignmentsPage({ params }: { params: { id: string } }) 
         title="Даалгавар шалгах"
         description="Оюутнуудын илгээсэн даалгаврыг шалгаж үнэлгээ өгөх."
       />
-      
+
       {isLoading && <LoadingBlock label="Ачаалж байна..." />}
-      {error && <StatusMessage type="error" message="Алдаа гарлаа." />}
+      {error && <StatusMessage type="error" message="Даалгаврыг ачаалж чадсангүй." />}
+      {downloadErr && <StatusMessage type="error" message={downloadErr} />}
 
       {assignments && assignments.length === 0 && (
         <div className="paper p-6 muted-copy text-center">Энэ хичээлд даалгавар байхгүй байна.</div>
@@ -76,7 +82,7 @@ export default function AssignmentsPage({ params }: { params: { id: string } }) 
             {assignments.map(a => (
               <button
                 key={a.id}
-                onClick={() => setSelectedAssignment(a.id)}
+                onClick={() => { setSelectedAssignment(a.id); setDownloadErr(null); setGradeErr(null); }}
                 className={`w-full text-left p-4 rounded border transition-colors ${selectedAssignment === a.id ? "bg-slate-700 border-[var(--brand-blue)]" : "bg-slate-800 border-white/10 hover:bg-slate-700/50"}`}
               >
                 <div className="font-bold text-white">{a.title}</div>
@@ -95,6 +101,7 @@ export default function AssignmentsPage({ params }: { params: { id: string } }) 
             ) : (
               <div className="space-y-4">
                 <h3 className="section-title text-lg font-bold border-b border-white/10 pb-2 mb-4">Илгээлтүүд</h3>
+                {gradeErr && <StatusMessage type="error" message={gradeErr} />}
                 {submissions?.map(sub => (
                   <div key={sub.id} className="bg-slate-900 border border-white/10 p-4 rounded-lg">
                     <div className="flex justify-between items-start mb-3">
@@ -103,15 +110,15 @@ export default function AssignmentsPage({ params }: { params: { id: string } }) 
                         <div className="text-xs text-slate-400">Илгээсэн: {new Date(sub.submittedAt).toLocaleDateString()}</div>
                       </div>
                       <div className="text-right">
-                        {sub.score > 0 ? (
+                        {(sub.score ?? 0) > 0 ? (
                            <div className="badge badge--success">Оноо: {sub.score}</div>
                         ) : (
                            <div className="badge badge--accent">Шалгаагүй</div>
                         )}
                       </div>
                     </div>
-                    
-                    <button 
+
+                    <button
                       onClick={() => handleDownload(sub.id, sub.originalFileName)}
                       className="text-sm flex items-center gap-2 text-blue-400 hover:text-blue-300 underline mb-4"
                     >
@@ -130,15 +137,15 @@ export default function AssignmentsPage({ params }: { params: { id: string } }) 
                         </div>
                         <div className="flex gap-2">
                            <button onClick={() => submitGrade(sub.id)} className="btn-primary py-1 px-3 text-sm">Хадгалах</button>
-                           <button onClick={() => setGradingSub(null)} className="text-slate-400 text-sm hover:text-white px-2">Цуцлах</button>
+                           <button onClick={() => { setGradingSub(null); setGradeErr(null); }} className="text-slate-400 text-sm hover:text-white px-2">Цуцлах</button>
                         </div>
                       </div>
                     ) : (
-                      <button 
-                        onClick={() => { setGradingSub(sub.id); setScore(sub.score || 0); setFeedback(sub.feedback || ""); }}
+                      <button
+                        onClick={() => { setGradingSub(sub.id); setScore(sub.score ?? 0); setFeedback(sub.feedback || ""); }}
                         className="text-xs border border-slate-600 bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded text-white transition-colors"
                       >
-                        {sub.score > 0 ? "Үнэлгээ засах" : "Үнэлгээ өгөх"}
+                        {(sub.score ?? 0) > 0 ? "Үнэлгээ засах" : "Үнэлгээ өгөх"}
                       </button>
                     )}
                   </div>

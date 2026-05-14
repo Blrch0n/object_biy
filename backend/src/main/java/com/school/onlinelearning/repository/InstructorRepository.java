@@ -9,4 +9,6 @@ public interface InstructorRepository extends MongoRepository<Instructor, String
 	boolean existsByEmail(String email);
 
 	Optional<Instructor> findByEmail(String email);
+
+	Optional<Instructor> findByUserId(String userId);
 }

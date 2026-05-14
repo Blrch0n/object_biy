@@ -19,6 +19,7 @@ export default function CoursesPage() {
   const [editingCourse, setEditingCourse] = useState<any | null>(null);
   const [lessonForms, setLessonForms] = useState<Record<string, { title: string; durationMinutes: string }>>({});
   const [submittingLessonFor, setSubmittingLessonFor] = useState<string | null>(null);
+  const [pageErr, setPageErr] = useState<string | null>(null);
 
   // Fetch courses with pagination
   const { data: coursesData, error: coursesError, mutate: mutateCourses, isLoading: loadingCourses } = useSWR(
@@ -50,7 +51,7 @@ export default function CoursesPage() {
       await api.deleteCourse(courseId);
       mutateCourses();
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Хичээл устгах үед алдаа гарлаа.");
+      setPageErr(err instanceof Error ? err.message : "Хичээл устгах үед алдаа гарлаа.");
     }
   }
 
@@ -61,7 +62,7 @@ export default function CoursesPage() {
     const durationMinutes = Number(lesson.durationMinutes);
 
     if (!title || Number.isNaN(durationMinutes) || durationMinutes <= 0) {
-      alert("Сэдвийн нэр болон зөв хугацаа оруулна уу.");
+      setPageErr("Сэдвийн нэр болон зөв хугацаа оруулна уу.");
       return;
     }
 
@@ -71,7 +72,7 @@ export default function CoursesPage() {
       setLessonForms((prev) => ({ ...prev, [courseId]: { title: "", durationMinutes: "" } }));
       mutateCourses();
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Сэдэв нэмэх үед алдаа гарлаа.");
+      setPageErr(err instanceof Error ? err.message : "Сэдэв нэмэх үед алдаа гарлаа.");
     } finally {
       setSubmittingLessonFor(null);
     }
@@ -109,6 +110,8 @@ export default function CoursesPage() {
           </div>
         </div>
       </div>
+
+      {pageErr && <StatusMessage type="error" message={pageErr} />}
 
       {user?.role === "TEACHER" && (
         <div className="relative">

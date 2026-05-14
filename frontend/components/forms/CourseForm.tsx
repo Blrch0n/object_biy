@@ -35,7 +35,7 @@ export function CourseForm({ onSuccess, initialData, courseId }: CourseFormProps
       description: initialData?.description || "",
       level: initialData?.level || "BEGINNER",
       price: initialData?.price || 0,
-      instructorId: initialData?.instructor?.id || "",
+      instructorId: initialData?.instructorId || "",
     },
   });
 
@@ -46,7 +46,7 @@ export function CourseForm({ onSuccess, initialData, courseId }: CourseFormProps
         description: initialData.description || "",
         level: initialData.level || "BEGINNER",
         price: initialData.price || 0,
-        instructorId: initialData.instructor?.id || "",
+        instructorId: initialData.instructorId || "",
       });
     }
   }, [initialData, reset]);

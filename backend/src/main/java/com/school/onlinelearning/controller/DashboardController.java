@@ -1,9 +1,12 @@
 package com.school.onlinelearning.controller;
 
+import com.school.onlinelearning.dto.dashboard.DashboardActivityResponse;
 import com.school.onlinelearning.dto.dashboard.DashboardStatsResponse;
+import com.school.onlinelearning.security.AuthenticatedUser;
 import com.school.onlinelearning.service.DashboardService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,5 +25,12 @@ public class DashboardController {
 	@GetMapping("/stats")
 	public ResponseEntity<DashboardStatsResponse> getStats() {
 		return ResponseEntity.ok(dashboardService.getStats());
+	}
+
+	@PreAuthorize("hasAnyRole('STUDENT','TEACHER', 'ADMIN')")
+	@GetMapping("/activity")
+	public ResponseEntity<DashboardActivityResponse> getActivity(
+			@AuthenticationPrincipal AuthenticatedUser currentUser) {
+		return ResponseEntity.ok(dashboardService.getActivity(currentUser));
 	}
 }

@@ -15,6 +15,7 @@ export default function InstructorsPage() {
   const { user } = useAuth();
   const [page, setPage] = useState(0);
   const [editingInstructor, setEditingInstructor] = useState<any | null>(null);
+  const [deleteErr, setDeleteErr] = useState<string | null>(null);
 
   const { data, error, mutate, isLoading } = useSWR(
     user?.role === "ADMIN" ? `/api/instructors?page=${page}` : null,
@@ -27,7 +28,7 @@ export default function InstructorsPage() {
       await api.deleteInstructor(id);
       mutate();
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Багш устгах үед алдаа гарлаа.");
+      setDeleteErr(err instanceof Error ? err.message : "Багш устгах үед алдаа гарлаа.");
     }
   };
 
@@ -48,6 +49,8 @@ export default function InstructorsPage() {
           <StatusMessage type="error" message="Энэ хэсэг зөвхөн админ эрхтэй хэрэглэгчид нээлттэй." />
         </div>
       ) : null}
+
+      {deleteErr && <StatusMessage type="error" message={deleteErr} />}
 
       {user?.role === "ADMIN" && (
         <div className="relative">

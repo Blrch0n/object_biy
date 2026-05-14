@@ -15,12 +15,14 @@
 import {
   Assignment,
   Course,
+  DashboardActivity,
   DashboardStats,
   Enrollment,
   EnrollmentView,
   Instructor,
   Lesson,
   LoginResponse,
+  Notification,
   PageResponse,
   Quiz,
   QuizAttempt,
@@ -140,7 +142,7 @@ class ApiClient {
         } else {
           clearStoredToken();
         }
-      } catch (err) {
+      } catch {
         clearStoredToken();
       }
     }
@@ -209,7 +211,45 @@ class ApiClient {
     return this.request<DashboardStats>("/api/dashboard/stats", { cache: "no-store" });
   }
 
+  getDashboardActivity() {
+    return this.request<DashboardActivity>("/api/dashboard/activity", { cache: "no-store" });
+  }
+
+  // Notifications
+  getNotifications() {
+    return this.request<Notification[]>("/api/notifications", { cache: "no-store" });
+  }
+
+  getUnreadCount() {
+    return this.request<{ count: number }>("/api/notifications/unread-count", { cache: "no-store" });
+  }
+
+  markNotificationRead(id: string) {
+    return this.request<Notification>(`/api/notifications/${id}/read`, { method: "PATCH" });
+  }
+
+  markAllNotificationsRead() {
+    return this.request<void>("/api/notifications/read-all", { method: "PATCH" });
+  }
+
   // Students
+  getMyStudentProfile() {
+    return this.request<Student>("/api/students/me", { cache: "no-store" });
+  }
+
+  updateMyStudentProfile(data: { fullName: string; batch: string }) {
+    return this.request<Student>("/api/students/me", { method: "PATCH", body: JSON.stringify(data) });
+  }
+
+  // Instructors (self)
+  getMyInstructorProfile() {
+    return this.request<Instructor>("/api/instructors/me", { cache: "no-store" });
+  }
+
+  updateMyInstructorProfile(data: { fullName: string; specialization: string }) {
+    return this.request<Instructor>("/api/instructors/me", { method: "PATCH", body: JSON.stringify(data) });
+  }
+
   getStudents(page = 0, size = 10, search?: string) {
     const params = new URLSearchParams({ page: page.toString(), size: size.toString() });
     if (search) params.append("search", search);
@@ -288,22 +328,6 @@ class ApiClient {
     return this.request<void>(`/api/courses/${id}`, { method: "DELETE" });
   }
 
-  // ==== ASSIGNMENTS (PHASE 3) ====
-  getAssignments(courseId: string) {
-    return this.request<Assignment[]>(`/api/assignments/course/${courseId}`);
-  }
-
-
-  async downloadSubmission(submissionId: string) {
-    const response = await fetch(this.buildUrl(`/api/assignments/submissions/${submissionId}/download`), {
-      headers: { Authorization: `Bearer ${this.getToken()}` },
-    });
-    if (!response.ok) {
-      throw new ApiError("Failed to download file", response.status);
-    }
-    return response.blob();
-  }
-
   addLesson(courseId: string, data: Lesson) {
     return this.request<Course>(`/api/courses/${courseId}/lessons`, {
       method: "POST",
@@ -340,12 +364,20 @@ class ApiClient {
   // ------------------------------------------------------------------ //
   //  Assignments
   // ------------------------------------------------------------------ //
+  getAssignments(courseId: string) {
+    return this.request<Assignment[]>(`/api/assignments/course/${courseId}`);
+  }
+
   async getAssignmentById(assignmentId: string) {
     return this.request<Assignment>(`/api/assignments/${assignmentId}`);
   }
 
   async getAssignmentsByCourse(courseId: string) {
     return this.request<Assignment[]>(`/api/assignments/course/${courseId}`);
+  }
+
+  async getMySubmissions() {
+    return this.request<Submission[]>("/api/assignments/student/my-submissions");
   }
 
   async createAssignment(data: Partial<Assignment>) {
@@ -390,6 +422,16 @@ class ApiClient {
     });
   }
 
+  async downloadSubmission(submissionId: string) {
+    const response = await fetch(this.buildUrl(`/api/assignments/submissions/${submissionId}/download`), {
+      headers: { Authorization: `Bearer ${this.getToken()}` },
+    });
+    if (!response.ok) {
+      throw new ApiError("Failed to download file", response.status);
+    }
+    return response.blob();
+  }
+
   // ------------------------------------------------------------------ //
   //  Quizzes
   // ------------------------------------------------------------------ //
@@ -417,6 +459,10 @@ class ApiClient {
 
   async getMyQuizAttempt(quizId: string) {
     return this.request<QuizAttempt>(`/api/quizzes/${quizId}/my-attempt`);
+  }
+
+  async getMyQuizAttempts() {
+    return this.request<QuizAttempt[]>("/api/quizzes/student/my-attempts");
   }
 
   async getQuizAttempts(quizId: string) {
@@ -455,44 +501,51 @@ export const api = new ApiClient(API_BASE_URL);
 
 // ─── Named convenience exports (backward-compatible) ─────────────────────────
 
-export const signup                  = api.signup.bind(api);
-export const login                   = api.login.bind(api);
-export const getMe                   = api.me.bind(api);
-export const getDashboardStats       = api.getDashboardStats.bind(api);
-export const getStudents             = api.getStudents.bind(api);
-export const createStudent           = api.createStudent.bind(api);
-export const updateStudent           = api.updateStudent.bind(api);
-export const deleteStudent           = api.deleteStudent.bind(api);
-export const getInstructors          = api.getInstructors.bind(api);
-export const createInstructor        = api.createInstructor.bind(api);
-export const updateInstructor        = api.updateInstructor.bind(api);
-export const deleteInstructor        = api.deleteInstructor.bind(api);
-export const getCourses              = api.getCourses.bind(api);
-export const createCourse            = api.createCourse.bind(api);
-export const updateCourse            = api.updateCourse.bind(api);
-export const deleteCourse            = api.deleteCourse.bind(api);
-export const addLesson               = api.addLesson.bind(api);
-export const getEnrollments          = api.getEnrollments.bind(api);
-export const createEnrollment        = api.createEnrollment.bind(api);
+export const signup                   = api.signup.bind(api);
+export const login                    = api.login.bind(api);
+export const getMe                    = api.me.bind(api);
+export const getDashboardStats        = api.getDashboardStats.bind(api);
+export const getDashboardActivity     = api.getDashboardActivity.bind(api);
+export const getStudents              = api.getStudents.bind(api);
+export const createStudent            = api.createStudent.bind(api);
+export const updateStudent            = api.updateStudent.bind(api);
+export const deleteStudent            = api.deleteStudent.bind(api);
+export const getInstructors           = api.getInstructors.bind(api);
+export const createInstructor         = api.createInstructor.bind(api);
+export const updateInstructor         = api.updateInstructor.bind(api);
+export const deleteInstructor         = api.deleteInstructor.bind(api);
+export const getCourses               = api.getCourses.bind(api);
+export const createCourse             = api.createCourse.bind(api);
+export const updateCourse             = api.updateCourse.bind(api);
+export const deleteCourse             = api.deleteCourse.bind(api);
+export const addLesson                = api.addLesson.bind(api);
+export const getEnrollments           = api.getEnrollments.bind(api);
+export const createEnrollment         = api.createEnrollment.bind(api);
 export const updateEnrollmentProgress = api.updateEnrollmentProgress.bind(api);
-export const deleteEnrollment        = api.deleteEnrollment.bind(api);
+export const deleteEnrollment         = api.deleteEnrollment.bind(api);
 
-export const getAssignmentsByCourse  = api.getAssignmentsByCourse.bind(api);
-export const getAssignmentById       = api.getAssignmentById.bind(api);
-export const createAssignment        = api.createAssignment.bind(api);
-export const submitAssignment        = api.submitAssignment.bind(api);
-export const getMySubmission         = api.getMySubmission.bind(api);
-export const getSubmissions          = api.getSubmissions.bind(api);
-export const gradeSubmission         = api.gradeSubmission.bind(api);
+export const getAssignmentsByCourse   = api.getAssignmentsByCourse.bind(api);
+export const getAssignmentById        = api.getAssignmentById.bind(api);
+export const createAssignment         = api.createAssignment.bind(api);
+export const submitAssignment         = api.submitAssignment.bind(api);
+export const getMySubmission          = api.getMySubmission.bind(api);
+export const getMySubmissions         = api.getMySubmissions.bind(api);
+export const getSubmissions           = api.getSubmissions.bind(api);
+export const gradeSubmission          = api.gradeSubmission.bind(api);
 
-export const getQuizzesByCourse      = api.getQuizzesByCourse.bind(api);
-export const getQuizById             = api.getQuizById.bind(api);
-export const createQuiz              = api.createQuiz.bind(api);
-export const submitQuizAttempt       = api.submitQuizAttempt.bind(api);
-export const getMyQuizAttempt        = api.getMyQuizAttempt.bind(api);
-export const getQuizAttempts         = api.getQuizAttempts.bind(api);
+export const getQuizzesByCourse       = api.getQuizzesByCourse.bind(api);
+export const getQuizById              = api.getQuizById.bind(api);
+export const createQuiz               = api.createQuiz.bind(api);
+export const submitQuizAttempt        = api.submitQuizAttempt.bind(api);
+export const getMyQuizAttempt         = api.getMyQuizAttempt.bind(api);
+export const getMyQuizAttempts        = api.getMyQuizAttempts.bind(api);
+export const getQuizAttempts          = api.getQuizAttempts.bind(api);
 
-export const getComments             = api.getComments.bind(api);
-export const createComment           = api.createComment.bind(api);
-export const deleteComment           = api.deleteComment.bind(api);
+export const getComments              = api.getComments.bind(api);
+export const createComment            = api.createComment.bind(api);
+export const deleteComment            = api.deleteComment.bind(api);
 
+export const getNotifications         = api.getNotifications.bind(api);
+export const getUnreadCount           = api.getUnreadCount.bind(api);
+export const markNotificationRead     = api.markNotificationRead.bind(api);
+export const markAllNotificationsRead = api.markAllNotificationsRead.bind(api);

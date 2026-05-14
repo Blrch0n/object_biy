@@ -17,6 +17,8 @@ export default function GradingPage({ params }: { params: Promise<{ id: string; 
   const [activeSub, setActiveSub] = useState<string | null>(null);
   const [score, setScore] = useState<number>(0);
   const [feedback, setFeedback] = useState<string>("");
+  const [downloadErr, setDownloadErr] = useState<string | null>(null);
+  const [gradeErr, setGradeErr] = useState<string | null>(null);
 
   const { data: assignment, isLoading: loadingAssignment } = useSWR(
     `/api/assignments/${assignmentId}`,
@@ -29,6 +31,7 @@ export default function GradingPage({ params }: { params: Promise<{ id: string; 
   );
 
   const handleDownload = async (submissionId: string, filename: string) => {
+    setDownloadErr(null);
     try {
       const blob = await api.downloadSubmission(submissionId);
       const url = window.URL.createObjectURL(blob);
@@ -39,19 +42,20 @@ export default function GradingPage({ params }: { params: Promise<{ id: string; 
       a.click();
       window.URL.revokeObjectURL(url);
     } catch (e) {
-      alert("Файл татахад алдаа гарлаа.");
+      setDownloadErr("Файл татахад алдаа гарлаа.");
     }
   };
 
   const handleGrade = async (subId: string) => {
+    setGradeErr(null);
     try {
       await api.gradeSubmission(subId, score, feedback);
       setActiveSub(null);
       setScore(0);
       setFeedback("");
       mutate();
-    } catch (e: any) {
-      alert("Алдаа: " + e.message);
+    } catch (e: unknown) {
+      setGradeErr(e instanceof Error ? e.message : "Дүгнэхэд алдаа гарлаа.");
     }
   };
 
@@ -83,27 +87,29 @@ export default function GradingPage({ params }: { params: Promise<{ id: string; 
           {error && <StatusMessage type="error" message="Илгээлтүүдийг татахад алдаа гарлаа." />}
           
           {submissions?.length === 0 && <p className="text-slate-400 text-center py-4">Одоогоор илгээсэн даалгавар алга.</p>}
-          
+
+          {downloadErr && <StatusMessage type="error" message={downloadErr} />}
+
           <div className="space-y-4">
             {submissions?.map((sub: Submission) => (
-              <div key={sub.id} className={`p-4 border-2 shadow-[2px_2px_0_0_rgba(255,255,255,0.2)] rounded bg-slate-900 ${sub.score > 0 ? "border-green-500" : "border-slate-600"}`}>
+              <div key={sub.id} className={`p-4 border-2 shadow-[2px_2px_0_0_rgba(255,255,255,0.2)] rounded bg-slate-900 ${(sub.score ?? 0) > 0 ? "border-green-500" : "border-slate-600"}`}>
                 <div className="flex justify-between items-start mb-2">
                   <div>
                     <span className="font-semibold text-lg">Оюутан: {sub.studentId}</span>
                     <div className="text-xs text-slate-400 mt-1">Огноо: {new Date(sub.submittedAt).toLocaleString()}</div>
                   </div>
                   <div>
-                    {sub.score > 0 ? (
+                    {(sub.score ?? 0) > 0 ? (
                       <span className="bg-green-600 text-white px-3 py-1 rounded text-sm font-bold">Оноо: {sub.score} / {assignment?.maxScore}</span>
                     ) : (
                       <span className="bg-yellow-600 text-black px-3 py-1 rounded text-sm font-bold">Шалгаагүй</span>
                     )}
                   </div>
                 </div>
-                
+
                 <div className="my-4">
-                  <button 
-                    onClick={() => handleDownload(sub.id, sub.originalFileName || `submission-${sub.id}.pdf`)} 
+                  <button
+                    onClick={() => handleDownload(sub.id, sub.originalFileName || `submission-${sub.id}.pdf`)}
                     className="text-blue-400 hover:text-white underline text-sm flex items-center gap-1"
                   >
                     {sub.originalFileName || "Файл татах"}
@@ -120,17 +126,18 @@ export default function GradingPage({ params }: { params: Promise<{ id: string; 
                       <label className="block text-sm font-bold mb-1">Сэтгэгдэл / Буцаах хариу</label>
                       <textarea value={feedback} onChange={e => setFeedback(e.target.value)} className="field w-full" rows={3}></textarea>
                     </div>
-                    <div className="flex gap-2">
+                    {gradeErr && <StatusMessage type="error" message={gradeErr} />}
+                    <div className="flex gap-2 mt-2">
                       <button onClick={() => handleGrade(sub.id)} className="btn-primary py-1 px-4 text-sm">Хадгалах</button>
-                      <button onClick={() => setActiveSub(null)} className="btn-secondary py-1 px-4 text-sm bg-slate-600">Цуцлах</button>
+                      <button onClick={() => { setActiveSub(null); setGradeErr(null); }} className="btn-secondary py-1 px-4 text-sm bg-slate-600">Цуцлах</button>
                     </div>
                   </div>
                 ) : (
-                  <button 
-                    onClick={() => { setActiveSub(sub.id); setScore(sub.score || 0); setFeedback(sub.feedback || ""); }}
+                  <button
+                    onClick={() => { setActiveSub(sub.id); setScore(sub.score ?? 0); setFeedback(sub.feedback || ""); }}
                     className="btn-secondary py-1 px-4 text-sm mt-2"
                   >
-                    {sub.score > 0 ? "Үнэлгээ засах" : "Үнэлгээ өгөх"}
+                    {(sub.score ?? 0) > 0 ? "Үнэлгээ засах" : "Үнэлгээ өгөх"}
                   </button>
                 )}
               </div>

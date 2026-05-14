@@ -1,14 +1,21 @@
 package com.school.onlinelearning.controller;
 
 import com.school.onlinelearning.dto.request.InstructorRequestDTO;
+import com.school.onlinelearning.dto.request.ProfileUpdateDTO;
 import com.school.onlinelearning.dto.response.InstructorResponseDTO;
 import com.school.onlinelearning.dto.response.PageResponseDTO;
+import com.school.onlinelearning.exception.ResourceNotFoundException;
+import com.school.onlinelearning.model.Instructor;
+import com.school.onlinelearning.repository.InstructorRepository;
+import com.school.onlinelearning.repository.UserRepository;
+import com.school.onlinelearning.security.AuthenticatedUser;
 import com.school.onlinelearning.service.InstructorService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,9 +23,41 @@ import org.springframework.web.bind.annotation.*;
 public class InstructorController {
 
 	private final InstructorService instructorService;
+	private final InstructorRepository instructorRepository;
+	private final UserRepository userRepository;
 
-	public InstructorController(InstructorService instructorService) {
+	public InstructorController(InstructorService instructorService, InstructorRepository instructorRepository, UserRepository userRepository) {
 		this.instructorService = instructorService;
+		this.instructorRepository = instructorRepository;
+		this.userRepository = userRepository;
+	}
+
+	@PreAuthorize("hasRole('TEACHER')")
+	@GetMapping("/me")
+	public ResponseEntity<Instructor> getMyProfile(@AuthenticationPrincipal AuthenticatedUser currentUser) {
+		Instructor instructor = instructorRepository.findByUserId(currentUser.getId())
+				.orElseThrow(() -> new ResourceNotFoundException("Instructor profile not found"));
+		return ResponseEntity.ok(instructor);
+	}
+
+	@PreAuthorize("hasRole('TEACHER')")
+	@PatchMapping("/me")
+	public ResponseEntity<Instructor> updateMyProfile(
+			@RequestBody ProfileUpdateDTO dto,
+			@AuthenticationPrincipal AuthenticatedUser currentUser) {
+		Instructor instructor = instructorRepository.findByUserId(currentUser.getId())
+				.orElseThrow(() -> new ResourceNotFoundException("Instructor profile not found"));
+		if (dto.getFullName() != null && !dto.getFullName().isBlank()) {
+			instructor.setFullName(dto.getFullName());
+			userRepository.findById(currentUser.getId()).ifPresent(u -> {
+				u.setFullName(dto.getFullName());
+				userRepository.save(u);
+			});
+		}
+		if (dto.getSpecialization() != null && !dto.getSpecialization().isBlank()) {
+			instructor.setSpecialization(dto.getSpecialization());
+		}
+		return ResponseEntity.ok(instructorRepository.save(instructor));
 	}
 
 	@PreAuthorize("hasAnyRole('STUDENT','TEACHER', 'ADMIN')")

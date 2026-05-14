@@ -5,6 +5,8 @@ import useSWR from "swr";
 import { Comment, ResourceType } from "@/types";
 import { getComments, createComment, deleteComment } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
+import { LoadingBlock } from "@/components/LoadingBlock";
+import { StatusMessage } from "@/components/StatusMessage";
 
 type CommentSectionProps = {
   resourceId: string;
@@ -13,123 +15,153 @@ type CommentSectionProps = {
 
 export default function CommentSection({ resourceId, resourceType }: CommentSectionProps) {
   const { user } = useAuth();
-  const { data: comments, mutate } = useSWR<Comment[]>(
+  const { data: comments, mutate, isLoading } = useSWR<Comment[]>(
     `/api/comments-${resourceId}`,
     () => getComments(resourceId, resourceType)
   );
 
   const [newText, setNewText] = useState("");
   const [replyTo, setReplyTo] = useState<string | null>(null);
+  const [replyText, setReplyText] = useState("");
+  const [submitErr, setSubmitErr] = useState<string | null>(null);
+  const [deleteErr, setDeleteErr] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
-  if (!comments) return <div className="text-gray-500">Loading comments...</div>;
-
-  const rootComments = comments.filter((c) => !c.parentCommentId);
-  const getReplies = (parentId: string) => comments.filter((c) => c.parentCommentId === parentId);
+  const rootComments = (comments ?? []).filter((c) => !c.parentCommentId);
+  const getReplies = (parentId: string) => (comments ?? []).filter((c) => c.parentCommentId === parentId);
 
   const handleSubmit = async (e: React.FormEvent, parentId: string | null = null) => {
     e.preventDefault();
-    if (!newText.trim()) return;
-
+    const text = parentId ? replyText : newText;
+    if (!text.trim()) return;
+    setSubmitErr(null);
+    setSubmitting(true);
     try {
-      await createComment({
-        resourceId,
-        resourceType,
-        text: newText,
-        parentCommentId: parentId || undefined
-      });
-      setNewText("");
-      setReplyTo(null);
-      mutate(); // refresh
+      await createComment({ resourceId, resourceType, text, parentCommentId: parentId || undefined });
+      if (parentId) { setReplyText(""); setReplyTo(null); }
+      else { setNewText(""); }
+      mutate();
     } catch (err) {
-      alert("Failed to add comment.");
+      setSubmitErr(err instanceof Error ? err.message : "Сэтгэгдэл нэмэхэд алдаа гарлаа.");
+    } finally {
+      setSubmitting(false);
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure?")) return;
+    setDeletingId(id);
+    setDeleteErr(null);
     try {
       await deleteComment(id);
       mutate();
     } catch (err) {
-      alert("Failed to delete comment.");
+      setDeleteErr(err instanceof Error ? err.message : "Устгахад алдаа гарлаа.");
+    } finally {
+      setDeletingId(null);
     }
   };
 
-  const canDelete = (c: Comment) => user?.id === c.userId || user?.role === "TEACHER" || user?.role === "ADMIN";
+  const canDelete = (c: Comment) =>
+    user?.id === c.userId || user?.role === "TEACHER" || user?.role === "ADMIN";
 
   const renderComment = (c: Comment, depth = 0) => {
     const replies = getReplies(c.id);
+    const isDeleting = deletingId === c.id;
+
     return (
-      <div key={c.id} className={`flex flex-col mb-4 ${depth > 0 ? "ml-8 border-l-2 pl-4 border-gray-200" : ""}`}>
-        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-          <div className="flex justify-between items-start mb-2">
-            <div className="flex flex-col">
-              <span className="font-semibold text-gray-800">{c.authorName} <span className="text-xs font-normal bg-gray-100 px-2 py-0.5 rounded text-gray-600">{c.authorRole}</span></span>
-              <span className="text-xs text-gray-400">{new Date(c.createdAt).toLocaleString()}</span>
+      <div key={c.id} className={`flex flex-col ${depth > 0 ? "ml-6 pl-4 border-l-2 border-black/20" : ""}`}>
+        <div className="paper p-4 bg-slate-800 space-y-2">
+          <div className="flex justify-between items-start gap-2">
+            <div>
+              <span className="font-bold text-sm text-white">{c.authorName}</span>
+              <span className="ml-2 badge badge--neutral text-xs">{c.authorRole === "TEACHER" ? "Багш" : c.authorRole === "ADMIN" ? "Админ" : "Сурагч"}</span>
+              <p className="text-xs text-slate-400 mt-0.5">{new Date(c.createdAt).toLocaleString("mn-MN")}</p>
             </div>
             {canDelete(c) && (
-              <button onClick={() => handleDelete(c.id)} className="text-xs text-red-500 hover:text-red-700">Delete</button>
+              <button
+                onClick={() => handleDelete(c.id)}
+                disabled={isDeleting}
+                className="text-xs text-[var(--brand-red)] hover:underline font-bold flex-shrink-0 disabled:opacity-50"
+              >
+                {isDeleting ? "..." : "Устгах"}
+              </button>
             )}
           </div>
-          <p className="text-gray-700 mb-3 whitespace-pre-wrap">{c.text}</p>
-          
-          <button 
-            onClick={() => setReplyTo(replyTo === c.id ? null : c.id)}
-            className="text-sm text-blue-600 hover:underline"
-          >
-            Reply
-          </button>
+          <p className="text-sm text-slate-200 whitespace-pre-wrap">{c.text}</p>
+          {depth < 3 && (
+            <button
+              onClick={() => { setReplyTo(replyTo === c.id ? null : c.id); setReplyText(""); setSubmitErr(null); }}
+              className="text-xs text-[var(--brand-blue)] hover:underline font-bold"
+            >
+              {replyTo === c.id ? "Цуцлах" : "↩ Хариулах"}
+            </button>
+          )}
         </div>
 
         {replyTo === c.id && (
-          <form onSubmit={(e) => handleSubmit(e, c.id)} className="mt-3 ml-8">
+          <form onSubmit={(e) => handleSubmit(e, c.id)} className="mt-2 ml-4 space-y-2">
             <textarea
-              className="w-full border rounded p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
-              placeholder="Write a reply..."
+              className="field w-full text-sm"
+              placeholder="Хариулт бичих..."
               rows={2}
-              value={newText}
-              onChange={(e) => setNewText(e.target.value)}
+              value={replyText}
+              onChange={(e) => setReplyText(e.target.value)}
               required
             />
-            <div className="flex gap-2 mt-2">
-              <button type="submit" className="bg-blue-600 text-white px-3 py-1 text-sm rounded hover:bg-blue-700">Post Reply</button>
-              <button type="button" onClick={() => setReplyTo(null)} className="bg-gray-200 px-3 py-1 text-sm rounded hover:bg-gray-300">Cancel</button>
+            <div className="flex gap-2">
+              <button type="submit" disabled={submitting} className="btn-primary py-1 px-3 text-xs">
+                {submitting ? "Илгээж байна..." : "Илгээх"}
+              </button>
+              <button type="button" onClick={() => { setReplyTo(null); setReplyText(""); }} className="btn-secondary py-1 px-3 text-xs">
+                Цуцлах
+              </button>
             </div>
           </form>
         )}
 
-        {replies.length > 0 && <div className="mt-4">{replies.map(r => renderComment(r, depth + 1))}</div>}
+        {replies.length > 0 && (
+          <div className="mt-2 space-y-2">
+            {replies.map(r => renderComment(r, depth + 1))}
+          </div>
+        )}
       </div>
     );
   };
 
   return (
-    <div className="my-8">
-      <h3 className="text-xl font-bold mb-4">Discussion ({comments.length})</h3>
-      
-      {/* Root input */}
-      <form onSubmit={(e) => handleSubmit(e, null)} className="mb-6 bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+    <div className="space-y-6">
+      <h3 className="section-title text-xl">💬 Хэлэлцүүлэг ({comments?.length ?? 0})</h3>
+
+      {deleteErr && <StatusMessage type="error" message={deleteErr} />}
+
+      {/* New comment form */}
+      <form onSubmit={(e) => handleSubmit(e, null)} className="paper p-4 space-y-3">
         <textarea
-          className="w-full border rounded p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
-          placeholder="Ask a question or share your thoughts..."
+          className="field w-full text-sm"
+          placeholder="Асуулт асуух эсвэл санаа хуваалцах..."
           rows={3}
-          value={replyTo === null ? newText : ""}
-          onChange={(e) => {
-            if (replyTo !== null) {
-              setReplyTo(null);
-            }
-            setNewText(e.target.value);
-          }}
+          value={newText}
+          onChange={(e) => setNewText(e.target.value)}
           required
         />
-        <div className="mt-2 flex justify-end">
-          <button type="submit" disabled={replyTo !== null && !newText.trim()} className="bg-blue-600 text-white px-4 py-2 text-sm rounded hover:bg-blue-700 disabled:opacity-50">Post Comment</button>
+        {submitErr && <StatusMessage type="error" message={submitErr} />}
+        <div className="flex justify-end">
+          <button type="submit" disabled={submitting || !newText.trim()} className="btn-primary text-sm disabled:opacity-50">
+            {submitting ? "Илгээж байна..." : "Сэтгэгдэл нэмэх"}
+          </button>
         </div>
       </form>
 
-      <div className="space-y-4 border-t pt-4">
-        {rootComments.length === 0 ? (
-          <p className="text-gray-500 text-center py-4">No comments yet. Be the first to start the discussion!</p>
+      {/* Comments list */}
+      <div className="space-y-3">
+        {isLoading ? (
+          <LoadingBlock label="Сэтгэгдлүүд ачаалж байна..." />
+        ) : rootComments.length === 0 ? (
+          <div className="paper p-6 text-center">
+            <p className="text-2xl mb-2">💬</p>
+            <p className="font-bold text-sm">Одоогоор сэтгэгдэл байхгүй байна. Эхний сэтгэгдлийг үлдээгээрэй!</p>
+          </div>
         ) : (
           rootComments.map(c => renderComment(c, 0))
         )}

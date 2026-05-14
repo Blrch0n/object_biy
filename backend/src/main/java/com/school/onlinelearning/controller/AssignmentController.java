@@ -1,12 +1,13 @@
 package com.school.onlinelearning.controller;
 
+import com.school.onlinelearning.exception.ResourceNotFoundException;
 import com.school.onlinelearning.model.Assignment;
+import com.school.onlinelearning.model.Student;
 import com.school.onlinelearning.model.Submission;
+import com.school.onlinelearning.repository.StudentRepository;
 import com.school.onlinelearning.security.AuthenticatedUser;
 import com.school.onlinelearning.service.AssignmentService;
 import com.school.onlinelearning.service.FileStorageService;
-import com.school.onlinelearning.repository.StudentRepository;
-import com.school.onlinelearning.model.Student;
 import jakarta.validation.Valid;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -40,6 +41,20 @@ public class AssignmentController {
         return ResponseEntity.ok(assignmentService.getAssignmentsByCourse(courseId));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Assignment> getAssignmentById(@PathVariable String id) {
+        return ResponseEntity.ok(assignmentService.getAssignmentById(id));
+    }
+
+    @PreAuthorize("hasRole('STUDENT')")
+    @GetMapping("/student/my-submissions")
+    public ResponseEntity<List<Submission>> getMySubmissions(
+            @AuthenticationPrincipal AuthenticatedUser currentUser) {
+        Student student = studentRepository.findByUserId(currentUser.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Student profile not found"));
+        return ResponseEntity.ok(assignmentService.getSubmissionsForStudent(student.getId()));
+    }
+
     @PreAuthorize("hasRole('TEACHER')")
     @PostMapping
     public ResponseEntity<Assignment> createAssignment(@Valid @RequestBody Assignment assignment) {
@@ -69,7 +84,7 @@ public class AssignmentController {
             @AuthenticationPrincipal AuthenticatedUser currentUser) {
 
         Student student = studentRepository.findByUserId(currentUser.getId())
-                .orElseThrow(() -> new RuntimeException("Student profile not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Student profile not found"));
 
         return ResponseEntity.ok(assignmentService.submitAssignment(id, student.getId(), file));
     }
@@ -81,7 +96,7 @@ public class AssignmentController {
             @AuthenticationPrincipal AuthenticatedUser currentUser) {
 
         Student student = studentRepository.findByUserId(currentUser.getId())
-                .orElseThrow(() -> new RuntimeException("Student profile not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Student profile not found"));
 
         Submission submission = assignmentService.getSubmissionForStudent(id, student.getId());
         if (submission == null) {
@@ -111,15 +126,15 @@ public class AssignmentController {
             @PathVariable String submissionId,
             @AuthenticationPrincipal AuthenticatedUser currentUser) {
         Submission submission = assignmentService.getSubmissionById(submissionId);
-        
+
         if (submission == null || submission.getPdfFilePath() == null) {
             return ResponseEntity.notFound().build();
         }
 
-        // Authorization check: Only teachers or the student who owns the submission can download
+        // Authorization: teachers or the submitting student
         boolean isTeacher = currentUser.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_TEACHER"));
-        
+
         if (!isTeacher) {
             Student student = studentRepository.findByUserId(currentUser.getId()).orElse(null);
             if (student == null || !submission.getStudentId().equals(student.getId())) {
@@ -127,20 +142,20 @@ public class AssignmentController {
             }
         }
 
+        Path filePath = fileStorageService.loadFileAsResource(submission.getPdfFilePath());
         try {
-            Path filePath = fileStorageService.loadFileAsResource(submission.getPdfFilePath());
             Resource resource = new UrlResource(filePath.toUri());
-
-            if (resource.exists() || resource.isReadable()) {
-                return ResponseEntity.ok()
-                        .contentType(MediaType.APPLICATION_PDF)
-                        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + submission.getOriginalFileName() + "\"")
-                        .body(resource);
-            } else {
-                throw new RuntimeException("Could not read file: " + submission.getPdfFilePath());
+            if (!resource.exists() || !resource.isReadable()) {
+                throw new ResourceNotFoundException("File not readable: " + submission.getPdfFilePath());
             }
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_PDF)
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + submission.getOriginalFileName() + "\"")
+                    .body(resource);
+        } catch (ResourceNotFoundException e) {
+            throw e;
         } catch (Exception e) {
-            throw new RuntimeException("Error while downloading file", e);
+            throw new ResourceNotFoundException("File not accessible: " + submission.getPdfFilePath());
         }
     }
 }

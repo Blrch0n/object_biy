@@ -1,5 +1,6 @@
 package com.school.onlinelearning.controller;
 
+import com.school.onlinelearning.exception.ResourceNotFoundException;
 import com.school.onlinelearning.model.Quiz;
 import com.school.onlinelearning.model.QuizAttempt;
 import com.school.onlinelearning.model.Student;
@@ -43,6 +44,12 @@ public class QuizController {
         return ResponseEntity.ok(quizService.createQuiz(quiz));
     }
 
+    @PreAuthorize("hasRole('TEACHER')")
+    @PutMapping("/{id}")
+    public ResponseEntity<Quiz> updateQuiz(@PathVariable String id, @RequestBody Quiz quiz) {
+        return ResponseEntity.ok(quizService.updateQuiz(id, quiz));
+    }
+
     @PreAuthorize("hasRole('STUDENT')")
     @PostMapping("/{id}/attempt")
     public ResponseEntity<QuizAttempt> submitQuizAttempt(
@@ -51,7 +58,7 @@ public class QuizController {
             @AuthenticationPrincipal AuthenticatedUser currentUser) {
 
         Student student = studentRepository.findByUserId(currentUser.getId())
-                .orElseThrow(() -> new RuntimeException("Student profile not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Student profile not found"));
 
         return ResponseEntity.ok(quizService.submitQuizAttempt(id, student.getId(), answers));
     }
@@ -63,13 +70,24 @@ public class QuizController {
             @AuthenticationPrincipal AuthenticatedUser currentUser) {
 
         Student student = studentRepository.findByUserId(currentUser.getId())
-                .orElseThrow(() -> new RuntimeException("Student profile not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Student profile not found"));
 
         QuizAttempt attempt = quizService.getAttemptForStudent(id, student.getId());
         if (attempt == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(attempt);
+    }
+
+    @PreAuthorize("hasRole('STUDENT')")
+    @GetMapping("/student/my-attempts")
+    public ResponseEntity<List<QuizAttempt>> getMyAttempts(
+            @AuthenticationPrincipal AuthenticatedUser currentUser) {
+
+        Student student = studentRepository.findByUserId(currentUser.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Student profile not found"));
+
+        return ResponseEntity.ok(quizService.getAttemptsForStudent(student.getId()));
     }
 
     @PreAuthorize("hasRole('TEACHER')")

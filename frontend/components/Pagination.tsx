@@ -9,49 +9,76 @@ type PaginationProps = {
 export function Pagination({ pageNo, totalPages, onPageChange }: PaginationProps) {
   if (totalPages <= 1) return null;
 
+  const pages: (number | "…")[] = [];
+  if (totalPages <= 7) {
+    for (let i = 0; i < totalPages; i++) pages.push(i);
+  } else {
+    pages.push(0);
+    if (pageNo > 2) pages.push("…");
+    for (let i = Math.max(1, pageNo - 1); i <= Math.min(totalPages - 2, pageNo + 1); i++) pages.push(i);
+    if (pageNo < totalPages - 3) pages.push("…");
+    pages.push(totalPages - 1);
+  }
+
   return (
-    <div className="flex items-center justify-between border-t border-white/10 px-4 py-3 sm:px-6 mt-4">
+    <div className="flex items-center justify-between mt-6 paper px-4 py-3">
+      {/* Mobile */}
       <div className="flex flex-1 justify-between sm:hidden">
         <button
           onClick={() => onPageChange(pageNo - 1)}
           disabled={pageNo === 0}
-          className="relative inline-flex items-center rounded-md border border-white/10 bg-slate-800 px-4 py-2 text-sm font-medium text-slate-300 hover:bg-slate-700 disabled:opacity-50"
+          className="btn-secondary py-1 px-3 text-sm disabled:opacity-40"
         >
-          Previous
+          ← Өмнөх
         </button>
+        <span className="text-sm font-bold self-center">{pageNo + 1}/{totalPages}</span>
         <button
           onClick={() => onPageChange(pageNo + 1)}
           disabled={pageNo >= totalPages - 1}
-          className="relative ml-3 inline-flex items-center rounded-md border border-white/10 bg-slate-800 px-4 py-2 text-sm font-medium text-slate-300 hover:bg-slate-700 disabled:opacity-50"
+          className="btn-secondary py-1 px-3 text-sm disabled:opacity-40"
         >
-          Next
+          Дараах →
         </button>
       </div>
+
+      {/* Desktop */}
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-        <div>
-          <p className="text-sm text-slate-300">
-            Showing page <span className="font-bold text-white">{pageNo + 1}</span> of{" "}
-            <span className="font-bold text-white">{totalPages}</span>
-          </p>
-        </div>
-        <div>
-          <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-            <button
-              onClick={() => onPageChange(pageNo - 1)}
-              disabled={pageNo === 0}
-              className="relative inline-flex items-center rounded-l-md px-3 py-2 font-bold text-slate-400 border border-white/10 hover:bg-slate-700 focus:z-20 focus:outline-offset-0 disabled:opacity-50"
-            >
-              &larr; Өмнөх
-            </button>
-            <button
-              onClick={() => onPageChange(pageNo + 1)}
-              disabled={pageNo >= totalPages - 1}
-              className="relative inline-flex items-center rounded-r-md px-3 py-2 font-bold text-slate-400 border border-white/10 border-l-0 hover:bg-slate-700 focus:z-20 focus:outline-offset-0 disabled:opacity-50"
-            >
-              Дараах &rarr;
-            </button>
-          </nav>
-        </div>
+        <p className="text-sm font-bold">
+          Хуудас <span className="text-[var(--brand-yellow)]">{pageNo + 1}</span> / {totalPages}
+        </p>
+        <nav className="flex items-center gap-1">
+          <button
+            onClick={() => onPageChange(pageNo - 1)}
+            disabled={pageNo === 0}
+            className="btn-secondary py-1 px-3 text-sm disabled:opacity-40"
+          >
+            ← Өмнөх
+          </button>
+          {pages.map((p, idx) =>
+            p === "…" ? (
+              <span key={`ellipsis-${idx}`} className="px-2 text-[var(--text-muted)]">…</span>
+            ) : (
+              <button
+                key={p}
+                onClick={() => onPageChange(p)}
+                className={`py-1 px-3 text-sm font-bold border-2 border-black rounded transition-colors ${
+                  p === pageNo
+                    ? "bg-[var(--brand-yellow)] text-black"
+                    : "bg-white text-black hover:bg-[var(--brand-yellow)]"
+                }`}
+              >
+                {p + 1}
+              </button>
+            )
+          )}
+          <button
+            onClick={() => onPageChange(pageNo + 1)}
+            disabled={pageNo >= totalPages - 1}
+            className="btn-secondary py-1 px-3 text-sm disabled:opacity-40"
+          >
+            Дараах →
+          </button>
+        </nav>
       </div>
     </div>
   );

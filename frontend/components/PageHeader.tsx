@@ -1,15 +1,17 @@
-type PageHeaderProps = {
-  title: string;
-  description: string;
-};
+interface PageHeaderProps {
+  title:        string;
+  description?: string;
+  actions?:     React.ReactNode;
+}
 
-export function PageHeader({ title, description }: PageHeaderProps) {
+export function PageHeader({ title, description, actions }: PageHeaderProps) {
   return (
-    <header className="paper mb-6 px-5 py-6 sm:px-8 sm:py-8">
-      <h1 className="section-title text-2xl sm:text-4xl tracking-tight">
-        {title}
-      </h1>
-      <p className="muted-copy mt-3 max-w-2xl text-sm leading-relaxed sm:text-base">{description}</p>
-    </header>
+    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between mb-6">
+      <div>
+        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">{title}</h1>
+        {description && <p className="mt-1 text-sm text-slate-500">{description}</p>}
+      </div>
+      {actions && <div className="flex items-center gap-2 flex-shrink-0">{actions}</div>}
+    </div>
   );
 }

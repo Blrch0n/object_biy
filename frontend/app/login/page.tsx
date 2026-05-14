@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Eye, EyeOff, GraduationCap } from "lucide-react";
 import { StatusMessage } from "@/components/StatusMessage";
 import { useAuth } from "@/context/AuthContext";
 
@@ -12,6 +13,7 @@ export default function LoginPage() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPw, setShowPw] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -28,25 +30,27 @@ export default function LoginPage() {
     try {
       await login(email.trim(), password);
       router.push("/");
-    } catch (loginError) {
-      setError(loginError instanceof Error ? loginError.message : "Нэвтрэх үед алдаа гарлаа.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Нэвтрэх үед алдаа гарлаа.");
     } finally {
       setSubmitting(false);
     }
   }
 
   return (
-    <section className="animate-fade-in-up mx-auto max-w-md space-y-6 py-10">
-      <div className="text-center space-y-2 mb-8">
-        <h1 className="section-title text-4xl sm:text-5xl tracking-tight bg-clip-text text-transparent" style={{ backgroundImage: 'var(--gradient-main)', WebkitBackgroundClip: 'text' }}>Нэвтрэх </h1>
-        <p className="muted-copy">Welcome back! Системд нэвтэрнэ үү.</p>
+    <div className="w-full max-w-sm animate-fade-in-up">
+      <div className="text-center mb-8">
+        <div className="inline-flex items-center justify-center w-12 h-12 bg-[var(--primary)] rounded-xl mb-4 shadow-md">
+          <GraduationCap size={24} className="text-white" aria-hidden="true" />
+        </div>
+        <h1 className="text-2xl font-bold text-[var(--text-primary)]">Нэвтрэх</h1>
+        <p className="text-sm text-[var(--text-secondary)] mt-1">Системд нэвтэрнэ үү</p>
       </div>
 
-      <div className="paper p-6 sm:p-8 relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-1" style={{ backgroundImage: 'var(--gradient-main)' }} />
-        <form onSubmit={onSubmit} className="space-y-5">
+      <div className="paper p-6 sm:p-8">
+        <form onSubmit={onSubmit} className="space-y-4">
           <div className="space-y-1.5">
-            <label htmlFor="login-email" className="block text-sm font-semibold text-slate-300">
+            <label htmlFor="login-email" className="block text-sm font-medium text-[var(--text-primary)]">
               Имэйл
             </label>
             <input
@@ -54,43 +58,61 @@ export default function LoginPage() {
               type="email"
               placeholder="you@example.com"
               value={email}
-              onChange={(event) => setEmail(event.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               className="field"
               autoComplete="email"
+              required
             />
           </div>
+
           <div className="space-y-1.5">
-            <label htmlFor="login-password" className="block text-sm font-semibold text-slate-300">
+            <label htmlFor="login-password" className="block text-sm font-medium text-[var(--text-primary)]">
               Нууц үг
             </label>
-            <input
-              id="login-password"
-              type="password"
-              placeholder="••••••••"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              className="field"
-              autoComplete="current-password"
-            />
+            <div className="relative">
+              <input
+                id="login-password"
+                type={showPw ? "text" : "password"}
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="field pr-10"
+                autoComplete="current-password"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPw((v) => !v)}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--text-muted)] hover:text-[var(--text-secondary)] transition-colors p-0.5"
+                aria-label={showPw ? "Нууц үг нуух" : "Нууц үг харуулах"}
+              >
+                {showPw ? <EyeOff size={16} /> : <Eye size={16} />}
+              </button>
+            </div>
           </div>
-          <button type="submit" className="btn-primary w-full mt-2" disabled={submitting}>
-            {submitting ? "Нэвтэрч байна..." : "Let's Go "}
+
+          <button
+            type="submit"
+            className="btn-primary w-full mt-2"
+            disabled={submitting}
+          >
+            {submitting ? "Нэвтэрч байна..." : "Нэвтрэх"}
           </button>
         </form>
 
-        {error ? (
-          <div className="mt-5 animate-fade-in">
+        {error && (
+          <div className="mt-4 animate-fade-in">
             <StatusMessage type="error" message={error} />
           </div>
-        ) : null}
+        )}
 
-        <p className="muted-copy mt-6 text-center text-sm">
+        <p className="text-center text-sm text-[var(--text-secondary)] mt-6">
           Бүртгэлгүй юу?{" "}
-          <Link href="/signup" className="font-bold hover:underline transition-all text-[var(--brand-blue)]">
+          <Link href="/signup" className="font-semibold text-[var(--primary)] hover:underline">
             Бүртгүүлэх
           </Link>
         </p>
       </div>
-    </section>
+    </div>
   );
 }

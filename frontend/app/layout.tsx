@@ -1,17 +1,12 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Inter } from "next/font/google";
 import AppProviders from "@/components/AppProviders";
-import { NavBar } from "@/components/NavBar";
+import { AppShell } from "@/components/AppShell";
 import "./globals.css";
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin", "cyrillic"],
-});
-
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
-  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
@@ -21,24 +16,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="mn"
-      className={`${inter.variable} ${spaceGrotesk.variable} h-full antialiased`}
-    >
-      <body className="min-h-full bg-base text-main">
+    <html lang="mn" className={`${inter.variable} h-full antialiased`}>
+      <body className="h-full bg-[var(--bg-page)] text-[var(--text-primary)]">
         <AppProviders>
-          <div className="app-shell">
-            <div className="content-column">
-              <NavBar />
-              <main className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
-                {children}
-              </main>
-            </div>
-          </div>
+          <AppShell>{children}</AppShell>
         </AppProviders>
       </body>
     </html>

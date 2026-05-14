@@ -54,14 +54,14 @@ public class QuizService {
         return quizRepository.findById(quizId).orElseThrow(() -> new ResourceNotFoundException("Quiz not found"));
     }
 
-    public QuizAttempt submitQuizAttempt(String quizId, String studentId, Map<Integer, String> answers) {
+    public QuizAttempt submitQuizAttempt(String quizId, String studentId, Map<String, String> answers) {
         Quiz quiz = getQuizById(quizId);
 
         // Auto-grade
         int score = 0;
         List<Question> questions = quiz.getQuestions();
         for (int i = 0; i < questions.size(); i++) {
-            String studentAnswer = answers.get(i);
+            String studentAnswer = answers.get(String.valueOf(i));
             if (studentAnswer != null && studentAnswer.trim().equalsIgnoreCase(questions.get(i).getCorrectAnswer().trim())) {
                 score++;
             }

@@ -99,7 +99,7 @@ export default function EnrollPage() {
   return (
     <section className="animate-fade-in-up space-y-6 py-2">
       <PageHeader
-        title="Оюутан Бүртгэх 📝"
+        title="Оюутан Бүртгэх "
         description="Оюутан болон хичээл сонгож шинэ элсэлт үүсгэнэ."
       />
 
@@ -115,7 +115,7 @@ export default function EnrollPage() {
 
       {(!loading && (user?.role === "TEACHER" || user?.role === "ADMIN")) ? (
         <div className="paper p-5 sm:p-6">
-          <h2 className="section-title text-xl font-bold text-white mb-4">Элсэлт Үүсгэх 🚀</h2>
+          <h2 className="section-title text-xl font-bold text-white mb-4">Элсэлт Үүсгэх </h2>
           <form onSubmit={onSubmit} className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-1">
               <label htmlFor="enroll-student" className="block text-sm font-bold text-slate-300">

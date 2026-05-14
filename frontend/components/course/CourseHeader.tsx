@@ -14,10 +14,10 @@ export function CourseHeader({ course }: CourseHeaderProps) {
       <p className="mt-2 text-lg font-bold">{course.description}</p>
       <div className="mt-4 flex flex-wrap gap-3 text-sm font-bold">
         <span className="inline-block border-2 border-black bg-white px-3 py-1 rounded-sm">
-          💰 {course.price > 0 ? `${course.price.toLocaleString()}₮` : "Үнэгүй"}
+           {course.price > 0 ? `${course.price.toLocaleString()}₮` : "Үнэгүй"}
         </span>
         <span className="inline-block border-2 border-black bg-white px-3 py-1 rounded-sm">
-          📖 {course.lessons?.length ?? 0} хичээл
+           {course.lessons?.length ?? 0} хичээл
         </span>
       </div>
     </div>

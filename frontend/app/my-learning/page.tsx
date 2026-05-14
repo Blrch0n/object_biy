@@ -135,10 +135,10 @@ export default function MyLearningPage() {
         <>
           {/* Enrolled Courses */}
           <div className="space-y-4">
-            <h2 className="section-title text-xl">📚 Миний хичээлүүд</h2>
+            <h2 className="section-title text-xl"> Миний хичээлүүд</h2>
             {enrollments.length === 0 ? (
               <div className="paper p-8 text-center">
-                <p className="text-3xl mb-2">📭</p>
+                <p className="text-3xl mb-2"></p>
                 <p className="font-bold">Та одоогоор ямар ч хичээлд бүртгэгдээгүй байна.</p>
                 <Link href="/courses" className="btn-primary mt-4 inline-flex">Хичээлүүд харах</Link>
               </div>
@@ -188,7 +188,7 @@ export default function MyLearningPage() {
           {/* Missing/Overdue */}
           {missing.length > 0 && (
             <div className="space-y-3">
-              <h2 className="section-title text-xl">❌ Хугацаа хэтэрсэн даалгаврууд</h2>
+              <h2 className="section-title text-xl"> Хугацаа хэтэрсэн даалгаврууд</h2>
               <div className="space-y-2">
                 {missing.map((a) => (
                   <div key={a.id} className="paper p-4 border-2 border-[var(--brand-red)]">
@@ -206,7 +206,7 @@ export default function MyLearningPage() {
           {/* Submitted (pending grade) */}
           {submitted.length > 0 && (
             <div className="space-y-3">
-              <h2 className="section-title text-xl">📤 Илгээсэн (хүлээгдэж буй)</h2>
+              <h2 className="section-title text-xl"> Илгээсэн (хүлээгдэж буй)</h2>
               <div className="space-y-2">
                 {submitted.map((a) => (
                   <div key={a.id} className="paper p-4 border-2 border-[var(--brand-blue)]">
@@ -226,7 +226,7 @@ export default function MyLearningPage() {
           {/* Graded */}
           {graded.length > 0 && (
             <div className="space-y-3">
-              <h2 className="section-title text-xl">🏆 Дүгнэгдсэн даалгаврууд</h2>
+              <h2 className="section-title text-xl"> Дүгнэгдсэн даалгаврууд</h2>
               <div className="space-y-2">
                 {graded.map((a) => (
                   <div key={a.id} className="paper p-4 border-2 border-[var(--brand-green)]">
@@ -250,7 +250,7 @@ export default function MyLearningPage() {
 
           {/* Quiz Attempts */}
           <div className="space-y-3">
-            <h2 className="section-title text-xl">🎯 Сорилын оролдлогууд</h2>
+            <h2 className="section-title text-xl"> Сорилын оролдлогууд</h2>
             {quizAttempts.length === 0 ? (
               <div className="paper p-6 text-center">
                 <p className="font-bold">Та одоогоор ямар ч сорил өгөөгүй байна.</p>
@@ -268,7 +268,7 @@ export default function MyLearningPage() {
                     <div key={attempt.id} className="paper p-4">
                       <div className="flex gap-2 flex-wrap">
                         <span className={`badge ${passed ? "bg-[var(--brand-green)]" : "bg-[var(--brand-red)] text-white"}`}>
-                          {passed ? "Тэнцсэн ✓" : "Тэнцсэнгүй ✗"}
+                          {passed ? "Тэнцсэн " : "Тэнцсэнгүй "}
                         </span>
                         <span className="badge badge--accent">
                           {attempt.score}/{attempt.totalQuestions}

@@ -45,6 +45,13 @@ public class GlobalExceptionHandler {
 		return build(HttpStatus.BAD_REQUEST, ex.getMessage(), request.getRequestURI());
 	}
 
+	@ExceptionHandler(org.springframework.web.multipart.MaxUploadSizeExceededException.class)
+	public ResponseEntity<ApiErrorResponse> handleMaxUploadSize(
+			org.springframework.web.multipart.MaxUploadSizeExceededException ex,
+			HttpServletRequest request) {
+		return build(HttpStatus.PAYLOAD_TOO_LARGE, "File size too large (max 50MB)", request.getRequestURI());
+	}
+
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ApiErrorResponse> handleGeneric(Exception ex, HttpServletRequest request) {
 		return build(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected server error", request.getRequestURI());

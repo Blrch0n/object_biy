@@ -37,7 +37,7 @@ function StudentQuizCard({ quiz, attempt }: StudentQuizCardProps) {
         </div>
         {attempt ? (
           <span className={`badge ${passed ? "bg-[var(--brand-green)]" : "bg-[var(--brand-red)] text-white"}`}>
-            {passed ? "Тэнцсэн ✓" : "Тэнцсэнгүй ✗"}
+            {passed ? "Тэнцсэн " : "Тэнцсэнгүй "}
           </span>
         ) : (
           <span className="badge badge--neutral">Өгөөгүй</span>
@@ -175,7 +175,7 @@ export default function QuizzesPage() {
         <>
           {studentQuizzes.length === 0 ? (
             <div className="paper p-10 text-center">
-              <p className="text-3xl mb-2">🎯</p>
+              <p className="text-3xl mb-2"></p>
               <p className="section-title text-lg">Шалгалт байхгүй байна</p>
               <p className="muted-copy text-sm mt-1">
                 {enrollments.length === 0 ? "Эхлээд хичээлд бүртгүүлнэ үү." : "Хичээлүүдэд одоогоор шалгалт нэмэгдээгүй."}
@@ -188,7 +188,7 @@ export default function QuizzesPage() {
             <div className="space-y-6">
               {available.length > 0 && (
                 <div className="space-y-3">
-                  <h2 className="section-title text-xl">🎯 Өгөх боломжтой шалгалтууд ({available.length})</h2>
+                  <h2 className="section-title text-xl"> Өгөх боломжтой шалгалтууд ({available.length})</h2>
                   <div className="grid gap-4 sm:grid-cols-2">
                     {available.map(({ quiz }) => (
                       <StudentQuizCard key={quiz.id} quiz={quiz} />
@@ -198,7 +198,7 @@ export default function QuizzesPage() {
               )}
               {completed.length > 0 && (
                 <div className="space-y-3">
-                  <h2 className="section-title text-xl">✅ Өгсөн шалгалтууд ({completed.length})</h2>
+                  <h2 className="section-title text-xl"> Өгсөн шалгалтууд ({completed.length})</h2>
                   <div className="grid gap-4 sm:grid-cols-2">
                     {completed.map(({ quiz, attempt }) => (
                       <StudentQuizCard key={quiz.id} quiz={quiz} attempt={attempt} />
@@ -213,7 +213,7 @@ export default function QuizzesPage() {
         <>
           {teacherGroups.length === 0 ? (
             <div className="paper p-10 text-center">
-              <p className="text-3xl mb-2">🎯</p>
+              <p className="text-3xl mb-2"></p>
               <p className="section-title text-lg">Шалгалт байхгүй байна</p>
               <p className="muted-copy text-sm mt-1">Хичээлийн дэлгэрэнгүй хуудсаас шалгалт нэмнэ үү.</p>
             </div>

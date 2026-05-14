@@ -19,7 +19,7 @@ export default function TakeQuizPage() {
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
-  const [answers, setAnswers] = useState<Record<number, string>>({});
+  const [answers, setAnswers] = useState<Record<string, string>>({});
   const [attempt, setAttempt] = useState<QuizAttempt | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
 
@@ -164,8 +164,8 @@ export default function TakeQuizPage() {
                     <span className={`flex-1 ${isCompleted && (isCorrect || isWrongSelected) ? "font-medium text-white" : "text-slate-200"}`}>
                       {option}
                     </span>
-                    {isCompleted && isCorrect && <span className="text-emerald-400 font-bold ml-2">✓ Зөв</span>}
-                    {isCompleted && isWrongSelected && <span className="text-red-400 font-bold ml-2">✗ Буруу</span>}
+                    {isCompleted && isCorrect && <span className="text-emerald-400 font-bold ml-2"> Зөв</span>}
+                    {isCompleted && isWrongSelected && <span className="text-red-400 font-bold ml-2"> Буруу</span>}
                   </label>
                 );
               })}

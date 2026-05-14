@@ -15,11 +15,11 @@ function formatDate(iso: string) {
 }
 
 const typeLabel: Record<string, string> = {
-  ASSIGNMENT_CREATED: "📋 Даалгавар",
-  SUBMISSION: "📤 Илгээлт",
-  GRADE: "🏆 Дүн",
-  COMMENT: "💬 Сэтгэгдэл",
-  QUIZ_ATTEMPT: "🎯 Сорил",
+  ASSIGNMENT_CREATED: " Даалгавар",
+  SUBMISSION: " Илгээлт",
+  GRADE: " Дүн",
+  COMMENT: " Сэтгэгдэл",
+  QUIZ_ATTEMPT: " Сорил",
 };
 
 export default function NotificationsPage() {
@@ -98,7 +98,7 @@ export default function NotificationsPage() {
         <LoadingBlock label="Мэдэгдлүүд ачаалж байна..." />
       ) : notifications.length === 0 ? (
         <div className="paper p-10 text-center">
-          <p className="text-3xl mb-2">🔔</p>
+          <p className="text-3xl mb-2"></p>
           <p className="section-title text-lg">Мэдэгдэл алга байна</p>
           <p className="muted-copy text-sm mt-1">Шинэ үйлдэл хийгдэх үед энд харагдана.</p>
         </div>
@@ -112,7 +112,7 @@ export default function NotificationsPage() {
               }`}
             >
               <div className="flex gap-3 items-start">
-                <span className="text-lg">{typeLabel[n.type] ?? "🔔"}</span>
+                <span className="text-lg">{typeLabel[n.type] ?? ""}</span>
                 <div>
                   <p className="font-bold text-sm">{n.title}</p>
                   <p className="text-sm text-[var(--text-secondary)] mt-0.5">{n.message}</p>

@@ -38,7 +38,7 @@ export function QuizPanel({ quizzes, courseId, role, attemptMap = {} }: QuizPane
                 </div>
                 {attempt && (
                   <span className={`badge ${passed ? "bg-[var(--brand-green)]" : "bg-[var(--brand-red)]"}`}>
-                    {passed ? "Тэнцсэн ✓" : "Тэнцсэнгүй ✗"}
+                    {passed ? "Тэнцсэн " : "Тэнцсэнгүй "}
                   </span>
                 )}
               </div>
@@ -53,7 +53,7 @@ export function QuizPanel({ quizzes, courseId, role, attemptMap = {} }: QuizPane
                     onClick={() => router.push(`/courses/${courseId}/quizzes/${quiz.id}/take`)}
                     className="btn-primary bg-yellow-400 text-black py-1 px-4 text-sm"
                   >
-                    🎯 Сорил өгөх
+                     Сорил өгөх
                   </button>
                 )}
                 {role === "STUDENT" && attempt && (

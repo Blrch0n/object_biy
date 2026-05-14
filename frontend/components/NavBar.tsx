@@ -62,7 +62,7 @@ export function NavBar() {
     <nav className="top-nav">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         <Link href="/" className="brand-title text-lg font-bold sm:text-xl">
-          Сургуулийн LMS ⚡
+          Сургуулийн LMS 
         </Link>
 
         {/* Mobile menu toggle */}
@@ -110,7 +110,7 @@ export function NavBar() {
                 className={`nav-pill relative ${pathname.startsWith("/notifications") ? "nav-pill--active" : "nav-pill--idle"}`}
                 aria-label="Мэдэгдлүүд"
               >
-                <span>🔔</span>
+                <span></span>
                 {unreadCount > 0 && (
                   <span
                     className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[var(--brand-orange)] text-[10px] font-black text-white border border-black"
@@ -133,7 +133,7 @@ export function NavBar() {
               </span>
               {xp !== null && (
                 <span className="badge bg-[var(--brand-yellow)] text-black text-xs font-black border-2 border-black">
-                  ⚡ {xp} XP
+                   {xp} XP
                 </span>
               )}
               <button type="button" className="nav-pill nav-pill--idle" onClick={logout}>
@@ -171,7 +171,7 @@ export function NavBar() {
                   onClick={() => setMenuOpen(false)}
                   className={`nav-pill block w-full text-left ${pathname.startsWith("/notifications") ? "nav-pill--active" : "nav-pill--idle"}`}
                 >
-                  🔔 Мэдэгдлүүд
+                   Мэдэгдлүүд
                   {unreadCount > 0 && (
                     <span className="ml-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-[var(--brand-orange)] text-[10px] font-black text-white border border-black">
                       {unreadCount > 9 ? "9+" : unreadCount}
@@ -187,7 +187,7 @@ export function NavBar() {
                 </span>
                 {xp !== null && (
                   <span className="badge bg-[var(--brand-yellow)] text-black text-xs font-black border-2 border-black self-start">
-                    ⚡ {xp} XP
+                     {xp} XP
                   </span>
                 )}
                 <button

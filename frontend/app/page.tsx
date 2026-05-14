@@ -8,35 +8,35 @@ import { api } from "@/lib/api";
 import { DashboardStats, ActivityItem } from "@/types";
 
 const teacherCards = [
-  { href: "/courses", title: "Хичээлүүд", description: "Хөтөлбөр, сэдэв удирдах", icon: "📚" },
-  { href: "/review-center", title: "Шалгах төв", description: "Илгээлтийг шалгаж дүгнэх", icon: "✅" },
-  { href: "/students", title: "Оюутнууд", description: "Оюутны мэдээлэл удирдах", icon: "👥" },
-  { href: "/instructors", title: "Багш нар", description: "Багшийн баг болон мэргэжил", icon: "🎓" },
-  { href: "/enroll", title: "Бүртгэл", description: "Оюутныг хичээлд бүртгэх", icon: "📝" },
-  { href: "/enrollments", title: "Элсэлт", description: "Ахиц шинэчилж хянах", icon: "📊" },
+  { href: "/courses", title: "Хичээлүүд", description: "Хөтөлбөр, сэдэв удирдах", icon: "" },
+  { href: "/review-center", title: "Шалгах төв", description: "Илгээлтийг шалгаж дүгнэх", icon: "" },
+  { href: "/students", title: "Оюутнууд", description: "Оюутны мэдээлэл удирдах", icon: "" },
+  { href: "/instructors", title: "Багш нар", description: "Багшийн баг болон мэргэжил", icon: "" },
+  { href: "/enroll", title: "Бүртгэл", description: "Оюутныг хичээлд бүртгэх", icon: "" },
+  { href: "/enrollments", title: "Элсэлт", description: "Ахиц шинэчилж хянах", icon: "" },
 ];
 
 const studentCards = [
-  { href: "/my-learning", title: "Миний сургалт", description: "Хичээлийн ахиц, даалгавар, сорил", icon: "🎯" },
-  { href: "/courses", title: "Хичээлүүд", description: "Нээлттэй бүх хичээл харах", icon: "📚" },
-  { href: "/assignments", title: "Даалгаврууд", description: "Даалгавруудаа харж илгээх", icon: "📋" },
-  { href: "/quizzes", title: "Шалгалтууд", description: "Шалгалт өгөх, үр дүн харах", icon: "🏆" },
-  { href: "/enrollments", title: "Элсэлт", description: "Өөрийн элсэлт ба ахиц", icon: "📊" },
+  { href: "/my-learning", title: "Миний сургалт", description: "Хичээлийн ахиц, даалгавар, сорил", icon: "" },
+  { href: "/courses", title: "Хичээлүүд", description: "Нээлттэй бүх хичээл харах", icon: "" },
+  { href: "/assignments", title: "Даалгаврууд", description: "Даалгавруудаа харж илгээх", icon: "" },
+  { href: "/quizzes", title: "Шалгалтууд", description: "Шалгалт өгөх, үр дүн харах", icon: "" },
+  { href: "/enrollments", title: "Элсэлт", description: "Өөрийн элсэлт ба ахиц", icon: "" },
 ];
 
 const activityIcons: Record<string, string> = {
-  SUBMISSION: "📤",
-  QUIZ_ATTEMPT: "🎯",
-  GRADE: "🏆",
-  COMMENT: "💬",
-  ASSIGNMENT_CREATED: "📋",
+  SUBMISSION: "",
+  QUIZ_ATTEMPT: "",
+  GRADE: "",
+  COMMENT: "",
+  ASSIGNMENT_CREATED: "",
 };
 
 function ActivityFeed({ items }: { items: ActivityItem[] }) {
   if (items.length === 0) {
     return (
       <div className="paper p-6 text-center">
-        <p className="text-2xl mb-2">📭</p>
+        <p className="text-2xl mb-2"></p>
         <p className="font-bold text-sm">Одоогоор үйл ажиллагаа байхгүй байна.</p>
       </div>
     );
@@ -45,7 +45,7 @@ function ActivityFeed({ items }: { items: ActivityItem[] }) {
     <div className="space-y-2">
       {items.map((item, i) => (
         <div key={i} className="paper p-3 flex items-start gap-3">
-          <span className="text-lg flex-shrink-0">{activityIcons[item.type] ?? "🔔"}</span>
+          <span className="text-lg flex-shrink-0">{activityIcons[item.type] ?? ""}</span>
           <div className="min-w-0">
             <p className="font-bold text-sm truncate">{item.title}</p>
             <p className="text-xs text-[var(--text-muted)]">
@@ -129,7 +129,7 @@ export default function Home() {
           <article className="stat-card bg-[var(--brand-blue)] border-2 border-black shadow-[4px_4px_0_0_#000]">
             <div className="flex items-center justify-between mb-2">
               <p className="text-xs font-bold uppercase tracking-wider text-black/70">Нийт оюутан</p>
-              <span className="text-2xl" aria-hidden="true">👤</span>
+              <span className="text-2xl" aria-hidden="true"></span>
             </div>
             <p className="section-title text-4xl font-black text-black">{stats.totalStudents}</p>
             <p className="text-xs text-black/60 mt-1 font-semibold">Бүртгэлтэй сурагч</p>
@@ -137,7 +137,7 @@ export default function Home() {
           <article className="stat-card bg-[var(--brand-yellow)] border-2 border-black shadow-[4px_4px_0_0_#000]">
             <div className="flex items-center justify-between mb-2">
               <p className="text-xs font-bold uppercase tracking-wider text-black/70">Нийт хичээл</p>
-              <span className="text-2xl" aria-hidden="true">📚</span>
+              <span className="text-2xl" aria-hidden="true"></span>
             </div>
             <p className="section-title text-4xl font-black text-black">{stats.totalCourses}</p>
             <p className="text-xs text-black/60 mt-1 font-semibold truncate" title={stats.courseWithMostLessonsTitle}>
@@ -147,7 +147,7 @@ export default function Home() {
           <article className="stat-card bg-[var(--brand-orange)] border-2 border-black shadow-[4px_4px_0_0_#000]">
             <div className="flex items-center justify-between mb-2">
               <p className="text-xs font-bold uppercase tracking-wider text-black/70">Нийт элсэлт</p>
-              <span className="text-2xl" aria-hidden="true">📊</span>
+              <span className="text-2xl" aria-hidden="true"></span>
             </div>
             <p className="section-title text-4xl font-black text-black">{stats.totalEnrollments}</p>
             <p className="text-xs text-black/60 mt-1 font-semibold">Идэвхтэй бүртгэл</p>
@@ -155,7 +155,7 @@ export default function Home() {
           <article className="stat-card bg-[var(--brand-green)] border-2 border-black shadow-[4px_4px_0_0_#000]">
             <div className="flex items-center justify-between mb-2">
               <p className="text-xs font-bold uppercase tracking-wider text-black/70">Дундаж ахиц</p>
-              <span className="text-2xl" aria-hidden="true">🎯</span>
+              <span className="text-2xl" aria-hidden="true"></span>
             </div>
             <p className="section-title text-4xl font-black text-black">{Math.round(stats.averageProgress)}%</p>
             <div className="progress-track mt-2 bg-black/20 border-black/30">
@@ -185,7 +185,7 @@ export default function Home() {
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Activity feed (2/3 width) */}
         <div className="lg:col-span-2 space-y-3">
-          <h2 className="section-title text-xl">⚡ Сүүлийн үйл ажиллагаа</h2>
+          <h2 className="section-title text-xl"> Сүүлийн үйл ажиллагаа</h2>
           {activityLoading ? (
             <LoadingBlock label="Үйл ажиллагаа ачаалж байна..." />
           ) : (
@@ -195,36 +195,36 @@ export default function Home() {
 
         {/* Quick links (1/3 width) */}
         <div className="space-y-3">
-          <h2 className="section-title text-xl">🔗 Шуурхай холбоосууд</h2>
+          <h2 className="section-title text-xl"> Шуурхай холбоосууд</h2>
           <div className="space-y-2">
             {user?.role === "STUDENT" ? (
               <>
                 <Link href="/my-learning" className="paper flex items-center gap-3 p-3 hover:-translate-y-1 transition-transform">
-                  <span>🎯</span><span className="font-bold text-sm">Миний сургалт</span>
+                  <span></span><span className="font-bold text-sm">Миний сургалт</span>
                 </Link>
                 <Link href="/assignments" className="paper flex items-center gap-3 p-3 hover:-translate-y-1 transition-transform">
-                  <span>📋</span><span className="font-bold text-sm">Ойрын даалгаврууд</span>
+                  <span></span><span className="font-bold text-sm">Ойрын даалгаврууд</span>
                 </Link>
                 <Link href="/quizzes" className="paper flex items-center gap-3 p-3 hover:-translate-y-1 transition-transform">
-                  <span>🏆</span><span className="font-bold text-sm">Шалгалт өгөх</span>
+                  <span></span><span className="font-bold text-sm">Шалгалт өгөх</span>
                 </Link>
                 <Link href="/notifications" className="paper flex items-center gap-3 p-3 hover:-translate-y-1 transition-transform">
-                  <span>🔔</span><span className="font-bold text-sm">Мэдэгдлүүд</span>
+                  <span></span><span className="font-bold text-sm">Мэдэгдлүүд</span>
                 </Link>
               </>
             ) : (
               <>
                 <Link href="/review-center" className="paper flex items-center gap-3 p-3 hover:-translate-y-1 transition-transform">
-                  <span>✅</span><span className="font-bold text-sm">Шалгах шаардлагатай ажил</span>
+                  <span></span><span className="font-bold text-sm">Шалгах шаардлагатай ажил</span>
                 </Link>
                 <Link href="/assignments" className="paper flex items-center gap-3 p-3 hover:-translate-y-1 transition-transform">
-                  <span>📋</span><span className="font-bold text-sm">Даалгаврын удирдлага</span>
+                  <span></span><span className="font-bold text-sm">Даалгаврын удирдлага</span>
                 </Link>
                 <Link href="/courses" className="paper flex items-center gap-3 p-3 hover:-translate-y-1 transition-transform">
-                  <span>📚</span><span className="font-bold text-sm">Хичээлүүд</span>
+                  <span></span><span className="font-bold text-sm">Хичээлүүд</span>
                 </Link>
                 <Link href="/notifications" className="paper flex items-center gap-3 p-3 hover:-translate-y-1 transition-transform">
-                  <span>🔔</span><span className="font-bold text-sm">Мэдэгдлүүд</span>
+                  <span></span><span className="font-bold text-sm">Мэдэгдлүүд</span>
                 </Link>
               </>
             )}

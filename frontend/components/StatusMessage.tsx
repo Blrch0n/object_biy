@@ -15,7 +15,7 @@ export function StatusMessage({ type, message }: StatusMessageProps) {
       }`}
     >
       <span className="mt-0.5 flex-shrink-0 text-base" aria-hidden="true">
-        {isSuccess ? "✅" : "❌"}
+        {isSuccess ? "" : ""}
       </span>
       <span>{message}</span>
     </div>

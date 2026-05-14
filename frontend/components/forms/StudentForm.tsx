@@ -64,7 +64,7 @@ export function StudentForm({ onSuccess, initialData, studentId }: StudentFormPr
 
   return (
     <div className="paper p-5 sm:p-6">
-      <h2 className="section-title text-xl font-bold text-white">{isEdit ? "Оюутан Засах ✏️" : "Оюутан Нэмэх ✨"}</h2>
+      <h2 className="section-title text-xl font-bold text-white">{isEdit ? "Оюутан Засах " : "Оюутан Нэмэх "}</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div className="space-y-1">
           <label htmlFor="fullName" className="block text-sm font-bold text-slate-300">

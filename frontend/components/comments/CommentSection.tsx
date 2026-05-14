@@ -131,7 +131,7 @@ export default function CommentSection({ resourceId, resourceType }: CommentSect
 
   return (
     <div className="space-y-6">
-      <h3 className="section-title text-xl">💬 Хэлэлцүүлэг ({comments?.length ?? 0})</h3>
+      <h3 className="section-title text-xl"> Хэлэлцүүлэг ({comments?.length ?? 0})</h3>
 
       {deleteErr && <StatusMessage type="error" message={deleteErr} />}
 
@@ -159,7 +159,7 @@ export default function CommentSection({ resourceId, resourceType }: CommentSect
           <LoadingBlock label="Сэтгэгдлүүд ачаалж байна..." />
         ) : rootComments.length === 0 ? (
           <div className="paper p-6 text-center">
-            <p className="text-2xl mb-2">💬</p>
+            <p className="text-2xl mb-2"></p>
             <p className="font-bold text-sm">Одоогоор сэтгэгдэл байхгүй байна. Эхний сэтгэгдлийг үлдээгээрэй!</p>
           </div>
         ) : (

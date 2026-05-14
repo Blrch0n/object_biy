@@ -54,7 +54,7 @@ public class QuizController {
     @PostMapping("/{id}/attempt")
     public ResponseEntity<QuizAttempt> submitQuizAttempt(
             @PathVariable String id,
-            @RequestBody Map<Integer, String> answers,
+            @RequestBody Map<String, String> answers,
             @AuthenticationPrincipal AuthenticatedUser currentUser) {
 
         Student student = studentRepository.findByUserId(currentUser.getId())

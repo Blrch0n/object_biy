@@ -40,7 +40,7 @@ export default function StudentsPage() {
   return (
     <section className="animate-fade-in-up space-y-6 py-2">
       <PageHeader
-        title="Оюутнууд 👨‍🎓"
+        title="Оюутнууд ‍"
         description="Оюутны бүртгэлийг удирдаж, шинэ оюутан нэмнэ."
       />
 
@@ -59,7 +59,7 @@ export default function StudentsPage() {
                 onClick={() => setEditingStudent(null)}
                 className="absolute right-4 top-4 text-sm text-slate-400 hover:text-white"
              >
-                Цуцлах ✕
+                Цуцлах 
              </button>
            )}
            <StudentForm 

@@ -120,7 +120,7 @@ export default function CoursesPage() {
                 onClick={() => setEditingCourse(null)}
                 className="absolute right-4 top-4 text-sm text-slate-400 hover:text-white"
              >
-                Цуцлах ✕
+                Цуцлах 
              </button>
            )}
            <CourseForm 

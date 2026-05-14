@@ -59,7 +59,7 @@ export function AssignmentPanel({ assignments, courseId, role, onMutate }: Assig
                   ⏰ {new Date(assignment.dueDate).toLocaleDateString("mn-MN")}
                 </span>
               )}
-              <span className="badge badge--neutral">📊 Макс: {assignment.maxScore}</span>
+              <span className="badge badge--neutral"> Макс: {assignment.maxScore}</span>
             </div>
             <div className="mt-4 flex flex-col gap-2">
               {role === "STUDENT" && (
@@ -79,7 +79,7 @@ export function AssignmentPanel({ assignments, courseId, role, onMutate }: Assig
                       onClick={() => handleUpload(assignment.id)}
                       className="btn-primary py-1 px-4 text-sm"
                     >
-                      {uploading === assignment.id ? "Илгээж байна..." : "📤 PDF илгээх"}
+                      {uploading === assignment.id ? "Илгээж байна..." : " PDF илгээх"}
                     </button>
                   </div>
                   {errs[assignment.id] && (

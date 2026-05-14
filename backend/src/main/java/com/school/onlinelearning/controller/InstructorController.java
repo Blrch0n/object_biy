@@ -36,6 +36,8 @@ public class InstructorController {
 	@GetMapping("/me")
 	public ResponseEntity<Instructor> getMyProfile(@AuthenticationPrincipal AuthenticatedUser currentUser) {
 		Instructor instructor = instructorRepository.findByUserId(currentUser.getId())
+				.or(() -> instructorRepository.findByEmail(currentUser.getUsername())
+						.map(i -> { i.setUserId(currentUser.getId()); return instructorRepository.save(i); }))
 				.orElseThrow(() -> new ResourceNotFoundException("Instructor profile not found"));
 		return ResponseEntity.ok(instructor);
 	}
@@ -46,6 +48,8 @@ public class InstructorController {
 			@RequestBody ProfileUpdateDTO dto,
 			@AuthenticationPrincipal AuthenticatedUser currentUser) {
 		Instructor instructor = instructorRepository.findByUserId(currentUser.getId())
+				.or(() -> instructorRepository.findByEmail(currentUser.getUsername())
+						.map(i -> { i.setUserId(currentUser.getId()); return instructorRepository.save(i); }))
 				.orElseThrow(() -> new ResourceNotFoundException("Instructor profile not found"));
 		if (dto.getFullName() != null && !dto.getFullName().isBlank()) {
 			instructor.setFullName(dto.getFullName());

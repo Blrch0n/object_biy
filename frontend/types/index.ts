@@ -69,7 +69,7 @@ export type QuizAttempt = {
   id: string;
   quizId: string;
   studentId: string;
-  answers: Record<number, string>;
+  answers: Record<string, string>;
   score: number;
   totalQuestions: number;
   attemptedAt: string;

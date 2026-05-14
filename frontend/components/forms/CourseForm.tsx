@@ -72,7 +72,7 @@ export function CourseForm({ onSuccess, initialData, courseId }: CourseFormProps
 
   return (
     <div className="paper p-5 sm:p-6">
-      <h2 className="section-title text-lg font-semibold">{isEdit ? "Хичээл Засах 🛠️" : "Хичээл Үүсгэх 🛠️"}</h2>
+      <h2 className="section-title text-lg font-semibold">{isEdit ? "Хичээл Засах " : "Хичээл Үүсгэх "}</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="mt-4 grid gap-4 sm:grid-cols-2">
         <div className="space-y-1">
           <label className="block text-sm font-bold text-slate-300">Хичээлийн нэр</label>

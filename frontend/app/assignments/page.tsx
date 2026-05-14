@@ -89,7 +89,7 @@ function StudentRow({ item, onRefresh }: { item: AssignmentWithStatus; onRefresh
               const { label, cls } = formatDeadline(item.dueDate);
               return <span className={`badge text-xs font-bold border-2 border-black ${cls}`}>⏰ {label}</span>;
             })()}
-            <span className="text-xs text-[var(--text-muted)]">📊 Макс: {item.maxScore}</span>
+            <span className="text-xs text-[var(--text-muted)]"> Макс: {item.maxScore}</span>
           </div>
         </div>
       </div>
@@ -107,7 +107,7 @@ function StudentRow({ item, onRefresh }: { item: AssignmentWithStatus; onRefresh
             disabled={downloading}
             className="text-xs text-[var(--brand-blue)] hover:underline font-bold disabled:opacity-50"
           >
-            {downloading ? "Татаж байна..." : `📥 ${item.submission.originalFileName} татах`}
+            {downloading ? "Татаж байна..." : ` ${item.submission.originalFileName} татах`}
           </button>
         </div>
       )}
@@ -118,7 +118,7 @@ function StudentRow({ item, onRefresh }: { item: AssignmentWithStatus; onRefresh
             className="field text-sm cursor-pointer" />
           <button className="btn-primary py-1 px-4 text-sm flex-shrink-0"
             onClick={handleUpload} disabled={uploading || !file}>
-            {uploading ? "Илгээж байна..." : "📤 PDF илгээх"}
+            {uploading ? "Илгээж байна..." : " PDF илгээх"}
           </button>
         </div>
       )}
@@ -227,7 +227,7 @@ export default function AssignmentsPage() {
           )}
           {sorted.length === 0 ? (
             <div className="paper p-10 text-center">
-              <p className="text-3xl mb-2">📭</p>
+              <p className="text-3xl mb-2"></p>
               <p className="section-title text-lg">Даалгавар байхгүй байна</p>
               <p className="muted-copy text-sm mt-1">
                 {enrollments.length === 0 ? "Эхлээд хичээлд бүртгүүлнэ үү." : "Хичээлүүдэд одоогоор даалгавар нэмэгдээгүй."}
@@ -247,7 +247,7 @@ export default function AssignmentsPage() {
             <Link href="/review-center" className="btn-primary py-1 px-4 text-sm self-start">Шалгах төв →</Link>
           </div>
           {teacherGroups.length === 0 ? (
-            <div className="paper p-10 text-center"><p className="text-3xl mb-2">📭</p><p className="section-title text-lg">Даалгавар байхгүй байна</p></div>
+            <div className="paper p-10 text-center"><p className="text-3xl mb-2"></p><p className="section-title text-lg">Даалгавар байхгүй байна</p></div>
           ) : (
             <div className="space-y-6">
               {teacherGroups.map((g) => (

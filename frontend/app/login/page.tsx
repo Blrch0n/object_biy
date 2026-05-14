@@ -38,7 +38,7 @@ export default function LoginPage() {
   return (
     <section className="animate-fade-in-up mx-auto max-w-md space-y-6 py-10">
       <div className="text-center space-y-2 mb-8">
-        <h1 className="section-title text-4xl sm:text-5xl tracking-tight bg-clip-text text-transparent" style={{ backgroundImage: 'var(--gradient-main)', WebkitBackgroundClip: 'text' }}>Нэвтрэх ⚡</h1>
+        <h1 className="section-title text-4xl sm:text-5xl tracking-tight bg-clip-text text-transparent" style={{ backgroundImage: 'var(--gradient-main)', WebkitBackgroundClip: 'text' }}>Нэвтрэх </h1>
         <p className="muted-copy">Welcome back! Системд нэвтэрнэ үү.</p>
       </div>
 
@@ -74,7 +74,7 @@ export default function LoginPage() {
             />
           </div>
           <button type="submit" className="btn-primary w-full mt-2" disabled={submitting}>
-            {submitting ? "Нэвтэрч байна..." : "Let's Go 🚀"}
+            {submitting ? "Нэвтэрч байна..." : "Let's Go "}
           </button>
         </form>
 

@@ -85,7 +85,7 @@ function SubmissionRow({ submission, assignment, onGraded }: SubmissionRowProps)
           onClick={handleDownload}
           disabled={downloading}
         >
-          {downloading ? "..." : "📥 Татах"}
+          {downloading ? "..." : " Татах"}
         </button>
       </div>
 
@@ -122,7 +122,7 @@ function SubmissionRow({ submission, assignment, onGraded }: SubmissionRowProps)
           <p className="text-xs text-[var(--text-muted)] text-right">{feedback.length}/1000</p>
         </div>
         <button type="submit" className="btn-primary py-1 px-4 text-sm" disabled={saving}>
-          {saving ? "Хадгалж байна..." : "✓ Дүгнэх"}
+          {saving ? "Хадгалж байна..." : " Дүгнэх"}
         </button>
       </form>
     </div>
@@ -268,7 +268,7 @@ export default function ReviewCenterPage() {
         <LoadingBlock label="Хичээл ба даалгаврууд ачаалж байна..." />
       ) : courseBlocks.length === 0 ? (
         <div className="paper p-10 text-center">
-          <p className="text-3xl mb-2">📭</p>
+          <p className="text-3xl mb-2"></p>
           <p className="section-title text-lg">Даалгавар байхгүй байна</p>
           <p className="muted-copy text-sm mt-1">Эхлээд хичээлд даалгавар нэмнэ үү.</p>
         </div>

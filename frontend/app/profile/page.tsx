@@ -66,7 +66,7 @@ function StudentProfile({ userId }: { userId: string }) {
           <span className="badge badge--neutral">Сурагч</span>
           <span className="badge badge--accent">Анги: {profile?.batch}</span>
           <span className="badge bg-[var(--brand-yellow)] text-black border-2 border-black font-black">
-            ⚡ {profile?.xp ?? 0} XP
+             {profile?.xp ?? 0} XP
           </span>
         </div>
       </div>
@@ -91,10 +91,10 @@ function StudentProfile({ userId }: { userId: string }) {
             </div>
             <div>
               <p className="text-[var(--text-muted)] font-bold text-xs mb-1">ТУРШЛАГЫН ОНО</p>
-              <p className="font-bold">⚡ {profile?.xp ?? 0} XP</p>
+              <p className="font-bold"> {profile?.xp ?? 0} XP</p>
             </div>
           </div>
-          <button onClick={openEdit} className="btn-primary text-sm">Засах ✏️</button>
+          <button onClick={openEdit} className="btn-primary text-sm">Засах </button>
         </div>
       ) : (
         <form onSubmit={handleSave} className="paper p-6 space-y-4">
@@ -192,7 +192,7 @@ function TeacherProfile({ userId }: { userId: string }) {
               <p className="font-bold">{profile?.specialization}</p>
             </div>
           </div>
-          <button onClick={openEdit} className="btn-primary text-sm">Засах ✏️</button>
+          <button onClick={openEdit} className="btn-primary text-sm">Засах </button>
         </div>
       ) : (
         <form onSubmit={handleSave} className="paper p-6 space-y-4">

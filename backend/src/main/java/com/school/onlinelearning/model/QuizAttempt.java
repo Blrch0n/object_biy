@@ -13,7 +13,7 @@ public class QuizAttempt {
 
     private String quizId;
     private String studentId;
-    private Map<Integer, String> answers; // question index -> answer
+    private Map<String, String> answers; // question index -> answer
     private int score;
     private int totalQuestions;
     private LocalDateTime attemptedAt;
@@ -29,8 +29,8 @@ public class QuizAttempt {
     public String getStudentId() { return studentId; }
     public void setStudentId(String studentId) { this.studentId = studentId; }
 
-    public Map<Integer, String> getAnswers() { return answers; }
-    public void setAnswers(Map<Integer, String> answers) { this.answers = answers; }
+    public Map<String, String> getAnswers() { return answers; }
+    public void setAnswers(Map<String, String> answers) { this.answers = answers; }
 
     public int getScore() { return score; }
     public void setScore(int score) { this.score = score; }

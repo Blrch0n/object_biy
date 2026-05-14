@@ -59,7 +59,7 @@ export default function InstructorsPage() {
                 onClick={() => setEditingInstructor(null)}
                 className="absolute right-4 top-4 text-sm text-slate-400 hover:text-white"
              >
-                Цуцлах ✕
+                Цуцлах 
              </button>
            )}
            <InstructorForm 
